@@ -5,7 +5,23 @@
 
 <hibernate-configuration>
 	<session-factory>
+	<!-- dialect -->
+	<property name="dialect">
+		org.hibernate.dialect.MySQL5Dialect
+	</property>
+	
+		<!-- 其他配置 -->
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
+		<!-- 自动生成表 -->
+		<property name="hbm2ddl.auto">update</property>
+		
+		
+		
+	<!-- 导入映射文件 
+	<mapping resource="cn/wheel/tiyuguanmanager/somebodyTest/User.hbm.xml" />
+	-->
+		
+		
 	</session-factory>
 </hibernate-configuration>

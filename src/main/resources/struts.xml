@@ -3,10 +3,20 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
+    <!-- 配置开发模式 -->
 	<constant name="struts.devMode" value="true" />
-
+	
 	<package name="default" extends="struts-default" namespace="/">
 		<action name="hello" class="cn.wheel.tiyuguanmanager.action.HelloAction">
+			<result name="SUCCESS">/index.jsp</result>
+		</action>
+		
+	</package>
+	
+	
+	<!-- spring_struts集成测试 -->
+	<package name="test" extends="struts-default" namespace="/test">
+		<action name="userAction" class="userAction">
 			<result name="SUCCESS">/index.jsp</result>
 		</action>
 	</package>
