@@ -11,13 +11,14 @@ import org.springframework.stereotype.Repository;
 
 import cn.wheel.tiyuguanmanager.competition.base.IBaseDao;
 
-@Repository
+
 public class BaseDaoImpl<T> implements IBaseDao<T>
 {
 	@Resource
-	private SessionFactory sessionFactory ; 
-    private Class clazz ;
+	private SessionFactory sessionFactory;
 	
+	private Class clazz;
+
 	public BaseDaoImpl()
 	{
 		Type genType = getClass().getGenericSuperclass();  
@@ -27,22 +28,21 @@ public class BaseDaoImpl<T> implements IBaseDao<T>
 
 	public List<T> list() throws Exception
 	{
-		String hql = "from " + this.clazz.getSimpleName() ; 
-		List list = 
-				this.sessionFactory.getCurrentSession().createQuery(hql).list() ; 
-		
-		return list ; 
+		String hql = "from " + this.clazz.getSimpleName();
+		List list = this.sessionFactory.getCurrentSession().createQuery(hql).list();
+
+		return list;
 	}
 
 	public void add(Object entity) throws Exception
 	{
-		this.sessionFactory.getCurrentSession().save(this.clazz.getSimpleName() , entity) ; 
+		this.sessionFactory.getCurrentSession().save(this.clazz.getSimpleName(), entity);
 	}
 
 	public void deleteById(long id) throws Exception
 	{
-		T t = this.findById(id) ;
-		
+		T t = this.findById(id);
+
 		this.sessionFactory.getCurrentSession().delete(this.clazz.getSimpleName(), t);
 	}
 
@@ -53,7 +53,7 @@ public class BaseDaoImpl<T> implements IBaseDao<T>
 
 	public T findById(long id) throws Exception
 	{
-		return (T)this.sessionFactory.getCurrentSession().load(this.clazz, id) ; 
+		return (T) this.sessionFactory.getCurrentSession().load(this.clazz, id);
 	}
 
 	public List<T> pageList() throws Exception
@@ -61,9 +61,5 @@ public class BaseDaoImpl<T> implements IBaseDao<T>
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	
-	
 
 }

@@ -14,10 +14,9 @@
 	</package>
 	
 	
-	<!-- spring_struts集成测试 -->
-	<package name="test" extends="struts-default" namespace="/test">
-		<action name="userAction" class="userAction">
-			<result name="SUCCESS">/index.jsp</result>
+	<package name="somebody" extends="struts-default" namespace="/competition">
+		<action name="competitionHome_*" class="competitionHome" method = "{1}">
+			<result name = "index">/WEB-INF/jsp/competition/home/index.jsp</result>
 		</action>
 	</package>
 </struts>

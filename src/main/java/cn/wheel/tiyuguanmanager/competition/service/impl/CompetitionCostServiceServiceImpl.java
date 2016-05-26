@@ -5,28 +5,27 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
-
-import cn.wheel.tiyuguanmanager.competition.po.Competition;
-import cn.wheel.tiyuguanmanager.competition.service.ICompetitionService;
+import cn.wheel.tiyuguanmanager.competition.po.CompetitionCost;
+import cn.wheel.tiyuguanmanager.competition.service.ICompetitionCostService;
 
 @Service
 @Transactional
-public class CompetitionServiceImpl implements ICompetitionService
+public class CompetitionCostServiceServiceImpl implements ICompetitionCostService
 {
 
-	public List<Competition> list() throws Exception
+	public List<CompetitionCost> list() throws Exception
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List<Competition> pageList() throws Exception
+	public List<CompetitionCost> pageList() throws Exception
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void add(Competition entity) throws Exception
+	public void add(CompetitionCost entity) throws Exception
 	{
 		// TODO Auto-generated method stub
 		
@@ -38,16 +37,16 @@ public class CompetitionServiceImpl implements ICompetitionService
 		
 	}
 
-	public void update(Competition entity) throws Exception
+	public void update(CompetitionCost entity) throws Exception
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
-	public Competition findById(long id) throws Exception
+	public CompetitionCost findById(long id) throws Exception
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

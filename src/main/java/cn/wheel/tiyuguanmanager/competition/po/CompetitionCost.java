@@ -27,6 +27,14 @@ public class CompetitionCost
 	public void setMoney(int money)
 	{
 		this.money = money;
+	}
+	public Competition getCompetition()
+	{
+		return competition;
+	}
+	public void setCompetition(Competition competition)
+	{
+		this.competition = competition;
 	} 
 	
 	

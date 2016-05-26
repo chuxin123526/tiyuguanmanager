@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="cn.wheel.tiyuguanmanager.competition.po">
 
-	<class name="=Competition" table= "competition">
+	<class name="Competition" table= "competition">
 		<id name="id">
             <generator class="native"/>
 		</id>
@@ -17,9 +17,9 @@
 		<property name="beginTime"  type="timestamp"/>
 		<property name="endTime" type = "timestamp"/>
 		<property name="status"  length="3"/>
-		<property name="mainScore"  type="IntegerTypes"/>
-		<property name="guestScore"  type = "IntegerTypes"/>
-		<property name="recommend"  type = "ByteType"/>
+		<property name="mainScore" />
+		<property name="guestScore" />
+		<property name="recommend"/>
 		
 		<many-to-one name="competitionType" class = "CompetitionType" column="competitiontype_id"></many-to-one>
 		<one-to-one name="competitionCost" class="CompetitionCost"></one-to-one>

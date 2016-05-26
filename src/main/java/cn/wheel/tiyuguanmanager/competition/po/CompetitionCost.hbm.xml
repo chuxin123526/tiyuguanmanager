@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="cn.wheel.tiyuguanmanager.competition.po">
 
-	<class name="CompetitionCosts" table= "competitioncost">
+	<class name="CompetitionCost" table= "competitioncost">
 		<id name="id">
             <generator class="native"/>
 		</id>
