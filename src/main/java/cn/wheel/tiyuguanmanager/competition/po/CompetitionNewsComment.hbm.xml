@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="cn.wheel.tiyuguanmanager.competition.po">
 
-	<class name="CompetitionNewsComment" table= "=competitionNewsComment">
+	<class name="CompetitionNewsComment" table= "competitionNewsComment">
 		<id name="id">
             <generator class="native"/>
 		</id>
@@ -16,6 +16,9 @@
 		    <key column="competitionnewscomment_id" />
 		    <one-to-many class="CompetitionNewsComment"/>
 		</set>
+		<many-to-one name="competitionNewsComment" class = "CompetitionNewsComment" column="competitionnewscomment_id"></many-to-one>
+		
+		<many-to-one name="competitionNews" class = "CompetitionNews" column="competitionnews_id"></many-to-one>
 		
 	</class>
 	

@@ -9,7 +9,8 @@
 <footer class = "container">
 	<div class = "row">
 		<div class = "col-md-12" >
-			©2016 somebody, Inc. All rights reserved. 
+			<hr/>
+			<p class = "text-center">©2016 somebody, Inc. All rights reserved.</p> 
 		</div>
 	</div>
 </footer>

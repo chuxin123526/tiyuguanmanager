@@ -15,7 +15,7 @@ import cn.wheel.tiyuguanmanager.competition.base.IBaseDao;
 public class BaseDaoImpl<T> implements IBaseDao<T>
 {
 	@Resource
-	private SessionFactory sessionFactory;
+	public SessionFactory sessionFactory;
 	
 	private Class clazz;
 

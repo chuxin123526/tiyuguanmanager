@@ -22,6 +22,7 @@
 	<mapping resource="cn/wheel/tiyuguanmanager/somebodyTest/User.hbm.xml" />
 	-->
 	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/Competition.hbm.xml" />
+	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionUser.hbm.xml" />
 	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionType.hbm.xml" />
 	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionCost.hbm.xml" />
 	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionMessage.hbm.xml" />

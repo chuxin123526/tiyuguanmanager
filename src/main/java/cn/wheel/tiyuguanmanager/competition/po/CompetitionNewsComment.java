@@ -13,6 +13,7 @@ public class CompetitionNewsComment
 	private CompetitionNews competitionNews ; //该评论所属新闻
 	private Set<CompetitionNewsComment> competitionNewsComments =
 			new HashSet<CompetitionNewsComment>() ; //该评论下的所有回复 
+	private CompetitionNewsComment competitionNewsComment ; //评论了哪一条评论
 	
 	public long getId()
 	{
@@ -53,6 +54,14 @@ public class CompetitionNewsComment
 	public void setCompetitionNewsComments(Set<CompetitionNewsComment> competitionNewsComments)
 	{
 		this.competitionNewsComments = competitionNewsComments;
+	}
+	public CompetitionNewsComment getCompetitionNewsComment()
+	{
+		return competitionNewsComment;
+	}
+	public void setCompetitionNewsComment(CompetitionNewsComment competitionNewsComment)
+	{
+		this.competitionNewsComment = competitionNewsComment;
 	} 
 	
 	

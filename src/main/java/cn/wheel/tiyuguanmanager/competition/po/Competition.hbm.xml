@@ -11,7 +11,7 @@
 		</id>
 		<property name="name"  length="20"/>
 		<property name="description"  length="50"/>
-		<property name="applyCompany"  length="20"/>
+		<property name="applyUserName"  length="50"/>
 		<property name="mainTeam"  length="20"/>
 		<property name="guestTeam"  length="20"/>
 		<property name="beginTime"  type="timestamp"/>
@@ -20,8 +20,10 @@
 		<property name="mainScore" />
 		<property name="guestScore" />
 		<property name="recommend"/>
+		<property name="comment"/>
 		
 		<many-to-one name="competitionType" class = "CompetitionType" column="competitiontype_id"></many-to-one>
+		<many-to-one name="competitionUser" class = "CompetitionUser" column="competitionuser_id"></many-to-one>
 		<one-to-one name="competitionCost" class="CompetitionCost"></one-to-one>
 	</class>
 	

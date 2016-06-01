@@ -2,6 +2,8 @@ package cn.wheel.tiyuguanmanager.competition.po;
 
 import java.util.Date;
 
+import cn.wheel.tiyuguanmanager.somebodyTest.User;
+
 /**
 * @ClassName: Competition
 * @Description: 赛事
@@ -11,9 +13,9 @@ import java.util.Date;
 public class Competition
 {
 	private long id ; 
+	private String applyUserName ; 
 	private String name ;
 	private String description ; 
-	private String applyCompany ; 
 	private String mainTeam ; 
 	private String guestTeam ; 
 	private Date beginTime ; 
@@ -22,7 +24,9 @@ public class Competition
 	private int mainScore ; 
 	private int guestScore ; 
 	private int recommend ; 
+	private String comment ; 
 	
+	private CompetitionUser competitionUser ; 
 	private CompetitionType competitionType ; //所属赛事类型
 	private CompetitionCost competitionCost ; //该赛事费用
 
@@ -46,24 +50,34 @@ public class Competition
 		this.name = name;
 	}
 
+	public CompetitionUser getCompetitionUser()
+	{
+		return competitionUser;
+	}
+
+	public void setCompetitionUser(CompetitionUser competitionUser)
+	{
+		this.competitionUser = competitionUser;
+	}
+
 	public String getDescription()
 	{
 		return description;
+	}
+	
+	public String getApplyUserName()
+	{
+		return applyUserName;
+	}
+
+	public void setApplyUserName(String applyUserName)
+	{
+		this.applyUserName = applyUserName;
 	}
 
 	public void setDescription(String description)
 	{
 		this.description = description;
-	}
-
-	public String getApplyCompany()
-	{
-		return applyCompany;
-	}
-
-	public void setApplyCompany(String applyCompany)
-	{
-		this.applyCompany = applyCompany;
 	}
 
 	public String getMainTeam()
@@ -84,6 +98,16 @@ public class Competition
 	public void setGuestTeam(String guestTeam)
 	{
 		this.guestTeam = guestTeam;
+	}
+
+	public String getComment()
+	{
+		return comment;
+	}
+
+	public void setComment(String comment)
+	{
+		this.comment = comment;
 	}
 
 	public Date getBeginTime()

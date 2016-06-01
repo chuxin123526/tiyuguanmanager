@@ -14,7 +14,7 @@
 		<property name="content"  type = "text"/>
 		
 		<set name="competitionNewsComments" >
-		    <key column="competitionNews_id" />
+		    <key column="competitionnews_id" />
 		    <one-to-many class="CompetitionNewsComment"/>
 		</set>
 		

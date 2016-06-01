@@ -1,4 +1,4 @@
-package cn.wheel.tiyuguanmanager.somebodyTest;
+package cn.wheel.tiyuguanmanager.somebodyTest ; 
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
