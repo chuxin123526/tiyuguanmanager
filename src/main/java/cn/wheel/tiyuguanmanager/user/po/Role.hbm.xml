@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="cn.wheel.tiyuguanmanager.user.po">
+	<class name="Role" table="ROLE">
+		<id name="id" column="ROLEID" type="long">
+			<generator class="native" />
+		</id>
+
+		<property name="name" column="ROLENAME" type="string" length="32" />
+		<set name="permissions" cascade="all" lazy="false">
+			<key column="ROLEID" />
+			<one-to-many class="cn.wheel.tiyuguanmanager.user.po.Permission" />
+		</set>
+	</class>
+</hibernate-mapping>

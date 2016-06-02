@@ -3,66 +3,121 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-    <!-- 配置开发模式 -->
+	<!-- 配置开发模式 -->
 	<constant name="struts.devMode" value="true" />
-	
+
+	<!-- 用于临时测试的一个 action -->
 	<package name="default" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="authenticationInterceptor" class="authenticationInterceptor" />
+		</interceptors>
+
 		<action name="hello" class="cn.wheel.tiyuguanmanager.action.HelloAction">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="permission">1</param>
+			</interceptor-ref>
 			<result name="SUCCESS">/index.jsp</result>
 		</action>
-		
 	</package>
-	
-	
-	<package name="somebody" extends="struts-default" namespace="/competition">
-	    
-	    <!-- 全局跳转配置 -->
+
+	<package name="userModule" extends="json-default" namespace="/user">
+		<interceptors>
+			<interceptor name="authenticationInterceptor" class="authenticationInterceptor" />
+		</interceptors>
+
+		<!-- 用于相应 ajax 请求，使用 json 返回值 -->
 		<global-results>
-			<result name = "error">/WEB-INF/jsp/competition/common/error.jsp</result>
+			<result name="json" type="json">
+				<param name="root">ajaxReturn</param>
+			</result>
 		</global-results>
-	    
-	    <!-- 赛事首页配置 -->
-		<action name="competitionHomeAction_*" class="competitionHomeAction" method = "{1}">
-			<result name = "index">/WEB-INF/jsp/competition/home/index.jsp</result>
-			<result name = "admin_index">/WEB-INF/jsp/competition/admin/admin_index.jsp</result>
+
+		<!-- 登录 -->
+		<action name="login" class="userAction" method="login">
+
+		</action>
+
+		<!-- 注销 -->
+		<action name="logout" class="userAction" method="logout">
+
+		</action>
+	</package>
+
+	<package name="somebody" extends="struts-default" namespace="/competition">
+
+		<!-- 全局跳转配置 -->
+		<global-results>
+			<result name="error">/WEB-INF/jsp/competition/common/error.jsp
+			</result>
+		</global-results>
+
+		<!-- 赛事首页配置 -->
+		<action name="competitionHomeAction_*" class="competitionHomeAction"
+			method="{1}">
+			<result name="index">/WEB-INF/jsp/competition/home/index.jsp</result>
+			<result name="admin_index">/WEB-INF/jsp/competition/admin/admin_index.jsp
+			</result>
 		</action>
 		<!-- 赛事新闻配置 -->
-		<action name="competitionNewsAction_*" class="competitionNewsAction" method = "{1}">
-			<result name = "index">/WEB-INF/jsp/competition/competitionNews/index.jsp</result>
-			<result name = "news">/WEB-INF/jsp/competition/competitionNews/news.jsp</result>
-			<result name = "newsList">/WEB-INF/jsp/competition/competitionNews/newsList.jsp</result>
+		<action name="competitionNewsAction_*" class="competitionNewsAction"
+			method="{1}">
+			<result name="index">/WEB-INF/jsp/competition/competitionNews/index.jsp
+			</result>
+			<result name="news">/WEB-INF/jsp/competition/competitionNews/news.jsp
+			</result>
+			<result name="newsList">/WEB-INF/jsp/competition/competitionNews/newsList.jsp
+			</result>
 		</action>
 		<!-- 测试用户配置 -->
-		<action name="competitionUserAction_*" class="competitionUserAction" method = "{1}">
-			<result name = "toCompetitionIndex">/WEB-INF/jsp/competition/home/index.jsp</result>
-			<result name = "userNotFound">/index.jsp</result>
+		<action name="competitionUserAction_*" class="competitionUserAction"
+			method="{1}">
+			<result name="toCompetitionIndex">/WEB-INF/jsp/competition/home/index.jsp</result>
+			<result name="userNotFound">/index.jsp</result>
 		</action>
 		<!-- 赛事配置 -->
-		<action name="competitionAction_*" class="competitionAction" method = "{1}">
-			<result name = "index">/WEB-INF/jsp/competition/competition/index.jsp</result>
-			<result name = "applyUI">/WEB-INF/jsp/competition/competition/applyUI.jsp</result>
-			<result name = "toApplying" type = "redirect">competitionAction_applying</result>
-			<result name = "applying">/WEB-INF/jsp/competition/competition/applying.jsp</result>
-			<result name = "unStart">/WEB-INF/jsp/competition/competition/unStart.jsp</result>
-			<result name = "ongoing">/WEB-INF/jsp/competition/competition/ongoing.jsp</result>
-			<result name = "end">/WEB-INF/jsp/competition/competition/end.jsp</result>
-			
+		<action name="competitionAction_*" class="competitionAction"
+			method="{1}">
+			<result name="index">/WEB-INF/jsp/competition/competition/index.jsp
+			</result>
+			<result name="applyUI">/WEB-INF/jsp/competition/competition/applyUI.jsp
+			</result>
+			<result name="toApplying" type="redirect">competitionAction_applying
+			</result>
+			<result name="applying">/WEB-INF/jsp/competition/competition/applying.jsp
+			</result>
+			<result name="unStart">/WEB-INF/jsp/competition/competition/unStart.jsp
+			</result>
+			<result name="ongoing">/WEB-INF/jsp/competition/competition/ongoing.jsp
+			</result>
+			<result name="end">/WEB-INF/jsp/competition/competition/end.jsp
+			</result>
+
 		</action>
 		<!-- 后台—赛事首页配置 -->
-		<action name="competitionManagerHomeAction_*" class="competitionManagerHomeAction" method = "{1}">
-			<result name = "index">/WEB-INF/jsp/competition/admin/home/index.jsp</result>
+		<action name="competitionManagerHomeAction_*" class="competitionManagerHomeAction"
+			method="{1}">
+			<result name="index">/WEB-INF/jsp/competition/admin/home/index.jsp
+			</result>
 		</action>
 		<!-- 后台—赛事管理配置 -->
-		<action name="competitionManagerAction_*" class="competitionManagerAction" method = "{1}">
-			<result name = "list">/WEB-INF/jsp/competition/admin/competition/competitionList.jsp</result>
-			<result name = "approveUI">/WEB-INF/jsp/competition/admin/competition/approveUI.jsp</result>
-			<result name = "toList" type = "redirect">competitionManagerAction_list</result>
+		<action name="competitionManagerAction_*" class="competitionManagerAction"
+			method="{1}">
+			<result name="list">/WEB-INF/jsp/competition/admin/competition/competitionList.jsp
+			</result>
+			<result name="approveUI">/WEB-INF/jsp/competition/admin/competition/approveUI.jsp
+			</result>
+			<result name="toList" type="redirect">competitionManagerAction_list
+			</result>
 		</action>
 		<!-- 后台—赛事新闻管理配置 -->
-		<action name="competitionNewsManagerAction_*" class="competitionNewsManagerAction" method = "{1}">
-			<result name = "toList" type = "redirect">competitionNewsManagerAction_list</result>
-			<result name = "list">/WEB-INF/jsp/competition/admin/competitionNews/list.jsp</result>
-			<result name = "addUI">/WEB-INF/jsp/competition/admin/competitionNews/addUI.jsp</result>
+		<action name="competitionNewsManagerAction_*" class="competitionNewsManagerAction"
+			method="{1}">
+			<result name="toList" type="redirect">competitionNewsManagerAction_list
+			</result>
+			<result name="list">/WEB-INF/jsp/competition/admin/competitionNews/list.jsp
+			</result>
+			<result name="addUI">/WEB-INF/jsp/competition/admin/competitionNews/addUI.jsp
+			</result>
 		</action>
 	</package>
 </struts>

@@ -1,0 +1,58 @@
+package cn.wheel.tiyuguanmanager.user.dao.user;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
+import cn.wheel.tiyuguanmanager.user.po.User;
+import cn.wheel.tiyuguanmanager.user.util.hibernate.PaginationHibernateCallBack;
+import cn.wheel.tiyuguanmanager.user.util.hibernate.UserCriteriaHibernateCallBack;
+
+@Repository("userDao")
+public class UserDaoImpl implements IUserDao {
+
+	@Resource
+	private HibernateTemplate hibernateTemplate;
+
+	@Override
+	public List<User> list() {
+		return hibernateTemplate.loadAll(User.class);
+	}
+
+	@Override
+	public List<User> list(int offset, int count) {
+		return hibernateTemplate.execute(new PaginationHibernateCallBack<>(
+				offset, count, User.class));
+	}
+
+	@Override
+	public void insert(User user) {
+		hibernateTemplate.save(user);
+	}
+
+	@Override
+	public void update(User user) {
+		hibernateTemplate.update(user);
+	}
+
+	@Override
+	public void delete(User user) {
+		hibernateTemplate.delete(user);
+	}
+
+	@Override
+	public User findById(long id) {
+		return hibernateTemplate.get(User.class, id);
+	}
+
+	@Override
+	public List<User> findByCriteria(DaoCriteria[] criteria) {
+		return hibernateTemplate.execute(new UserCriteriaHibernateCallBack(
+				criteria));
+	}
+
+}

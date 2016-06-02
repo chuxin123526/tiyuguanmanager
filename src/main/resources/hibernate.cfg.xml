@@ -5,30 +5,38 @@
 
 <hibernate-configuration>
 	<session-factory>
-	<!-- dialect -->
-	<property name="dialect">
-		org.hibernate.dialect.MySQL5Dialect
-	</property>
-	
+		<!-- dialect -->
+		<property name="dialect">
+			org.hibernate.dialect.MySQL5Dialect
+		</property>
+
 		<!-- 其他配置 -->
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 		<!-- 自动生成表 -->
 		<property name="hbm2ddl.auto">update</property>
-		
-		
-		
-	<!-- 导入映射文件 
-	<mapping resource="cn/wheel/tiyuguanmanager/somebodyTest/User.hbm.xml" />
-	-->
-	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/Competition.hbm.xml" />
-	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionUser.hbm.xml" />
-	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionType.hbm.xml" />
-	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionCost.hbm.xml" />
-	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionMessage.hbm.xml" />
-	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionNews.hbm.xml" />
-	<mapping resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionNewsComment.hbm.xml" />
-		
-		
+
+
+
+		<!-- 导入映射文件 <mapping resource="cn/wheel/tiyuguanmanager/somebodyTest/User.hbm.xml" 
+			/> -->
+		<mapping resource="cn/wheel/tiyuguanmanager/competition/po/Competition.hbm.xml" />
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionUser.hbm.xml" />
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionType.hbm.xml" />
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionCost.hbm.xml" />
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionMessage.hbm.xml" />
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionNews.hbm.xml" />
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionNewsComment.hbm.xml" />
+		<mapping resource="cn/wheel/tiyuguanmanager/user/po/Contract.hbm.xml" />
+		<mapping resource="cn/wheel/tiyuguanmanager/user/po/Permission.hbm.xml" />
+		<mapping resource="cn/wheel/tiyuguanmanager/user/po/Role.hbm.xml" />
+		<mapping resource="cn/wheel/tiyuguanmanager/user/po/User.hbm.xml" />
+
 	</session-factory>
 </hibernate-configuration>
