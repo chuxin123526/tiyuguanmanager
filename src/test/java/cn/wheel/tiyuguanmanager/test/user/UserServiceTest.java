@@ -36,7 +36,7 @@ public class UserServiceTest extends BaseAppContextTest {
 	public void test00_Register() throws FormException, UserExistException {
 		UserVO vo = new UserVO();
 		vo.setGender(0);
-		vo.setIdentifierNumber("440183199405025513");
+		vo.setIdentifierNumber("440103198502132541");
 		vo.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
 		vo.setPassword("123456");
 		vo.setRealname("123456");

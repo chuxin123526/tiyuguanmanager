@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -15,6 +16,7 @@ import cn.wheel.tiyuguanmanager.user.util.MapUtils;
 import cn.wheel.tiyuguanmanager.user.util.StringUtils;
 
 @Controller("userAction")
+@Scope("prototype")
 public class UserAction {
 
 	@Resource

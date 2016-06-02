@@ -13,6 +13,7 @@ public class User {
 	private int identifierType;
 	private String identifierNumber;
 	private Set<Contract> contracts;
+	private int status;
 
 	public long getId() {
 		return id;
@@ -93,8 +94,17 @@ public class User {
 	public void setContracts(Set<Contract> contracts) {
 		this.contracts = contracts;
 	}
-	
+
 	public boolean hasPermission(int type) {
 		return this.role.hasPermission(type);
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 }

@@ -120,4 +120,22 @@ public class Constants {
 		 */
 		public static final int LOGOUT_SUCCESS = 7;
 	}
+
+	/**
+	 * 表示用户状态
+	 * 
+	 * @author DENG YURONG
+	 * 
+	 */
+	public static final class UserStatus {
+		/**
+		 * 正常状态
+		 */
+		public static final int NORMAL = 0;
+
+		/**
+		 * 表示当前账号已经被禁用
+		 */
+		public static final int DISABLED = 1;
+	}
 }

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserNameCriteria;
@@ -92,6 +93,7 @@ public class UserServiceImpl implements IUserService {
 		user.setRole(role);
 		user.setStudentNumber(userVO.getStudentNumber());
 		user.setUsername(userVO.getUsername());
+		user.setStatus(Constants.UserStatus.NORMAL);
 
 		// 5. 添加到数据库当中
 		userDao.insert(user);

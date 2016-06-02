@@ -7,24 +7,20 @@
 	<constant name="struts.devMode" value="true" />
 
 	<!-- 用于临时测试的一个 action -->
-	<package name="default" extends="struts-default" namespace="/">
+	<package name="default" extends="struts-default">
 		<interceptors>
 			<interceptor name="authenticationInterceptor" class="authenticationInterceptor" />
 		</interceptors>
 
 		<action name="hello" class="cn.wheel.tiyuguanmanager.action.HelloAction">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="permission">1</param>
+				<param name="permission">268435456</param>
 			</interceptor-ref>
 			<result name="SUCCESS">/index.jsp</result>
 		</action>
 	</package>
 
 	<package name="userModule" extends="json-default" namespace="/user">
-		<interceptors>
-			<interceptor name="authenticationInterceptor" class="authenticationInterceptor" />
-		</interceptors>
-
 		<!-- 用于相应 ajax 请求，使用 json 返回值 -->
 		<global-results>
 			<result name="json" type="json">
@@ -40,6 +36,10 @@
 		<!-- 注销 -->
 		<action name="logout" class="userAction" method="logout">
 
+		</action>
+
+		<action name="loginPage" class="pageAction">
+			<result name="success">/WEB-INF/jsp/user/login.jsp</result>
 		</action>
 	</package>
 

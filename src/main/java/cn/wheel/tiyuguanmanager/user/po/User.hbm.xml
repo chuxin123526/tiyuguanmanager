@@ -14,12 +14,13 @@
 		<property name="password" column="PASSWORD" type="string"
 			length="32" />
 		<many-to-one name="role" column="USERROLE"
-			class="cn.wheel.tiyuguanmanager.user.po.Role" />
+			class="cn.wheel.tiyuguanmanager.user.po.Role" lazy="false" />
 		<property name="studentNumber" column="USERSTUNUMBER" type="string"
 			length="20" />
 		<property name="realname" type="string" length="64" column="USERREALNAME" />
 		<property name="identifierType" type="int" column="USERIDENTIFIERTYPE" />
 		<property name="identifierNumber" type="string" column="USERIDENTIFIERNUMBER" />
+		<property name="status" type="int" column="USERSTATUS" />
 		<set name="contracts" cascade="all">
 			<key column="USERID" />
 			<one-to-many class="cn.wheel.tiyuguanmanager.user.po.Contract" />
