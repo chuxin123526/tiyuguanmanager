@@ -3,3 +3,18 @@
 div.pagination-row {
 	text-align: center;
 }
+
+label.form-label,div.form-radio,div.error-msg {
+	line-height: 34px;
+	vertical-align: middle;
+}
+
+span.error-msg {
+	color: #ff0000;
+}
+
+@media ( min-width : 992px) {
+	div.form-label {
+		text-align: right;
+	}
+}

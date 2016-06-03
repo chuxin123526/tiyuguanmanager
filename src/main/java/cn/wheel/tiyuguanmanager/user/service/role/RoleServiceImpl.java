@@ -13,12 +13,17 @@ import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
+import cn.wheel.tiyuguanmanager.user.exception.FormException;
+import cn.wheel.tiyuguanmanager.user.exception.PreservedRoleException;
+import cn.wheel.tiyuguanmanager.user.exception.RoleExistException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.po.Permission;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
+import cn.wheel.tiyuguanmanager.user.vo.validator.RoleInsertVOValidator;
+import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 
 @Service("roleService")
 public class RoleServiceImpl implements IRoleService {
@@ -31,11 +36,32 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Transactional
 	@Override
-	public void insertRole(RoleVO vo) {
+	public void insertRole(RoleVO vo) throws RoleExistException, FormException {
 		if (vo == null) {
-			throw new IllegalArgumentException("vo is null");
+			throw new FormException();
 		}
 
+		// 校验表单
+		RoleInsertVOValidator validator = new RoleInsertVOValidator();
+		boolean validated = true;
+
+		try {
+			validated = validator.validate(vo);
+		} catch (VOTypeNotMatch e) {
+
+		}
+
+		if (!validated) {
+			throw new FormException(validator.getErrorMessages());
+		}
+
+		// 判断同名的角色是否已经存在
+		List<Role> list = roleDao.find(new DaoCriteria[] { new RoleNameCriteria(vo.getName()) });
+		if (list.size() > 0) {
+			throw new RoleExistException();
+		}
+
+		// 组装 po
 		Role role = new Role();
 		role.setName(vo.getName());
 		role.setPermissions(new HashSet<Permission>());
@@ -88,11 +114,16 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Transactional
 	@Override
-	public void deleteRole(RoleVO vo) throws RoleIsInUseException, RoleNotFoundException {
+	public void deleteRole(RoleVO vo) throws RoleIsInUseException, RoleNotFoundException, PreservedRoleException {
 		// 寻找角色
 		Role role = roleDao.findById(vo.getId());
 		if (role == null) {
 			throw new RoleNotFoundException();
+		}
+
+		// 判断是否为保留角色
+		if ("注册用户".equals(role.getName())) {
+			throw new PreservedRoleException();
 		}
 
 		// 查看该角色下是否拥有用户

@@ -30,18 +30,18 @@
 					<table class="table table-hover">
 						<thread>
 						<tr>
-							<th style="3.5em">#</th>
-							<th style="10em">名称</th>
-							<th style="3.5em"></th>
-							<th style="3.5em"></th>
+							<th style="width: 3.5em">#</th>
+							<th>名称</th>
+							<th style="width: 3.5em"></th>
+							<th style="width: 3.5em"></th>
 						</tr>
 						</thread>
 						<s:iterator value="roleList" var="role">
 							<tr>
 								<td><s:property value="#role.id" /></td>
 								<td><s:property value="#role.name" /></td>
-								<td></td>
-								<td></td>
+								<td><a>修改</a></td>
+								<td><a>删除</a></td>
 							</tr>
 						</s:iterator>
 					</table>

@@ -136,6 +136,16 @@ public class Constants {
 		 * 表示当前登录的用户处于禁用状态
 		 */
 		public static final int USER_FORBIDDEN = 11;
+
+		/**
+		 * 表示要创建的这个角色已经在系统中存在同名角色
+		 */
+		public static final int ROLE_EXIST = 12;
+		
+		/**
+		 * 表示成功创建一个角色
+		 */
+		public static final int ROLE_CREATE_SUCCESS = 13;
 	}
 
 	/**

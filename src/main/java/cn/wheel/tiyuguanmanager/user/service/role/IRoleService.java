@@ -2,13 +2,16 @@ package cn.wheel.tiyuguanmanager.user.service.role;
 
 import java.util.List;
 
+import cn.wheel.tiyuguanmanager.user.exception.FormException;
+import cn.wheel.tiyuguanmanager.user.exception.PreservedRoleException;
+import cn.wheel.tiyuguanmanager.user.exception.RoleExistException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
 
 public interface IRoleService {
-	public void insertRole(RoleVO vo);
+	public void insertRole(RoleVO vo) throws RoleExistException, FormException;
 
 	public List<Role> list();
 
@@ -16,7 +19,7 @@ public interface IRoleService {
 
 	public void updateRole(RoleVO vo) throws RoleNotFoundException;
 
-	public void deleteRole(RoleVO vo) throws RoleIsInUseException, RoleNotFoundException;
+	public void deleteRole(RoleVO vo) throws RoleIsInUseException, RoleNotFoundException, PreservedRoleException;
 
 	public List<Role> findByName(String name);
 
