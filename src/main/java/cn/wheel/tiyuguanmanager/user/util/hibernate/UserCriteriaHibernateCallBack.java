@@ -5,6 +5,7 @@ import org.hibernate.criterion.Restrictions;
 
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.User;
+import cn.wheel.tiyuguanmanager.user.util.SQLUtils;
 
 /**
  * 用户动态查询
@@ -44,6 +45,15 @@ public class UserCriteriaHibernateCallBack extends PaginationHibernateCriteriaCa
 				case DaoCriteria.TYPE_USER_PASSWORD:
 					if (op == DaoCriteria.OP_EQUAL) {
 						criteria.add(Restrictions.eq("password", daoCriteria.getContent().toString()));
+					}
+					break;
+				case DaoCriteria.TYPE_USER_ROLE_NAME:
+					criteria = criteria.createCriteria("role");
+
+					if (op == DaoCriteria.OP_EQUAL) {
+						criteria.add(Restrictions.eq("name", daoCriteria.getContent().toString()));
+					} else if (op == DaoCriteria.OP_LIKE) {
+						criteria.add(Restrictions.like("name", SQLUtils.wrapLikeCriteria(daoCriteria.getContent().toString())));
 					}
 					break;
 

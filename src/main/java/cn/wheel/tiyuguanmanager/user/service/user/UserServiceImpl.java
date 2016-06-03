@@ -17,14 +17,17 @@ import cn.wheel.tiyuguanmanager.user.dao.criteria.UserPasswordCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
+import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
+import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
+import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
 import cn.wheel.tiyuguanmanager.user.po.Contract;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.util.MessageDigestUtils;
 import cn.wheel.tiyuguanmanager.user.util.StringUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
-import cn.wheel.tiyuguanmanager.user.vo.validator.UserVOValidator;
+import cn.wheel.tiyuguanmanager.user.vo.validator.UserRegisterVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 
 @Service("userService")
@@ -59,7 +62,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void register(UserVO userVO) throws FormException, UserExistException {
 		// 1. 表单校验
-		UserVOValidator validator = new UserVOValidator();
+		UserRegisterVOValidator validator = new UserRegisterVOValidator();
 		boolean validated = true;
 
 		try {
@@ -73,7 +76,7 @@ public class UserServiceImpl implements IUserService {
 		}
 
 		// 2. 查询用户是否已经存在
-		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria(userVO.getUsername()) });
+		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria(userVO.getUsername(), true) });
 		if (list.size() > 0) {
 			throw new UserExistException();
 		}
@@ -110,19 +113,79 @@ public class UserServiceImpl implements IUserService {
 
 	@Transactional
 	@Override
-	public User login(String username, String password) {
+	public User login(String username, String password) throws UserForbiddenException {
 		if (username == null || password == null) {
 			return null;
 		}
 
-		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria(username), new UserPasswordCriteria(MessageDigestUtils.md5_32(password)) });
+		List<User> list = userDao
+				.find(new DaoCriteria[] { new UserNameCriteria(username, true), new UserPasswordCriteria(MessageDigestUtils.md5_32(password)) });
 
 		if (list.size() > 0) {
 			User user = list.get(0);
 			user.getRole();
+
+			if (user.getStatus() == Constants.UserStatus.DISABLED) {
+				throw new UserForbiddenException();
+			}
+
 			return user;
 		} else {
 			return null;
 		}
+	}
+
+	@Transactional
+	@Override
+	public void updateUserRole(User user, String newRole) throws RoleNotFoundException {
+		List<Role> list = this.roleDao.find(new DaoCriteria[] { new RoleNameCriteria(newRole) });
+		if (list.size() == 0) {
+			throw new RoleNotFoundException();
+		}
+
+		Role role = list.get(0);
+		user.setRole(role);
+
+		this.userDao.update(user);
+	}
+
+	@Transactional
+	@Override
+	public List<User> findUserByUsername(String username, boolean accurate) {
+		return this.userDao.find(new DaoCriteria[] { new UserNameCriteria(username, accurate) });
+	}
+
+	@Transactional
+	@Override
+	public void updateUserRole(long userId, String newRole) throws UserNotExistException, RoleNotFoundException {
+		User user = this.userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
+		List<Role> roleList = this.roleDao.find(new DaoCriteria[] { new RoleNameCriteria(newRole) });
+		if (roleList.size() == 0) {
+			throw new RoleNotFoundException();
+		}
+
+		user.setRole(roleList.get(0));
+		this.userDao.update(user);
+	}
+
+	@Transactional
+	@Override
+	public void updateUserRole(long userId, long roleId) throws UserNotExistException, RoleNotFoundException {
+		User user = this.userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
+		Role role = this.roleDao.findById(roleId);
+		if (role == null) {
+			throw new RoleNotFoundException();
+		}
+
+		user.setRole(role);
+		this.userDao.update(user);
 	}
 }

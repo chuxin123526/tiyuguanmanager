@@ -29,7 +29,7 @@ span.error-msg {
 		<div class="container container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">HOME</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/index">HOME</a>
 			</div>
 		</div>
 	</nav>
@@ -183,9 +183,7 @@ span.error-msg {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						&times;
-					</button>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">注册成功</h4>
 				</div>
 				<div class="modal-body">
@@ -325,24 +323,24 @@ span.error-msg {
 
 					div.find("span.error-msg").html(error.html());
 				},
-				submitHandler: function(form) {
+				submitHandler : function(form) {
 					return false;
 				}
 			});
-			
+
 			$("#form-register-submit-button").bind("click", function() {
 				$("#form-register-submit-button").attr("disabled", "disabled");
-				
+
 				var formData = $("#register-form").serialize();
 				console.log(formData);
-				
+
 				$.post("register.action", formData, function(data, textStatus) {
 					if (textStatus == 'success') {
 						var response = data;
 						if (response.code == 9) {
 							var span = $("span#error-username");
 							span.html("该用户名已经被使用！");
-							
+
 							span.parent().parent().addClass("has-error");
 						} else if (response.code == 10) {
 							$("span#success-box-username").html($("#register-form-username").val());
@@ -351,12 +349,12 @@ span.error-msg {
 					} else {
 						showErrorToast("与服务器通讯失败，请稍后再试！");
 					}
-					
+
 					$("#form-register-submit-button").removeAttr("disabled");
 				});
 			});
-			
-			$("#success-box-ok-button").bind("click", function(){
+
+			$("#success-box-ok-button").bind("click", function() {
 				location.href = "${pageContext.request.contextPath}/user/loginPage";
 			});
 		});

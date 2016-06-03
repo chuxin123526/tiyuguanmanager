@@ -56,7 +56,7 @@ div.dialog {
 							</div>
 							<div class="form-group">
 								<label for="login-username-box">用户名：</label> <input type="text" id="login-username-box"
-									class="form-control" value="一个超级大帅逼" />
+									class="form-control" value="一个超级管理员" />
 							</div>
 							<div class="from-group">
 								<label for="login-password-box">密码：</label> <input type="password" id="login-password-box"
@@ -71,6 +71,20 @@ div.dialog {
 							</div>
 						</form>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="user-forbidden-box" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">账号已被禁用！</h4>
+				</div>
+				<div class="modal-body">您的账号当前处于被禁用的状态，不能登录到系统当中，请与体育馆工作人员联系！</div>
+				<div class="modal-footer">
+					<button type="button" id="user-forbidden-box-ok" class="btn btn-primary">确定</button>
 				</div>
 			</div>
 		</div>
@@ -104,6 +118,10 @@ div.dialog {
 				passwordBox.focus();
 				ajaxReturn.html("密码不能为空！");
 			};
+
+			$("#user-forbidden-box-ok").bind("click", function() {
+				$("#user-forbidden-box").modal("hide");
+			});
 
 			$("#login-username-box").bind("input propertychange", inputHandleFx);
 
@@ -152,6 +170,10 @@ div.dialog {
 							// 登录成功
 							ajaxReturn.html("登录成功，请等待跳转...");
 							location.href = "${pageContext.request.contextPath}/index";
+							break;
+						case 11:
+							// 当前账号已经被禁用
+							$("#user-forbidden-box").modal("show");
 							break;
 						}
 					} else {

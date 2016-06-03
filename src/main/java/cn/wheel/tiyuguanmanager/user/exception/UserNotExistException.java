@@ -1,13 +1,16 @@
 package cn.wheel.tiyuguanmanager.user.exception;
 
 /**
- * 表示这个用户名已经存在
+ * 表示找不到指定用户
  * 
  * @author DENG YURONG
  * 
  */
-public class UserExistException extends RuntimeException {
+public class UserNotExistException extends RuntimeException {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 }

@@ -9,12 +9,16 @@
 	<!-- 系统基础包 -->
 	<package name="base-package" extends="json-default">
 		<interceptors>
-			<interceptor name="authenticationInterceptor" class="authenticationInterceptor" />
+			<interceptor name="auth" class="authenticationInterceptor" />
+			<interceptor-stack name="authenticationInterceptor">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="auth" />
+			</interceptor-stack>
 		</interceptors>
 
 		<global-results>
-			<result name="login" type="redirect">user/loginPage</result>
-			<result name="permission_denied">/WEB-INF/user/common/denied.jsp</result>
+			<result name="login" type="redirect">/user/loginPage</result>
+			<result name="permission_denied">/WEB-INF/jsp/user/common/denied.jsp</result>
 		</global-results>
 	</package>
 
@@ -23,7 +27,7 @@
 	<package name="default" extends="base-package">
 		<action name="index" class="indexPageAction" method="homePage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="permission">1</param>
+				<param name="auth.permission">1</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/index.jsp</result>
 		</action>
@@ -67,6 +71,23 @@
 		<!-- ajax 处理注册的 Action -->
 		<action name="register" class="userAction" method="register">
 			<!-- 采用全局 -->
+		</action>
+
+		<!-- 用户管理的首页 -->
+		<action name="adminIndex" class="userAdminAction" method="index">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">10,11,12,13,14,20,21,22,23</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/index.jsp</result>
+		</action>
+
+		<!-- 角色列表页面 -->
+		<action name="roleList" class="userAdminAction" method="roleList">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">21,22,23</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/role/roleList.jsp
+			</result>
 		</action>
 	</package>
 

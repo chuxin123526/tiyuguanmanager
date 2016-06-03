@@ -12,6 +12,7 @@ import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserPasswordCriteria;
+import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.po.User;
 
@@ -68,7 +69,7 @@ public class UserDaoTest extends BaseAppContextTest {
 
 	@Test
 	public void testFindByCriteria() {
-		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria("test"), new UserPasswordCriteria("password1") });
+		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria("test", true), new UserPasswordCriteria("password1") });
 		for (User user : list) {
 			System.out.println(user.getUsername() + ": " + user.getPassword());
 		}
@@ -76,7 +77,21 @@ public class UserDaoTest extends BaseAppContextTest {
 
 	@Test
 	public void testFindByCriteriaPage() {
-		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria("一个超级大帅逼") }, 2, 1);
+		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria("一个超级大帅逼", true) }, 2, 1);
+		for (User user : list) {
+			System.out.println(user.getUsername() + ": " + user.getPassword());
+		}
+	}
+
+	@Test
+	public void testGetUserCount() {
+		long userCount = userDao.count();
+		assertEquals(1, userCount);
+	}
+
+	@Test
+	public void testFindRegisteredUser() {
+		List<User> list = userDao.find(new DaoCriteria[] { new UserRoleNameCriteria("认证用户") });
 		for (User user : list) {
 			System.out.println(user.getUsername() + ": " + user.getPassword());
 		}

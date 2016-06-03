@@ -10,18 +10,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
+import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
+import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.po.Permission;
 import cn.wheel.tiyuguanmanager.user.po.Role;
+import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
 
 @Service("roleService")
 public class RoleServiceImpl implements IRoleService {
 
 	@Resource
-	private IRoleDao dao;
+	private IRoleDao roleDao;
+
+	@Resource
+	private IUserDao userDao;
 
 	@Transactional
 	@Override
@@ -36,7 +42,7 @@ public class RoleServiceImpl implements IRoleService {
 
 		fillPermissionList(vo, role);
 
-		dao.insert(role);
+		roleDao.insert(role);
 	}
 
 	private void fillPermissionList(RoleVO vo, Role role) {
@@ -52,19 +58,19 @@ public class RoleServiceImpl implements IRoleService {
 	@Transactional
 	@Override
 	public List<Role> list() {
-		return dao.find(null);
+		return roleDao.find(null);
 	}
 
 	@Transactional
 	@Override
 	public List<Role> list(int offset, int count) {
-		return dao.find(null, offset, count);
+		return roleDao.find(null, offset, count);
 	}
 
 	@Transactional
 	@Override
 	public void updateRole(RoleVO vo) throws RoleNotFoundException {
-		Role role = dao.findById(vo.getId());
+		Role role = roleDao.findById(vo.getId());
 		if (role == null) {
 			throw new RoleNotFoundException();
 		}
@@ -77,23 +83,37 @@ public class RoleServiceImpl implements IRoleService {
 			fillPermissionList(vo, role);
 		}
 
-		dao.update(role);
+		roleDao.update(role);
 	}
 
 	@Transactional
 	@Override
 	public void deleteRole(RoleVO vo) throws RoleIsInUseException, RoleNotFoundException {
-		Role role = dao.findById(vo.getId());
+		// 寻找角色
+		Role role = roleDao.findById(vo.getId());
 		if (role == null) {
 			throw new RoleNotFoundException();
 		}
 
-		dao.delete(role);
+		// 查看该角色下是否拥有用户
+		List<User> userList = userDao.find(new DaoCriteria[] { new UserRoleNameCriteria(role.getName()) });
+		if (userList.size() > 0) {
+			throw new RoleIsInUseException();
+		}
+
+		// 删除角色
+		roleDao.delete(role);
 	}
 
 	@Transactional
 	@Override
 	public List<Role> findByName(String name) {
-		return dao.find(new DaoCriteria[] { new RoleNameCriteria(name) });
+		return roleDao.find(new DaoCriteria[] { new RoleNameCriteria(name) });
+	}
+
+	@Transactional
+	@Override
+	public long getCountOfAllRoles() {
+		return roleDao.count();
 	}
 }

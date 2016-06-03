@@ -3,6 +3,7 @@ package cn.wheel.tiyuguanmanager.user.interceptor;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
@@ -14,6 +15,7 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
 @Component("authenticationInterceptor")
+@Scope("prototype")
 public class AuthenticationInterceptor extends AbstractInterceptor {
 
 	private static final long serialVersionUID = 1L;

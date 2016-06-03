@@ -12,8 +12,10 @@ public class UserNameCriteria extends AbstractDaoCriteria {
 	 * 
 	 * @param username
 	 *            用户名
+	 * @param accurate
+	 *            是否精确查询
 	 */
-	public UserNameCriteria(String username) {
-		super(TYPE_USER_USERNAME, OP_EQUAL, username);
+	public UserNameCriteria(String username, boolean accurate) {
+		super(TYPE_USER_USERNAME, (accurate ? OP_EQUAL : OP_LIKE), username);
 	}
 }

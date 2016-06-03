@@ -16,8 +16,9 @@ public interface IRoleService {
 
 	public void updateRole(RoleVO vo) throws RoleNotFoundException;
 
-	public void deleteRole(RoleVO vo) throws RoleIsInUseException,
-			RoleNotFoundException;
-	
+	public void deleteRole(RoleVO vo) throws RoleIsInUseException, RoleNotFoundException;
+
 	public List<Role> findByName(String name);
+
+	public long getCountOfAllRoles();
 }

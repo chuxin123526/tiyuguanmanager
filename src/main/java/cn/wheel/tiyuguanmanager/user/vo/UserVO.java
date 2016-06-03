@@ -17,6 +17,7 @@ public class UserVO {
 	private String realname;
 
 	private String mobilePhone;
+	private String roleName;
 
 	public String getUsername() {
 		return username;
@@ -88,6 +89,14 @@ public class UserVO {
 
 	public void setMobilePhone(String mobilePhone) {
 		this.mobilePhone = mobilePhone;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 }

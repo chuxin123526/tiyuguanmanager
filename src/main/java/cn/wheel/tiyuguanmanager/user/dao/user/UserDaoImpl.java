@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.User;
+import cn.wheel.tiyuguanmanager.user.util.hibernate.QueryEntityCountHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.UserCriteriaHibernateCallBack;
 
 @Repository("userDao")
@@ -45,6 +46,11 @@ public class UserDaoImpl implements IUserDao {
 	@Override
 	public List<User> find(DaoCriteria[] criterias, int offset, int count) {
 		return hibernateTemplate.execute(new UserCriteriaHibernateCallBack(criterias).enablePaging(offset, count));
+	}
+
+	@Override
+	public long count() {
+		return hibernateTemplate.execute(new QueryEntityCountHibernateCallBack("User"));
 	}
 
 }

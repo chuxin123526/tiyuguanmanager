@@ -4,7 +4,7 @@
 <head>
 <title>尼玛的主页</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="css/common-word.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common-word.css">
 </head>
 <body>
 	<jsp:include page="competition/common/common.jsp" />
@@ -79,11 +79,11 @@
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-12 function-box">
 				<div class="function-box-body well">
-					<h2>器材</h2>
+					<h2>用户管理</h2>
 					<p>
 						<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
 					</p>
-					<button class="btn btn-primary">
+					<button class="btn btn-primary" id="btn-user-module">
 						<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
 					</button>
 					<div class="clear"></div>
@@ -91,5 +91,12 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			$("#btn-user-module").bind("click", function(){
+				location.href = "${pageContext.request.contextPath}/user/adminIndex";
+			});
+		});
+	</script>
 </body>
 </html>

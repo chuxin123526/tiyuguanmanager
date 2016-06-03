@@ -11,6 +11,7 @@ import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
+import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.service.user.IUserService;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
@@ -47,13 +48,13 @@ public class UserServiceTest extends BaseAppContextTest {
 	}
 
 	@Test
-	public void test01_LoginSuccess() {
+	public void test01_LoginSuccess() throws UserForbiddenException {
 		User user = userService.login("username", "123456");
 		Assert.assertNotNull(user);
 	}
 
 	@Test
-	public void test02_LoginFailed() {
+	public void test02_LoginFailed() throws UserForbiddenException {
 		User user = userService.login("username", "1234567");
 		Assert.assertNull(user);
 	}

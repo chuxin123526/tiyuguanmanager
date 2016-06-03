@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.Role;
+import cn.wheel.tiyuguanmanager.user.util.hibernate.QueryEntityCountHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.RoleCriteriaHibernateCallback;
 
 @Repository("roleDao")
@@ -45,6 +46,11 @@ public class RoleDaoImpl implements IRoleDao {
 	@Override
 	public List<Role> find(DaoCriteria[] criterias, int offset, int count) {
 		return this.hibernateTemplate.execute(new RoleCriteriaHibernateCallback(criterias).enablePaging(offset, count));
+	}
+
+	@Override
+	public long count() {
+		return this.hibernateTemplate.execute(new QueryEntityCountHibernateCallBack("Role"));
 	}
 
 }

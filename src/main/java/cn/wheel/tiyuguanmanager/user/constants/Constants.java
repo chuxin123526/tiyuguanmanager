@@ -2,6 +2,16 @@ package cn.wheel.tiyuguanmanager.user.constants;
 
 public class Constants {
 	/**
+	 * 分页中，每一页项目的数量
+	 */
+	public static final int ITEM_PER_PAGE = 5;
+
+	/**
+	 * 分页导航前后偏移页面
+	 */
+	public static final int NAVI_PAGE_OFFSET = 3;
+
+	/**
 	 * 用于表示通讯录项的类型
 	 * 
 	 * @author DENG YURONG
@@ -106,21 +116,26 @@ public class Constants {
 		 * 注销成功
 		 */
 		public static final int LOGOUT_SUCCESS = 7;
-		
+
 		/**
 		 * 表单有误
 		 */
 		public static final int FORM_EXCEPTION = 8;
-		
+
 		/**
 		 * 用户已经存在
 		 */
 		public static final int USER_EXIST = 9;
-		
+
 		/**
 		 * 注册成功
 		 */
 		public static final int REGISTER_SUCCESS = 10;
+
+		/**
+		 * 表示当前登录的用户处于禁用状态
+		 */
+		public static final int USER_FORBIDDEN = 11;
 	}
 
 	/**

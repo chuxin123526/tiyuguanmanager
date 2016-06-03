@@ -8,7 +8,7 @@ import java.util.Map;
  * @author DENG YURONG
  * 
  */
-public class FormException extends Exception {
+public class FormException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

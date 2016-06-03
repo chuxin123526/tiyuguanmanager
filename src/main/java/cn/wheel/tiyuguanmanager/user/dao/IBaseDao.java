@@ -12,6 +12,8 @@ public interface IBaseDao<T> {
 	public void delete(T entitiy);
 
 	public T findById(long id);
+	
+	public long count();
 
 	public List<T> find(DaoCriteria[] criterias);
 

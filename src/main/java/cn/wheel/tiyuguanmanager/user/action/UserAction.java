@@ -12,6 +12,7 @@ import com.opensymphony.xwork2.ActionContext;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
+import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.service.user.IUserService;
 import cn.wheel.tiyuguanmanager.user.util.MapUtils;
@@ -67,8 +68,15 @@ public class UserAction {
 			return "json";
 		}
 
-		// 校验用户名和密码
-		User user = userService.login(username, password);
+		// 校验用户名和密码，以及判断用户账号当前是否处于被禁用的状态
+		User user = null;
+		try {
+			user = userService.login(username, password);
+		} catch (UserForbiddenException e) {
+			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.USER_FORBIDDEN).toMap();
+			return "json";
+		}
+
 		if (user == null) {
 			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.LOGIN_FAILED_DUE_TO_INFO_ERROR).toMap();
 			return "json";
