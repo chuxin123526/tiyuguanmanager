@@ -9,3 +9,23 @@ function isStringEmpty(s) {
 		}
 	}
 }
+
+function showSuccessToast(content) {
+	$().toastmessage('showToast', {
+		stayTime : 3000,
+		text : content,
+		sticky : false,
+		position : 'top-center',
+		type : 'success'
+	});
+}
+
+function showErrorToast(content) {
+	$().toastmessage('showToast', {
+		stayTime : 3000,
+		text : content,
+		sticky : false,
+		position : 'top-center',
+		type : 'error'
+	});
+}

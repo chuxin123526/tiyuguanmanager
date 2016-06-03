@@ -55,21 +55,19 @@ div.dialog {
 								<span id="ajax-return"></span>
 							</div>
 							<div class="form-group">
-								<label for="login-username-box">用户名：</label> <input type="text"
-									id="login-username-box" class="form-control" value="一个超级大帅逼" />
+								<label for="login-username-box">用户名：</label> <input type="text" id="login-username-box"
+									class="form-control" value="一个超级大帅逼" />
 							</div>
 							<div class="from-group">
-								<label for="login-password-box">密码：</label> <input
-									type="password" id="login-password-box" class="form-control"
-									value="123456" />
+								<label for="login-password-box">密码：</label> <input type="password" id="login-password-box"
+									class="form-control" value="123456" />
 							</div>
 							<div class="form-group account-control">
-								<span class="login-register"> <a>注册</a>
+								<span class="login-register"> <a href="registerPage">注册</a>
 								</span>
 							</div>
 							<div class="form-group">
-								<button id="login-login-button" class="btn btn-primary"
-									style="width: 100%">登录</button>
+								<button id="login-login-button" class="btn btn-primary" style="width: 100%">登录</button>
 							</div>
 						</form>
 					</div>

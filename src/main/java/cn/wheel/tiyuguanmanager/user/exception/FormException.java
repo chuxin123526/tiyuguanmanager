@@ -12,22 +12,22 @@ public class FormException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<String, String> errorMessages;
+	private Map<String, Object> errorMessages;
 
 	public FormException() {
 		super("用户表单有误");
 	}
 
-	public FormException(Map<String, String> errMsgs) {
+	public FormException(Map<String, Object> errMsgs) {
 		super("用户表单有误");
 		this.errorMessages = errMsgs;
 	}
 
-	public Map<String, String> getErrorMessages() {
+	public Map<String, Object> getErrorMessages() {
 		return errorMessages;
 	}
 
-	public void setErrorMessages(Map<String, String> errorMessages) {
+	public void setErrorMessages(Map<String, Object> errorMessages) {
 		this.errorMessages = errorMessages;
 	}
 

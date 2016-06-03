@@ -1,6 +1,8 @@
 package cn.wheel.tiyuguanmanager.user.service.user;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -16,9 +18,11 @@ import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
+import cn.wheel.tiyuguanmanager.user.po.Contract;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.util.MessageDigestUtils;
+import cn.wheel.tiyuguanmanager.user.util.StringUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.UserVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
@@ -36,9 +40,7 @@ public class UserServiceImpl implements IUserService {
 
 	private Role findRegisteredRole() {
 		if (registeredRole == null) {
-			List<Role> list = roleDao
-					.find(new DaoCriteria[] { new RoleNameCriteria(
-							"注册用户") });
+			List<Role> list = roleDao.find(new DaoCriteria[] { new RoleNameCriteria("注册用户") });
 			if (list.size() == 0) {
 				Role role = new Role();
 				role.setName("注册用户");
@@ -55,8 +57,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Transactional
 	@Override
-	public void register(UserVO userVO) throws FormException,
-			UserExistException {
+	public void register(UserVO userVO) throws FormException, UserExistException {
 		// 1. 表单校验
 		UserVOValidator validator = new UserVOValidator();
 		boolean validated = true;
@@ -72,9 +73,7 @@ public class UserServiceImpl implements IUserService {
 		}
 
 		// 2. 查询用户是否已经存在
-		List<User> list = userDao
-				.find(new DaoCriteria[] { new UserNameCriteria(userVO
-						.getUsername()) });
+		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria(userVO.getUsername()) });
 		if (list.size() > 0) {
 			throw new UserExistException();
 		}
@@ -84,7 +83,6 @@ public class UserServiceImpl implements IUserService {
 
 		// 4. 组装 PO 对象
 		User user = new User();
-		user.setContracts(userVO.getContracts());
 		user.setGender(userVO.getGender());
 		user.setIdentifierNumber(userVO.getIdentifierNumber());
 		user.setIdentifierType(userVO.getIdentifierType());
@@ -94,6 +92,17 @@ public class UserServiceImpl implements IUserService {
 		user.setStudentNumber(userVO.getStudentNumber());
 		user.setUsername(userVO.getUsername());
 		user.setStatus(Constants.UserStatus.NORMAL);
+
+		String mobilePhone = userVO.getMobilePhone();
+		if (!StringUtils.isEmpty(mobilePhone)) {
+			Contract mobile = new Contract();
+			mobile.setContent(mobilePhone);
+			mobile.setType(Constants.ContratType.TYPE_MOBILE);
+
+			Set<Contract> contacts = new HashSet<>();
+			contacts.add(mobile);
+			user.setContracts(contacts);
+		}
 
 		// 5. 添加到数据库当中
 		userDao.insert(user);
@@ -106,11 +115,7 @@ public class UserServiceImpl implements IUserService {
 			return null;
 		}
 
-		List<User> list = userDao
-				.find(new DaoCriteria[] {
-						new UserNameCriteria(username),
-						new UserPasswordCriteria(MessageDigestUtils
-								.md5_32(password)) });
+		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria(username), new UserPasswordCriteria(MessageDigestUtils.md5_32(password)) });
 
 		if (list.size() > 0) {
 			User user = list.get(0);

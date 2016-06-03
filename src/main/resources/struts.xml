@@ -6,6 +6,7 @@
 	<!-- 配置开发模式 -->
 	<constant name="struts.devMode" value="true" />
 
+	<!-- 系统基础包 -->
 	<package name="base-package" extends="json-default">
 		<interceptors>
 			<interceptor name="authenticationInterceptor" class="authenticationInterceptor" />
@@ -39,12 +40,12 @@
 
 		<!-- ajax 登录 -->
 		<action name="login" class="userAction" method="login">
-
+			<!-- 采用全局 -->
 		</action>
 
 		<!-- ajax 注销 -->
 		<action name="logout" class="userAction" method="logout">
-
+			<!-- 采用全局 -->
 		</action>
 
 		<!-- 登录页面 -->
@@ -57,10 +58,19 @@
 		<action name="logoutPage" class="userAction" method="logoutPage">
 			<result name="success" type="redirect">loginPage</result>
 		</action>
+
+		<!-- 注册页面 -->
+		<action name="registerPage" class="pageAction" method="registerPage">
+			<result name="success">/WEB-INF/jsp/user/register.jsp</result>
+		</action>
+
+		<!-- ajax 处理注册的 Action -->
+		<action name="register" class="userAction" method="register">
+			<!-- 采用全局 -->
+		</action>
 	</package>
 
 	<package name="somebody" extends="struts-default" namespace="/competition">
-
 		<!-- 全局跳转配置 -->
 		<global-results>
 			<result name="error">/WEB-INF/jsp/competition/common/error.jsp

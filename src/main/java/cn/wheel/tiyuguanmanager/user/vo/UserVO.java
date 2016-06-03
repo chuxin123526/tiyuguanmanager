@@ -16,6 +16,8 @@ public class UserVO {
 	private String studentNumber;
 	private String realname;
 
+	private String mobilePhone;
+
 	public String getUsername() {
 		return username;
 	}
@@ -78,6 +80,14 @@ public class UserVO {
 
 	public void setRealname(String realname) {
 		this.realname = realname;
+	}
+
+	public String getMobilePhone() {
+		return mobilePhone;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
 
 }

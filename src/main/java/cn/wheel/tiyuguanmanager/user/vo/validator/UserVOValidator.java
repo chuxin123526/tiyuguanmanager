@@ -1,13 +1,10 @@
 package cn.wheel.tiyuguanmanager.user.vo.validator;
 
-import org.springframework.stereotype.Component;
-
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.util.InfoCheckUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 
-@Component("userVOValidator")
 public class UserVOValidator extends AbstractVOValidator {
 
 	public static final String PROPERTY_USERNAME = "username";

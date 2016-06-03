@@ -106,6 +106,21 @@ public class Constants {
 		 * 注销成功
 		 */
 		public static final int LOGOUT_SUCCESS = 7;
+		
+		/**
+		 * 表单有误
+		 */
+		public static final int FORM_EXCEPTION = 8;
+		
+		/**
+		 * 用户已经存在
+		 */
+		public static final int USER_EXIST = 9;
+		
+		/**
+		 * 注册成功
+		 */
+		public static final int REGISTER_SUCCESS = 10;
 	}
 
 	/**

@@ -18,4 +18,8 @@ public class PageAction {
 			return "success";
 		}
 	}
+
+	public String registerPage() {
+		return "success";
+	}
 }
