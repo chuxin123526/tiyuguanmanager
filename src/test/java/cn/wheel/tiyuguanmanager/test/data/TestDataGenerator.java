@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
+import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.po.Permission;
@@ -42,11 +43,11 @@ public class TestDataGenerator extends BaseAppContextTest {
 	public void data00_insertRole() {
 		RoleVO registerRoleVO = new RoleVO();
 		registerRoleVO.setName("注册用户");
-		registerRoleVO.addPermission(Constants.Permission.PERMISSION_LOGIN);
+		registerRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
 
 		RoleVO verifiedRoleVO = new RoleVO();
 		verifiedRoleVO.setName("认证用户");
-		verifiedRoleVO.addPermission(Constants.Permission.PERMISSION_LOGIN);
+		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
 
 		roleService.insertRole(registerRoleVO);
 		roleService.insertRole(verifiedRoleVO);

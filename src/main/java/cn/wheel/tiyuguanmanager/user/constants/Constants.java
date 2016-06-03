@@ -66,19 +66,6 @@ public class Constants {
 	}
 
 	/**
-	 * 用于表示权限的项目
-	 * 
-	 * @author DENG YURONG
-	 * 
-	 */
-	public static final class Permission {
-		/**
-		 * 系统的登录权限
-		 */
-		public static final int PERMISSION_LOGIN = 0x10000000;
-	}
-
-	/**
 	 * ajax 请求中 json 的结果编码
 	 * 
 	 * @author DENG YURONG

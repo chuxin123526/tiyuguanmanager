@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+
+div.clear {
+	clear: both;
+}
+
+div.home-welcome {
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+	font-size: 14pt;
+	height: 80px;
+	line-height: 80px;
+	vertical-align: middle;
+	font-family: "微软雅黑", "黑体";
+	text-align: center;
+}
+
+div.home-welcome-line {
+	height: 100px;
+}
+
+div.function-box {
+	padding-left: 9px;
+	padding-right: 9px;
+}
+
+div.function-box h2 {
+	padding-left: 11px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-family: "微软雅黑", "黑体", "Arial";
+	font-size: 16pt;
+	font-weight: bold;
+	color: rgb(101, 101, 101);
+	margin-top: 15px;
+}
+
+div.function-box img {
+	width: 60px;
+	height: 60px;
+}
+
+div.function-box span {
+	margin-left: 5px;
+	color: rgb(101, 101, 101);
+}
+
+div.function-box button {
+	float: right;
+}
+
+div.function-box button span {
+	color: #ffffff;
+}

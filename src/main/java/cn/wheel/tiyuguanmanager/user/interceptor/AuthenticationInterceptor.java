@@ -27,7 +27,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 	/**
 	 * 当前的用户没有权限时返回的字符串
 	 */
-	public static final String PERMISSION_DENIED = "denied";
+	public static final String PERMISSION_DENIED = "permission_denied";
 
 	/**
 	 * 返回 json 形式的操作结果
@@ -56,8 +56,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 
 			for (int i = 0; i < this.permissionArray.length; i++) {
 				try {
-					this.permissionArray[i] = Integer
-							.parseInt(permissionItems[i]);
+					this.permissionArray[i] = Integer.parseInt(permissionItems[i]);
 				} catch (NumberFormatException e) {
 					logger.error("parse permission string failed.", e);
 				}
@@ -88,13 +87,12 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 	public String intercept(ActionInvocation invocation) throws Exception {
 		// 判断是否已经登录
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		User user = (User) session.get("user.obj");
+		User user = (User) session.get("user");
 		if (user == null) {
 			if (!ajaxAction) {
 				return RETURN_LOGIN;
 			} else {
-				this.ajaxJson = new MapUtils().put("code",
-						Constants.AjaxReturnValue.NOT_LOGIN).toMap();
+				this.ajaxJson = new MapUtils().put("code", Constants.AjaxReturnValue.NOT_LOGIN).toMap();
 				return "json";
 			}
 		}
@@ -110,8 +108,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 
 		if (!hasPermission) {
 			if (ajaxAction) {
-				this.ajaxJson = new MapUtils().put("code",
-						Constants.AjaxReturnValue.PERMISSION_DENIED).toMap();
+				this.ajaxJson = new MapUtils().put("code", Constants.AjaxReturnValue.PERMISSION_DENIED).toMap();
 				return "json";
 			} else {
 				return PERMISSION_DENIED;

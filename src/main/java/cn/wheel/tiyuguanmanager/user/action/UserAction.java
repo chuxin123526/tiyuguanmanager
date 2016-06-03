@@ -63,7 +63,7 @@ public class UserAction {
 
 		// 存入 session
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		session.put("user.obj", user);
+		session.put("user", user);
 
 		this.ajaxReturn = new MapUtils().put("code",
 				Constants.AjaxReturnValue.LOGIN_SUCCESS).toMap();
@@ -73,7 +73,7 @@ public class UserAction {
 	public String logout() {
 		// 检查当前用户是否已经登录
 		Map<String, Object> session = ActionContext.getContext().getSession();
-		User user = (User) session.get("user.obj");
+		User user = (User) session.get("user");
 		if (user == null) {
 			this.ajaxReturn = new MapUtils().put("code",
 					Constants.AjaxReturnValue.NOT_LOGIN).toMap();
@@ -81,11 +81,18 @@ public class UserAction {
 		}
 
 		// 清空 session 中的对象
-		session.remove("user.obj");
+		session.remove("user");
 
 		// 返回
 		this.ajaxReturn = new MapUtils().put("code",
 				Constants.AjaxReturnValue.LOGOUT_SUCCESS).toMap();
 		return "json";
+	}
+
+	public String logoutPage() {
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		session.remove("user");
+
+		return "success";
 	}
 }

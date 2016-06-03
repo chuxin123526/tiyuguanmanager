@@ -6,21 +6,30 @@
 	<!-- 配置开发模式 -->
 	<constant name="struts.devMode" value="true" />
 
-	<!-- 用于临时测试的一个 action -->
-	<package name="default" extends="struts-default">
+	<package name="base-package" extends="json-default">
 		<interceptors>
 			<interceptor name="authenticationInterceptor" class="authenticationInterceptor" />
 		</interceptors>
 
-		<action name="hello" class="cn.wheel.tiyuguanmanager.action.HelloAction">
+		<global-results>
+			<result name="login" type="redirect">user/loginPage</result>
+			<result name="permission_denied">/WEB-INF/user/common/denied.jsp</result>
+		</global-results>
+	</package>
+
+
+	<!-- 系统首页 -->
+	<package name="default" extends="base-package">
+		<action name="index" class="indexPageAction" method="homePage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="permission">268435456</param>
+				<param name="permission">1</param>
 			</interceptor-ref>
-			<result name="SUCCESS">/index.jsp</result>
+			<result name="success">/WEB-INF/jsp/index.jsp</result>
 		</action>
 	</package>
 
-	<package name="userModule" extends="json-default" namespace="/user">
+	<!-- 用户管理模块 -->
+	<package name="userModule" extends="base-package" namespace="/user">
 		<!-- 用于相应 ajax 请求，使用 json 返回值 -->
 		<global-results>
 			<result name="json" type="json">
@@ -28,18 +37,25 @@
 			</result>
 		</global-results>
 
-		<!-- 登录 -->
+		<!-- ajax 登录 -->
 		<action name="login" class="userAction" method="login">
 
 		</action>
 
-		<!-- 注销 -->
+		<!-- ajax 注销 -->
 		<action name="logout" class="userAction" method="logout">
 
 		</action>
 
-		<action name="loginPage" class="pageAction">
+		<!-- 登录页面 -->
+		<action name="loginPage" class="pageAction" method="loginPage">
 			<result name="success">/WEB-INF/jsp/user/login.jsp</result>
+			<result name="toIndex" type="redirect">/index</result>
+		</action>
+
+		<!-- 注销页面 -->
+		<action name="logoutPage" class="userAction" method="logoutPage">
+			<result name="success" type="redirect">loginPage</result>
 		</action>
 	</package>
 
