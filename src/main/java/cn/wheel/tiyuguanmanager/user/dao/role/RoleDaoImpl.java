@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.Role;
-import cn.wheel.tiyuguanmanager.user.util.hibernate.PaginationHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.RoleCriteriaHibernateCallback;
 
 @Repository("roleDao")
@@ -17,17 +16,6 @@ public class RoleDaoImpl implements IRoleDao {
 
 	@Resource
 	private HibernateTemplate hibernateTemplate;
-
-	@Override
-	public List<Role> list() {
-		return hibernateTemplate.loadAll(Role.class);
-	}
-
-	@Override
-	public List<Role> list(int offset, int count) {
-		return hibernateTemplate.execute(new PaginationHibernateCallBack<>(
-				offset, count, Role.class));
-	}
 
 	@Override
 	public void insert(Role role) {
@@ -50,9 +38,13 @@ public class RoleDaoImpl implements IRoleDao {
 	}
 
 	@Override
-	public List<Role> findByCriteria(DaoCriteria[] criterias) {
-		return hibernateTemplate.execute(new RoleCriteriaHibernateCallback(
-				criterias));
+	public List<Role> find(DaoCriteria[] criterias) {
+		return hibernateTemplate.execute(new RoleCriteriaHibernateCallback(criterias));
+	}
+
+	@Override
+	public List<Role> find(DaoCriteria[] criterias, int offset, int count) {
+		return this.hibernateTemplate.execute(new RoleCriteriaHibernateCallback(criterias).enablePaging(offset, count));
 	}
 
 }

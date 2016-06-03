@@ -52,13 +52,13 @@ public class RoleServiceImpl implements IRoleService {
 	@Transactional
 	@Override
 	public List<Role> list() {
-		return dao.list();
+		return dao.find(null);
 	}
 
 	@Transactional
 	@Override
 	public List<Role> list(int offset, int count) {
-		return dao.list(offset, count);
+		return dao.find(null, offset, count);
 	}
 
 	@Transactional
@@ -82,8 +82,7 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Transactional
 	@Override
-	public void deleteRole(RoleVO vo) throws RoleIsInUseException,
-			RoleNotFoundException {
+	public void deleteRole(RoleVO vo) throws RoleIsInUseException, RoleNotFoundException {
 		Role role = dao.findById(vo.getId());
 		if (role == null) {
 			throw new RoleNotFoundException();
@@ -95,7 +94,6 @@ public class RoleServiceImpl implements IRoleService {
 	@Transactional
 	@Override
 	public List<Role> findByName(String name) {
-		return dao
-				.findByCriteria(new DaoCriteria[] { new RoleNameCriteria(name) });
+		return dao.find(new DaoCriteria[] { new RoleNameCriteria(name) });
 	}
 }

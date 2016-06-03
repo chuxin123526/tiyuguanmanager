@@ -68,9 +68,15 @@ public class UserDaoTest extends BaseAppContextTest {
 
 	@Test
 	public void testFindByCriteria() {
-		List<User> list = userDao.findByCriteria(new DaoCriteria[] {
-				new UserNameCriteria("test"),
-				new UserPasswordCriteria("password1") });
+		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria("test"), new UserPasswordCriteria("password1") });
+		for (User user : list) {
+			System.out.println(user.getUsername() + ": " + user.getPassword());
+		}
+	}
+
+	@Test
+	public void testFindByCriteriaPage() {
+		List<User> list = userDao.find(new DaoCriteria[] { new UserNameCriteria("一个超级大帅逼") }, 2, 1);
 		for (User user : list) {
 			System.out.println(user.getUsername() + ": " + user.getPassword());
 		}

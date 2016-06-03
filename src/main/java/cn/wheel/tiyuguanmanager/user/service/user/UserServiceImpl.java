@@ -37,7 +37,7 @@ public class UserServiceImpl implements IUserService {
 	private Role findRegisteredRole() {
 		if (registeredRole == null) {
 			List<Role> list = roleDao
-					.findByCriteria(new DaoCriteria[] { new RoleNameCriteria(
+					.find(new DaoCriteria[] { new RoleNameCriteria(
 							"注册用户") });
 			if (list.size() == 0) {
 				Role role = new Role();
@@ -73,7 +73,7 @@ public class UserServiceImpl implements IUserService {
 
 		// 2. 查询用户是否已经存在
 		List<User> list = userDao
-				.findByCriteria(new DaoCriteria[] { new UserNameCriteria(userVO
+				.find(new DaoCriteria[] { new UserNameCriteria(userVO
 						.getUsername()) });
 		if (list.size() > 0) {
 			throw new UserExistException();
@@ -107,7 +107,7 @@ public class UserServiceImpl implements IUserService {
 		}
 
 		List<User> list = userDao
-				.findByCriteria(new DaoCriteria[] {
+				.find(new DaoCriteria[] {
 						new UserNameCriteria(username),
 						new UserPasswordCriteria(MessageDigestUtils
 								.md5_32(password)) });

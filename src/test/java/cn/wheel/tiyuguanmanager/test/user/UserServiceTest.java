@@ -41,7 +41,7 @@ public class UserServiceTest extends BaseAppContextTest {
 		vo.setPassword("123456");
 		vo.setRealname("123456");
 		vo.setStudentNumber("201311701407");
-		vo.setUsername("username");
+		vo.setUsername("一个超级大帅逼");
 
 		userService.register(vo);
 	}

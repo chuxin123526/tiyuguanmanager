@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.User;
-import cn.wheel.tiyuguanmanager.user.util.hibernate.PaginationHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.UserCriteriaHibernateCallBack;
 
 @Repository("userDao")
@@ -17,17 +16,6 @@ public class UserDaoImpl implements IUserDao {
 
 	@Resource
 	private HibernateTemplate hibernateTemplate;
-
-	@Override
-	public List<User> list() {
-		return hibernateTemplate.loadAll(User.class);
-	}
-
-	@Override
-	public List<User> list(int offset, int count) {
-		return hibernateTemplate.execute(new PaginationHibernateCallBack<>(
-				offset, count, User.class));
-	}
 
 	@Override
 	public void insert(User user) {
@@ -50,9 +38,13 @@ public class UserDaoImpl implements IUserDao {
 	}
 
 	@Override
-	public List<User> findByCriteria(DaoCriteria[] criteria) {
-		return hibernateTemplate.execute(new UserCriteriaHibernateCallBack(
-				criteria));
+	public List<User> find(DaoCriteria[] criteria) {
+		return hibernateTemplate.execute(new UserCriteriaHibernateCallBack(criteria));
+	}
+
+	@Override
+	public List<User> find(DaoCriteria[] criterias, int offset, int count) {
+		return hibernateTemplate.execute(new UserCriteriaHibernateCallBack(criterias).enablePaging(offset, count));
 	}
 
 }
