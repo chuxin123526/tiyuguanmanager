@@ -14,6 +14,7 @@ public class User {
 	private String identifierNumber;
 	private Set<Contract> contracts;
 	private int status;
+	private int type;
 
 	public long getId() {
 		return id;
@@ -105,6 +106,14 @@ public class User {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }

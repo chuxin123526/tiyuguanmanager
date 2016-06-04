@@ -27,6 +27,7 @@ import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.util.MessageDigestUtils;
 import cn.wheel.tiyuguanmanager.user.util.StringUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
+import cn.wheel.tiyuguanmanager.user.vo.validator.UserInsertVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.UserRegisterVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 
@@ -95,6 +96,7 @@ public class UserServiceImpl implements IUserService {
 		user.setStudentNumber(userVO.getStudentNumber());
 		user.setUsername(userVO.getUsername());
 		user.setStatus(Constants.UserStatus.NORMAL);
+		user.setType(Constants.UserType.TYPE_STUDENT);
 
 		String mobilePhone = userVO.getMobilePhone();
 		if (!StringUtils.isEmpty(mobilePhone)) {
@@ -187,5 +189,51 @@ public class UserServiceImpl implements IUserService {
 
 		user.setRole(role);
 		this.userDao.update(user);
+	}
+
+	@Transactional
+	@Override
+	public void insertUser(UserVO userVO) throws FormException, UserExistException, RoleNotFoundException {
+		// 1. 校验表单数据
+		UserInsertVOValidator validator = new UserInsertVOValidator();
+		boolean validated = false;
+
+		try {
+			validated = validator.validate(userVO);
+		} catch (VOTypeNotMatch e) {
+
+		}
+
+		if (!validated) {
+			throw new FormException(validator.getErrorMessages());
+		}
+
+		// 2. 判断是否有同名用户存在
+		List<User> userList = userDao.find(new DaoCriteria[] { new UserNameCriteria(userVO.getUsername(), true) });
+		if (userList.size() > 0) {
+			throw new UserExistException();
+		}
+
+		// 3. 判断角色是否存在
+		Role role = roleDao.findById(userVO.getRoleId());
+		if (role == null) {
+			throw new RoleNotFoundException();
+		}
+
+		// 4. 组装 PO
+		User user = new User();
+		user.setGender(userVO.getGender());
+		user.setIdentifierNumber(userVO.getIdentifierNumber());
+		user.setIdentifierType(userVO.getIdentifierType());
+		user.setPassword(MessageDigestUtils.md5_32(userVO.getPassword()));
+		user.setRealname(userVO.getRealname());
+		user.setRole(role);
+		user.setStudentNumber(userVO.getStudentNumber());
+		user.setUsername(userVO.getUsername());
+		user.setStatus(Constants.UserStatus.NORMAL);
+		user.setType(userVO.getAccountType());
+
+		// 5. 交给持久层写入数据库
+		userDao.insert(user);
 	}
 }

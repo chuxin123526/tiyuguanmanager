@@ -19,6 +19,9 @@ public class UserVO {
 	private String mobilePhone;
 	private String roleName;
 
+	private int accountType;
+	private int roleId;
+
 	public String getUsername() {
 		return username;
 	}
@@ -97,6 +100,22 @@ public class UserVO {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	public int getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(int accountType) {
+		this.accountType = accountType;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 }

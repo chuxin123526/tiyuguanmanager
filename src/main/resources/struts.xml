@@ -152,6 +152,22 @@
 			<result name="success">/WEB-INF/jsp/user/admin/role/roleList.jsp
 			</result>
 		</action>
+
+		<!-- 创建用户的页面 -->
+		<action name="newUserPage" class="userAdminAction" method="newUserPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">10</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/user/newUser.jsp</result>
+		</action>
+
+		<!-- 处理用户创建请求的表单 -->
+		<action name="newUser" class="userAdminAction" method="newUser">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">10</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
 	</package>
 
 	<package name="somebody" extends="struts-default" namespace="/competition">

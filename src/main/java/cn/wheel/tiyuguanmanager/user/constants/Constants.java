@@ -171,6 +171,11 @@ public class Constants {
 		 * 成功修改角色信息
 		 */
 		public static final int ROLE_UPDATE_SUCCESS = 18;
+		
+		/**
+		 * 成功添加用户
+		 */
+		public static final int USER_INSERT_SUCCESS = 19;
 	}
 
 	/**
@@ -189,5 +194,22 @@ public class Constants {
 		 * 表示当前账号已经被禁用
 		 */
 		public static final int DISABLED = 1;
+	}
+	
+	public static final class UserType {
+		/**
+		 * 表示该账号属于学生账号
+		 */
+		public static final int TYPE_STUDENT = 0;
+		
+		/**
+		 * 表示该账号是体育馆管理人员的账号
+		 */
+		public static final int TYPE_EMPLOYEE = 1;
+		
+		/**
+		 * 表示该账号是老师账号
+		 */
+		public static final int TYPE_TEACHER = 2;
 	}
 }

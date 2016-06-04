@@ -87,4 +87,11 @@ public interface IUserService {
 	 */
 	public List<User> findUserByUsername(String username, boolean accurate);
 
+	/**
+	 * 在用户管理页面中添加一个用户
+	 * 
+	 * @param vo
+	 *            添加用户表单
+	 */
+	public void insertUser(UserVO vo) throws FormException, UserExistException, RoleNotFoundException;
 }

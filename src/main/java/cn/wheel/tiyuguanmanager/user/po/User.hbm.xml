@@ -21,6 +21,7 @@
 		<property name="identifierType" type="int" column="USERIDENTIFIERTYPE" />
 		<property name="identifierNumber" type="string" column="USERIDENTIFIERNUMBER" />
 		<property name="status" type="int" column="USERSTATUS" />
+		<property name="type" type="int" column="USERTYPE"></property>
 		<set name="contracts" cascade="all">
 			<key column="USERID" />
 			<one-to-many class="cn.wheel.tiyuguanmanager.user.po.Contract" />

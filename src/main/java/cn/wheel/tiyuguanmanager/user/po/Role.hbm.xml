@@ -9,7 +9,7 @@
 			<generator class="native" />
 		</id>
 
-		<property name="name" column="ROLENAME" type="string" length="32" />
+		<property name="name" column="ROLENAME" type="string" length="32"/>
 		<set name="permissions" cascade="all" lazy="false">
 			<key column="ROLEID" />
 			<one-to-many class="cn.wheel.tiyuguanmanager.user.po.Permission" />

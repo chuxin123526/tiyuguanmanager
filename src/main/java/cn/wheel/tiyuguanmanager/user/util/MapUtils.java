@@ -18,4 +18,12 @@ public class MapUtils {
 	public Map<String, Object> toMap() {
 		return this.map;
 	}
+	
+	public static Map<String, Object> generatorCodeMap(int code) {
+		Map<String, Object> retValue = new HashMap<>();
+		
+		retValue.put("code", code);
+		
+		return retValue;
+	}
 }

@@ -10,6 +10,10 @@ function isStringEmpty(s) {
 	}
 }
 
+function trim(str) {
+	return str.replace (/(^\s*)|(\s*$)/g, "");
+}
+
 function showSuccessToast(content) {
 	$().toastmessage('showToast', {
 		stayTime : 3000,

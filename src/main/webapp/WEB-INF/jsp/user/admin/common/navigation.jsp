@@ -14,8 +14,9 @@
 		</ol>
 		<h4>用户管理</h4>
 		<ol class="list-unstyled">
-			<li><a href="#">添加用户</a></li>
+			<li><a href="${pageContext.request.contextPath}/user/newUserPage.action">添加用户</a></li>
 			<li><a href="#">查找用户</a></li>
+			<li><a href="#">用户信息认证</a></li>
 		</ol>
 	</div>
 </body>

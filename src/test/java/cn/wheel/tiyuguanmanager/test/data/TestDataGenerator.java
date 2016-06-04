@@ -65,6 +65,7 @@ public class TestDataGenerator extends BaseAppContextTest {
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_QUERY);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_UPDATE);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_VERIFY);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_ENABLE);
 
 		// 角色管理相应权限
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_INSERT);
@@ -107,6 +108,7 @@ public class TestDataGenerator extends BaseAppContextTest {
 		normalUser.setRealname("123456");
 		normalUser.setStudentNumber("201311701407");
 		normalUser.setUsername("一个超级大帅逼");
+		normalUser.setAccountType(Constants.UserType.TYPE_STUDENT);
 
 		UserVO superAdmin = new UserVO();
 		superAdmin.setGender(0);
@@ -116,6 +118,7 @@ public class TestDataGenerator extends BaseAppContextTest {
 		superAdmin.setRealname("123456");
 		superAdmin.setStudentNumber("201311701407");
 		superAdmin.setUsername("一个超级管理员");
+		superAdmin.setAccountType(Constants.UserType.TYPE_EMPLOYEE);
 
 		userService.register(normalUser);
 		userService.register(superAdmin);
