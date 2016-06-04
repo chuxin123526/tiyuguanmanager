@@ -10,7 +10,7 @@
 		<ol class="list-unstyled">
 			<li><a href="${pageContext.request.contextPath}/user/roleList.action">角色列表</a></li>
 			<li><a href="${pageContext.request.contextPath}/user/insertRolePage.action">添加角色</a></li>
-			<li><a href="#">角色查找</a></li>
+			<li><a href="${pageContext.request.contextPath}/user/roleQueryPage.action">角色查找</a></li>
 		</ol>
 		<h4>用户管理</h4>
 		<ol class="list-unstyled">

@@ -8,6 +8,7 @@ import cn.wheel.tiyuguanmanager.user.exception.RoleExistException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
+import cn.wheel.tiyuguanmanager.user.vo.RoleQueryResult;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
 
 public interface IRoleService {
@@ -26,4 +27,6 @@ public interface IRoleService {
 	public long getCountOfAllRoles();
 
 	public Role findById(long id);
+
+	public RoleQueryResult queryByName(String name, int page);
 }

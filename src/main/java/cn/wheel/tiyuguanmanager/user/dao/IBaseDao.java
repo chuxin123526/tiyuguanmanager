@@ -14,6 +14,8 @@ public interface IBaseDao<T> {
 	public T findById(long id);
 	
 	public long count();
+	
+	public long count(DaoCriteria[] criterias);
 
 	public List<T> find(DaoCriteria[] criterias);
 

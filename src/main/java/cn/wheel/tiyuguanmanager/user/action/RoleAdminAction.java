@@ -20,6 +20,7 @@ import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.service.role.IRoleService;
 import cn.wheel.tiyuguanmanager.user.util.MapUtils;
 import cn.wheel.tiyuguanmanager.user.util.PagingUtils;
+import cn.wheel.tiyuguanmanager.user.vo.RoleQueryResult;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
 
 @Controller("roleAdminAction")
@@ -119,12 +120,13 @@ public class RoleAdminAction {
 	// 1 -- 添加
 	// 2 -- 删除
 	// 3 -- 修改
+	// 4 -- 查询
 	private int from;
 
 	public int getFrom() {
 		return from;
 	}
-	
+
 	public void setFrom(int from) {
 		this.from = from;
 	}
@@ -141,6 +143,13 @@ public class RoleAdminAction {
 
 	public Role getRole() {
 		return role;
+	}
+
+	// 保存业务层传来的原始数据
+	private RoleQueryResult result;
+
+	public RoleQueryResult getResult() {
+		return result;
 	}
 
 	/**
@@ -265,5 +274,47 @@ public class RoleAdminAction {
 			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID).toMap();
 			return "json";
 		}
+	}
+
+	/**
+	 * 查询页面
+	 * 
+	 * @return
+	 */
+	public String roleQueryPage() {
+		return "success";
+	}
+
+	/**
+	 * 查询页面的处理方法
+	 * 
+	 * @return
+	 */
+	public String roleQuery() {
+		this.tipWord = "查询结果";
+		this.from = 4;
+
+		System.out.println(form.getName());
+
+		// 查询结果
+		RoleQueryResult result = this.roleService.queryByName(form.getName(), this.page);
+		if (this.page > result.getMaxPage()) {
+			this.page = result.getMaxPage();
+			result = this.roleService.queryByName(form.getName(), this.page);
+		}
+
+		this.roleList = result.getResult();
+
+		// 计算分页导航参数
+		int[] bounds = PagingUtils.getPageNavigationBounds(this.page, result.getMaxPage(), Constants.NAVI_PAGE_OFFSET);
+		this.minPage = bounds[0];
+		this.maxPage = bounds[1];
+
+		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
+
+		// 将查询参数传递过去
+		this.result = result;
+
+		return "success";
 	}
 }

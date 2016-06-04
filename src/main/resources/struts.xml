@@ -134,6 +134,24 @@
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
+
+		<!-- 角色查询 -->
+		<action name="roleQueryPage" class="roleAdminAction" method="roleQueryPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">22</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/role/roleQuery.jsp
+			</result>
+		</action>
+
+		<!-- 角色查询响应处理 -->
+		<action name="roleQuery" class="roleAdminAction" method="roleQuery">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">22</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/role/roleList.jsp
+			</result>
+		</action>
 	</package>
 
 	<package name="somebody" extends="struts-default" namespace="/competition">

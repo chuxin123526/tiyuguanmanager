@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.QueryEntityCountHibernateCallBack;
+import cn.wheel.tiyuguanmanager.user.util.hibernate.RowCountHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.UserCriteriaHibernateCallBack;
 
 @Repository("userDao")
@@ -51,6 +52,11 @@ public class UserDaoImpl implements IUserDao {
 	@Override
 	public long count() {
 		return hibernateTemplate.execute(new QueryEntityCountHibernateCallBack("User"));
+	}
+
+	@Override
+	public long count(DaoCriteria[] criterias) {
+		return hibernateTemplate.execute(new RowCountHibernateCallBack(criterias, User.class));
 	}
 
 }

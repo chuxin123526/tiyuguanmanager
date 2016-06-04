@@ -14,6 +14,7 @@ import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.service.role.IRoleService;
+import cn.wheel.tiyuguanmanager.user.vo.RoleQueryResult;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -158,5 +159,11 @@ public class RoleServiceTest extends BaseAppContextTest {
 	public void test11_findByNameNotExist() {
 		List<Role> list = roleService.findByName("◊¢≤·");
 		Assert.assertEquals(0, list.size());
+	}
+
+	@Test
+	public void test12_query() {
+		RoleQueryResult result = roleService.queryByName("π‹¿Ì‘±", 1);
+		System.out.println("");
 	}
 }

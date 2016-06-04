@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
@@ -21,6 +22,8 @@ import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.po.Permission;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.po.User;
+import cn.wheel.tiyuguanmanager.user.util.PagingUtils;
+import cn.wheel.tiyuguanmanager.user.vo.RoleQueryResult;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.RoleInsertVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
@@ -152,5 +155,29 @@ public class RoleServiceImpl implements IRoleService {
 	@Override
 	public Role findById(long id) {
 		return roleDao.findById(id);
+	}
+
+	@Transactional
+	@Override
+	public RoleQueryResult queryByName(String name, int page) {
+		RoleQueryResult result = new RoleQueryResult();
+
+		DaoCriteria[] criterias = new DaoCriteria[] { new RoleNameCriteria(name, false) };
+
+		// 查询总数量
+		long totalCount = this.roleDao.count(criterias);
+		int maxPage = PagingUtils.getMaxPage((int) totalCount, Constants.ITEM_PER_PAGE);
+
+		result.setTotalCount(totalCount);
+		result.setMaxPage(maxPage);
+
+		// 查询指定分页的数据
+		List<Role> list = this.roleDao.find(criterias, PagingUtils.calcFirstOffset(page, Constants.ITEM_PER_PAGE), Constants.ITEM_PER_PAGE);
+		result.setCurrentPage(page);
+		result.setCurragePageItem(list.size());
+		result.setResult(list);
+		result.setCriterias(criterias);
+
+		return result;
 	}
 }

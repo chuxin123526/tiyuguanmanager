@@ -11,6 +11,7 @@ import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.QueryEntityCountHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.RoleCriteriaHibernateCallback;
+import cn.wheel.tiyuguanmanager.user.util.hibernate.RowCountHibernateCallBack;
 
 @Repository("roleDao")
 public class RoleDaoImpl implements IRoleDao {
@@ -51,6 +52,11 @@ public class RoleDaoImpl implements IRoleDao {
 	@Override
 	public long count() {
 		return this.hibernateTemplate.execute(new QueryEntityCountHibernateCallBack("Role"));
+	}
+
+	@Override
+	public long count(DaoCriteria[] criterias) {
+		return this.hibernateTemplate.execute(new RowCountHibernateCallBack(criterias, Role.class));
 	}
 
 }
