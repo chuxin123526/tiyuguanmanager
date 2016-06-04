@@ -141,11 +141,36 @@ public class Constants {
 		 * 表示要创建的这个角色已经在系统中存在同名角色
 		 */
 		public static final int ROLE_EXIST = 12;
-		
+
 		/**
 		 * 表示成功创建一个角色
 		 */
 		public static final int ROLE_CREATE_SUCCESS = 13;
+
+		/**
+		 * 表示要删除的角色下仍然具有用户，不能直接删除
+		 */
+		public static final int ROLE_IS_IN_USE = 14;
+
+		/**
+		 * 无效的角色编号
+		 */
+		public static final int ROLE_INVAILD_ROLE_ID = 15;
+
+		/**
+		 * 表示要删除的角色属于系统保留角色，不能进行删除操作
+		 */
+		public static final int ROLE_PRESERVED = 16;
+
+		/**
+		 * 成功删除角色
+		 */
+		public static final int ROLE_DELETE_SUCCESS = 17;
+
+		/**
+		 * 成功修改角色信息
+		 */
+		public static final int ROLE_UPDATE_SUCCESS = 18;
 	}
 
 	/**

@@ -122,14 +122,14 @@ public class RoleServiceImpl implements IRoleService {
 		}
 
 		// 判断是否为保留角色
-		if ("注册用户".equals(role.getName())) {
-			throw new PreservedRoleException();
+		if ("注册用户".equals(role.getName()) || "认证用户".equals(role.getName())) {
+			throw new PreservedRoleException(role.getName());
 		}
 
 		// 查看该角色下是否拥有用户
 		List<User> userList = userDao.find(new DaoCriteria[] { new UserRoleNameCriteria(role.getName()) });
 		if (userList.size() > 0) {
-			throw new RoleIsInUseException();
+			throw new RoleIsInUseException(role.getName());
 		}
 
 		// 删除角色
@@ -146,5 +146,11 @@ public class RoleServiceImpl implements IRoleService {
 	@Override
 	public long getCountOfAllRoles() {
 		return roleDao.count();
+	}
+
+	@Transactional
+	@Override
+	public Role findById(long id) {
+		return roleDao.findById(id);
 	}
 }

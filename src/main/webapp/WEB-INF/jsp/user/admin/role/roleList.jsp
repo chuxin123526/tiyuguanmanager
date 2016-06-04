@@ -27,7 +27,7 @@
 			<!-- 中间数据表格部分 -->
 			<div class="row">
 				<div class="col-md-12">
-					<table class="table table-hover">
+					<table class="table table-hover table-with-button">
 						<thread>
 						<tr>
 							<th style="width: 3.5em">#</th>
@@ -38,10 +38,12 @@
 						</thread>
 						<s:iterator value="roleList" var="role">
 							<tr>
-								<td><s:property value="#role.id" /></td>
-								<td><s:property value="#role.name" /></td>
-								<td><a>修改</a></td>
-								<td><a>删除</a></td>
+								<td><span><s:property value="#role.id" /></span></td>
+								<td><span><s:property value="#role.name" /></span></td>
+								<td><button class="btn btn-default update-btn"
+										onclick="gotoUpdatePage(<s:property value="#role.id" />)">修改</button></td>
+								<td><button class="btn btn-default delete-btn"
+										onclick="deleteRole(<s:property value="#role.id" />)">删除</button></td>
 							</tr>
 						</s:iterator>
 					</table>
@@ -75,8 +77,49 @@
 
 	<jsp:include page="../../../competition/common/pagefoot.jsp"></jsp:include>
 	<script type="text/javascript">
+		var count = <s:property value="#request.roleList.size" />;
+		var page = <s:property value="#request.page" />;
+	
 		function gotoPage(page) {
 			location.href = "${pageContext.request.contextPath}/user/roleList?page=" + page;
+		}
+		
+		function gotoPageWithDeleteInfo(page) {
+			location.href = "${pageContext.request.contextPath}/user/roleList?from=2&page=" + page;
+		}
+		
+		function gotoUpdatePage(roleId) {
+			location.href = "${pageContext.request.contextPath}/user/updateRolePage?form.id=" + roleId + "&page=" + page;
+		}
+		
+		function deleteRole(roleId) {	
+			$("button.delete-btn").attr("disabled", "disabled");
+			
+			$.post("deleteRole", {"form.id": roleId}, function(data, textStatus) {
+				if (textStatus == 'success') {
+					switch (data.code) {
+					case 14:
+						showErrorToast("角色 \""+data.name+"\" 下仍然具有用户，请先变更这些用户的角色再删除");
+						break;
+					case 15:
+						break;
+					case 16:
+						showErrorToast("角色 \""+data.name+"\" 为系统保留角色，不能被删除");
+						break;
+					case 17:
+						if (count == 1) {
+							gotoPageWithDeleteInfo(page-1);
+						} else {
+							gotoPageWithDeleteInfo(page);
+						}
+						break;
+					}
+				} else {
+					showErrorToast("与服务器通讯失败，请稍后再试");
+				}
+				
+				$("button.delete-btn").removeAttr("disabled");
+			});
 		}
 	
 		$(function() {
@@ -89,5 +132,24 @@
 			});
 		});
 	</script>
+	<%-- 如果是从添加角色处跳转，则显示相应的提示信息 --%>
+	<s:property value="#request.from"/>
+	<s:if test="#request.from==1">
+		<script type="text/javascript">
+			showSuccessToast("角色添加成功");
+		</script>
+	</s:if>
+	<%-- 如果是成功删除角色，则显示相应的提示信息 --%>
+	<s:if test="#request.from==2">
+		<script type="text/javascript">
+			showSuccessToast("角色删除成功");
+		</script>
+	</s:if>
+	<%-- 如果是成功变更角色信息，则显示相应的提示信息 --%>
+	<s:if test="#request.from==3">
+		<script type="text/javascript">
+			showSuccessToast("角色信息变更成功");
+		</script>
+	</s:if>
 </body>
 </html>

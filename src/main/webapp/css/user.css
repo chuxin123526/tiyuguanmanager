@@ -13,6 +13,12 @@ span.error-msg {
 	color: #ff0000;
 }
 
+span.error-msg-control,
+table.table-with-button td span {
+	line-height: 34px;
+	vertical-align: middle;
+}
+
 @media ( min-width : 992px) {
 	div.form-label {
 		text-align: right;

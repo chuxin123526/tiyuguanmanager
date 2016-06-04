@@ -19,7 +19,7 @@
 		<global-results>
 			<result name="login" type="redirect">/user/loginPage</result>
 			<result name="permission_denied">/WEB-INF/jsp/user/common/denied.jsp</result>
-			
+
 			<!-- 用于相应 ajax 请求，使用 json 返回值 -->
 			<result name="json" type="json">
 				<param name="root">ajaxReturn</param>
@@ -40,6 +40,10 @@
 
 	<!-- 用户管理模块 -->
 	<package name="userModule" extends="base-package" namespace="/user">
+
+		<global-results>
+			<result name="error">/WEB-INF/jsp/user/common/error.jsp</result>
+		</global-results>
 
 		<!-- ajax 登录 -->
 		<action name="login" class="userAction" method="login">
@@ -102,6 +106,31 @@
 		<action name="insertRole" class="roleAdminAction" method="insertRole">
 			<interceptor-ref name="authenticationInterceptor">
 				<param name="auth.permission">20</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 处理删除角色的 action -->
+		<action name="deleteRole" class="roleAdminAction" method="deleteRole">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">21</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 变更角色页面 -->
+		<action name="updateRolePage" class="roleAdminAction" method="updateRolePage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">23</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/role/roleDetailed.jsp
+			</result>
+		</action>
+
+		<!-- 处理角色变更请求 -->
+		<action name="updateRole" class="roleAdminAction" method="updateRole">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">23</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>

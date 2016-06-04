@@ -24,4 +24,6 @@ public interface IRoleService {
 	public List<Role> findByName(String name);
 
 	public long getCountOfAllRoles();
+
+	public Role findById(long id);
 }

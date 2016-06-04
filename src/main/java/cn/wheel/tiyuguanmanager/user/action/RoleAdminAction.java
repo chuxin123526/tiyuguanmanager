@@ -12,7 +12,10 @@ import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.constants.PermissionItem;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
+import cn.wheel.tiyuguanmanager.user.exception.PreservedRoleException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleExistException;
+import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;
+import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.service.role.IRoleService;
 import cn.wheel.tiyuguanmanager.user.util.MapUtils;
@@ -79,6 +82,10 @@ public class RoleAdminAction {
 		this.form = form;
 	}
 
+	public RoleVO getForm() {
+		return form;
+	}
+
 	private void makeSurePageIsInRange(int min, int max) {
 		if (page < min) {
 			page = min;
@@ -108,6 +115,34 @@ public class RoleAdminAction {
 		return ajaxReturn;
 	}
 
+	// 用于描述上一步的步骤
+	// 1 -- 添加
+	// 2 -- 删除
+	// 3 -- 修改
+	private int from;
+
+	public int getFrom() {
+		return from;
+	}
+	
+	public void setFrom(int from) {
+		this.from = from;
+	}
+
+	// 用于在错误页面显示错误信息
+	private String errMsg;
+
+	public String getErrMsg() {
+		return errMsg;
+	}
+
+	// 用于角色数据的回显
+	private Role role;
+
+	public Role getRole() {
+		return role;
+	}
+
 	/**
 	 * 打开角色列表
 	 * 
@@ -119,6 +154,11 @@ public class RoleAdminAction {
 		// 第一步：获得所有角色数量，计算分页相应参数
 		long count = roleService.getCountOfAllRoles();
 		int maxPage = PagingUtils.getMaxPage((int) count, Constants.ITEM_PER_PAGE);
+
+		// 如果页码是负数，则从倒数开始算
+		if (this.page < 0) {
+			this.page = maxPage + this.page + 1;
+		}
 		makeSurePageIsInRange(1, maxPage);
 
 		int[] bounds = PagingUtils.getPageNavigationBounds(page, maxPage, Constants.NAVI_PAGE_OFFSET);
@@ -166,6 +206,63 @@ public class RoleAdminAction {
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
 			this.ajaxReturn.put("code", Constants.AjaxReturnValue.FORM_EXCEPTION);
+			return "json";
+		}
+	}
+
+	/**
+	 * 删除角色的方法
+	 * 
+	 * @return
+	 */
+	public String deleteRole() {
+		try {
+			this.roleService.deleteRole(form);
+
+			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_DELETE_SUCCESS).toMap();
+			return "json";
+		} catch (RoleIsInUseException e) {
+			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_IS_IN_USE).put("name", e.getRoleName()).toMap();
+			return "json";
+		} catch (RoleNotFoundException e) {
+			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID).toMap();
+			return "json";
+		} catch (PreservedRoleException e) {
+			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_PRESERVED).put("name", e.getRoleName()).toMap();
+			return "json";
+		}
+	}
+
+	/**
+	 * 打开角色变更页面的方法
+	 * 
+	 * @return
+	 */
+	public String updateRolePage() {
+		this.isUpdateRole = true;
+
+		this.role = this.roleService.findById(form.getId());
+		if (this.role == null) {
+			this.errMsg = "找不到编号为 " + form.getId() + " 的用户角色";
+			return "error";
+		}
+
+		return "success";
+	}
+
+	/**
+	 * 真正处理角色修改的位置
+	 * 
+	 * @return
+	 */
+	public String updateRole() {
+		try {
+			this.roleService.updateRole(form);
+
+			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_UPDATE_SUCCESS).toMap();
+			return "json";
+		} catch (RoleNotFoundException e) {
+			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID).toMap();
 			return "json";
 		}
 	}
