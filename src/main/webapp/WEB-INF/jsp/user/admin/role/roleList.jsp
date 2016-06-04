@@ -38,12 +38,12 @@
 						</thread>
 						<s:iterator value="roleList" var="role">
 							<tr>
-								<td><span><s:property value="#role.id" /></span></td>
+								<td><span><s:property value="#role.roleId" /></span></td>
 								<td><span><s:property value="#role.name" /></span></td>
 								<td><button class="btn btn-default update-btn"
-										onclick="gotoUpdatePage(<s:property value="#role.id" />)">修改</button></td>
+										onclick="gotoUpdatePage(<s:property value="#role.roleId" />)">修改</button></td>
 								<td><button class="btn btn-default delete-btn"
-										onclick="deleteRole(<s:property value="#role.id" />, this);">删除</button></td>
+										onclick="deleteRole(<s:property value="#role.roleId" />, this);">删除</button></td>
 							</tr>
 						</s:iterator>
 					</table>

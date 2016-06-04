@@ -3,7 +3,7 @@ package cn.wheel.tiyuguanmanager.user.po;
 import java.util.Set;
 
 public class User {
-	private long id;
+	private long userId;
 	private String username;
 	private String password;
 	private int gender;
@@ -16,12 +16,12 @@ public class User {
 	private int status;
 	private int type;
 
-	public long getId() {
-		return id;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUserId(long id) {
+		this.userId = id;
 	}
 
 	public String getUsername() {

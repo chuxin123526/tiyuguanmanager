@@ -34,7 +34,7 @@
 						</div>
 						<div class="col-md-8">
 							<input class="form-control" id="role-form-id" type="text" name="form.id"
-								value="<s:property value="#request.role.id"/>" readonly="readonly" />
+								value="<s:property value="#request.role.roleId"/>" readonly="readonly" />
 						</div>
 					</div>
 				</s:if>

@@ -20,6 +20,21 @@ public interface DaoCriteria {
 	 * 使用用户所属的角色名称查询用户实体对象
 	 */
 	public static final int TYPE_USER_ROLE_NAME = 4;
+	
+	/**
+	 * 使用用户所属的角色编号查询用户实体对象
+	 */
+	public static final int TYPE_USER_ROLE_ID = 5;
+	
+	/**
+	 * 使用用户类型作为查询条件
+	 */
+	public static final int TYPE_USER_ACCOUNT_TYPE = 6;
+	
+	/**
+	 * 表示在查询用户账号的过程中是否排除被禁用的账户
+	 */
+	public static final int TYPE_USER_EXCLUED_FORBIDDEN = 7;
 
 	/**
 	 * 相等（等于）
@@ -40,6 +55,16 @@ public interface DaoCriteria {
 	 * 大于
 	 */
 	public static final int OP_GREATER_THAN = 4;
+	
+	/**
+	 * 表示逻辑真
+	 */
+	public static final int OP_TRUE = 5;
+	
+	/**
+	 * 表示逻辑假
+	 */
+	public static final int OP_FALSE = 6;
 
 	public int getType();
 

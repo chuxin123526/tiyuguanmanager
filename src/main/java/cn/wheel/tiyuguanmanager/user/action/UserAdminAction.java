@@ -13,9 +13,14 @@ import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
+import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.service.role.IRoleService;
 import cn.wheel.tiyuguanmanager.user.service.user.IUserService;
 import cn.wheel.tiyuguanmanager.user.util.MapUtils;
+import cn.wheel.tiyuguanmanager.user.util.PagingUtils;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryResult;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryShowback;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryVO;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 
 @Controller("userAdminAction")
@@ -88,6 +93,35 @@ public class UserAdminAction {
 		return ajaxReturn;
 	}
 
+	// 接收用户查询条件的表单
+	private UserQueryVO query;
+
+	public UserQueryVO getQuery() {
+		return query;
+	}
+
+	public void setQuery(UserQueryVO query) {
+		this.query = query;
+	}
+
+	// 用于回传查询条件的对象
+	private UserQueryShowback queryShowBack;
+
+	public UserQueryShowback getQueryShowBack() {
+		return queryShowBack;
+	}
+
+	public void setQueryShowBack(UserQueryShowback queryShowBack) {
+		this.queryShowBack = queryShowBack;
+	}
+
+	// 用于接收用户查询结果的集合类
+	private List<User> userList;
+
+	public List<User> getUserList() {
+		return userList;
+	}
+
 	/**
 	 * 用户管理模块首页
 	 * 
@@ -138,5 +172,35 @@ public class UserAdminAction {
 		} else if (page > max) {
 			page = max;
 		}
+	}
+
+	/**
+	 * 打开用户查询页面
+	 * 
+	 * @return
+	 */
+	public String userQueryPage() {
+		this.roleList = this.roleService.list();
+
+		return "success";
+	}
+
+	/**
+	 * 用于相应查询用户请求的方法
+	 * 
+	 * @return
+	 */
+	public String userQuery() {
+		UserQueryResult result = this.userService.queryUser(query);
+		this.queryShowBack = result.getShowback();
+		this.userList = result.getResult();
+		
+		this.maxPage = result.getMaxPage();
+		int[] bounds = PagingUtils.getPageNavigationBounds(query.getPage(), this.maxPage, 3);
+		this.minPage = bounds[0];
+		this.maxPage = bounds[1];
+		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
+		
+		return "success";
 	}
 }

@@ -168,6 +168,24 @@
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
+
+		<!-- 用户查询页面 -->
+		<action name="userQueryPage" class="userAdminAction" method="userQueryPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">14</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/user/queryUser.jsp
+			</result>
+		</action>
+
+		<!-- 处理用户查询的方法 -->
+		<action name="userQuery" class="userAdminAction" method="userQuery">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">14</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/user/queryResult.jsp
+			</result>
+		</action>
 	</package>
 
 	<package name="somebody" extends="struts-default" namespace="/competition">

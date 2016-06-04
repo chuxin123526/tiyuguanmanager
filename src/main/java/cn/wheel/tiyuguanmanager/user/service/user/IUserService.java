@@ -8,6 +8,8 @@ import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
 import cn.wheel.tiyuguanmanager.user.po.User;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryResult;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryVO;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 
 public interface IUserService {
@@ -94,4 +96,13 @@ public interface IUserService {
 	 *            添加用户表单
 	 */
 	public void insertUser(UserVO vo) throws FormException, UserExistException, RoleNotFoundException;
+
+	/**
+	 * 根据表单中的数据查询用户数据
+	 * 
+	 * @param queryVO
+	 *            含有查询的
+	 * @return 含有相关信息的查询结果对象
+	 */
+	public UserQueryResult queryUser(UserQueryVO queryVO);
 }

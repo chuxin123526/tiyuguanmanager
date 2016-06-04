@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Role {
-	private long id;
+	private long roleId;
 	private String name;
 	private Set<Permission> permissions;
 
@@ -12,12 +12,12 @@ public class Role {
 		this.permissions = new HashSet<>();
 	}
 
-	public long getId() {
-		return id;
+	public long getRoleId() {
+		return roleId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setRoleId(long id) {
+		this.roleId = id;
 	}
 
 	public String getName() {

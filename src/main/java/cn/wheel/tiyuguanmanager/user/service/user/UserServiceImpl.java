@@ -1,5 +1,6 @@
 package cn.wheel.tiyuguanmanager.user.service.user;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,8 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
+import cn.wheel.tiyuguanmanager.user.dao.criteria.UserAccountTypeCriteria;
+import cn.wheel.tiyuguanmanager.user.dao.criteria.UserForbiddenExcludeCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserPasswordCriteria;
+import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleIdCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
@@ -25,7 +29,11 @@ import cn.wheel.tiyuguanmanager.user.po.Contract;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.util.MessageDigestUtils;
+import cn.wheel.tiyuguanmanager.user.util.PagingUtils;
 import cn.wheel.tiyuguanmanager.user.util.StringUtils;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryResult;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryShowback;
+import cn.wheel.tiyuguanmanager.user.vo.UserQueryVO;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.UserInsertVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.UserRegisterVOValidator;
@@ -235,5 +243,110 @@ public class UserServiceImpl implements IUserService {
 
 		// 5. 交给持久层写入数据库
 		userDao.insert(user);
+	}
+
+	@Transactional
+	@Override
+	public UserQueryResult queryUser(UserQueryVO queryVO) {
+		boolean findAll = false;
+		UserQueryResult result = new UserQueryResult();
+		UserQueryShowback showback = new UserQueryShowback();
+
+		// 1. 提取表单数据，组装查询请求
+		List<DaoCriteria> daoCriterias = new ArrayList<>();
+		int[] criteria = queryVO.getCriteria();
+		if (criteria == null || criteria.length == 0) {
+			findAll = true;
+
+			showback.setNameIncluded(false);
+			showback.setRoleIncluded(false);
+			showback.setAccountTypeIncluded(false);
+		} else {
+			for (int i : criteria) {
+				if (i == 0) {
+					// 用户名查询
+					String usernameStr = queryVO.getUsername();
+					if (usernameStr != null && !"".equals(usernameStr.trim())) {
+						DaoCriteria usernameCriteria = new UserNameCriteria(queryVO.getUsername(), false);
+						daoCriterias.add(usernameCriteria);
+
+						showback.setUsername(usernameStr);
+					}
+				} else if (i == 1) {
+					// 角色查询
+					DaoCriteria roleIdCriteria = new UserRoleIdCriteria(queryVO.getRoleId());
+					daoCriterias.add(roleIdCriteria);
+
+					showback.setRoleId(queryVO.getRoleId());
+				} else if (i == 2) {
+					boolean student = false, teacher = false, employee = false;
+
+					// 账号类型
+					for (int type : queryVO.getAccountType()) {
+						switch (type) {
+						case 0:
+							showback.setTypeStudentIncluded(true);
+							student = true;
+							break;
+						case 1:
+							showback.setTypeEmployeeIncluded(true);
+							employee = true;
+							break;
+						case 2:
+							showback.setTypeTeacherIncluded(true);
+							teacher = true;
+							break;
+						}
+					}
+
+					DaoCriteria typeCriteria = new UserAccountTypeCriteria(student, teacher, employee);
+					daoCriterias.add(typeCriteria);
+				}
+			}
+		}
+
+		if (queryVO.getForbidden() == 0) {
+			DaoCriteria forbidden = new UserForbiddenExcludeCriteria(true);
+			daoCriterias.add(forbidden);
+
+			findAll = false;
+			showback.setForbiddenIncluded(true);
+		} else {
+			showback.setForbiddenIncluded(false);
+		}
+
+		DaoCriteria[] daoCriteriasArray = new DaoCriteria[daoCriterias.size()];
+		for (int i = 0; i < daoCriterias.size(); i++) {
+			daoCriteriasArray[i] = daoCriterias.get(i);
+		}
+
+		result.setShowback(showback);
+
+		// 2. 查询数量
+		long totalCount = 0;
+		if (!findAll) {
+			totalCount = userDao.count(daoCriteriasArray);
+		} else {
+			totalCount = userDao.count();
+		}
+
+		result.setTotalCount(totalCount);
+
+		// 3. 计算分页数据
+		int maxPage = PagingUtils.getMaxPage((int) totalCount, Constants.ITEM_PER_PAGE);
+		result.setMaxPage(maxPage);
+
+		// 4. 查询
+		List<User> users = null;
+		if (!findAll) {
+			users = userDao.find(daoCriteriasArray, PagingUtils.calcFirstOffset(queryVO.getPage(), Constants.ITEM_PER_PAGE), Constants.ITEM_PER_PAGE);
+		} else {
+			users = userDao.find(null, 0, Constants.ITEM_PER_PAGE);
+		}
+		result.setCurrentPage(queryVO.getPage());
+		result.setCurrentPageItem(users.size());
+		result.setResult(users);
+
+		return result;
 	}
 }

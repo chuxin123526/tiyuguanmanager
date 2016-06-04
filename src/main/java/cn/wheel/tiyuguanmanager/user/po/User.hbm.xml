@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="cn.wheel.tiyuguanmanager.user.po">
 	<class name="User" table="USER">
-		<id name="id" column="USERID">
+		<id name="userId" column="USERID">
 			<generator class="native" />
 		</id>
 
