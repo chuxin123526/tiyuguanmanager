@@ -1,6 +1,7 @@
 package cn.wheel.tiyuguanmanager.announcement.service.announcement;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -9,11 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.wheel.tiyuguanmanager.announcement.constant.Constants;
 import cn.wheel.tiyuguanmanager.announcement.dao.announcement.IAnnouncementDao;
+import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementOrderCriteria;
 import cn.wheel.tiyuguanmanager.announcement.exception.AnnouncementNotFoundException;
 import cn.wheel.tiyuguanmanager.announcement.exception.SpecifiedAnnouncementIsNotDraftException;
 import cn.wheel.tiyuguanmanager.announcement.po.Announcement;
 import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementVO;
 import cn.wheel.tiyuguanmanager.announcement.vo.validator.AnnouncementInsertVOValidator;
+import cn.wheel.tiyuguanmanager.announcement.vo.validator.AnnouncementUpdateValidator;
+import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
@@ -127,28 +131,59 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 		announcementDao.update(draft);
 	}
 
+	@Transactional
 	@Override
-	public void listLatestAnnouncement() {
-		// TODO Auto-generated method stub
-
+	public List<Announcement> listLatestAnnouncement() {
+		return announcementDao.find(new DaoCriteria[] { new AnnouncementOrderCriteria(true) });
 	}
 
+	@Transactional
 	@Override
-	public void listLateseAnnouncement(int count) {
-		// TODO Auto-generated method stub
-
+	public List<Announcement> listLateseAnnouncement(int count) {
+		return announcementDao.find(new DaoCriteria[] { new AnnouncementOrderCriteria(true) }, 0, count);
 	}
 
+	@Transactional
 	@Override
 	public void deleteAnnouncement(long announcementId) {
-		// TODO Auto-generated method stub
-
+		Announcement announcement = announcementDao.findById(announcementId);
+		if (announcement == null) {
+			throw new AnnouncementNotFoundException();
+		}
 	}
 
+	@Transactional
 	@Override
 	public void updateAnnouncement(AnnouncementVO announcementVO) throws AnnouncementNotFoundException {
-		// TODO Auto-generated method stub
+		// 1. 校验表单
+		AnnouncementUpdateValidator validator = new AnnouncementUpdateValidator();
+		boolean validated = false;
 
+		try {
+			validated = validator.validate(announcementVO);
+		} catch (VOTypeNotMatch e) {
+
+		}
+
+		if (!validated) {
+			throw new FormException();
+		}
+
+		// 2. 提取原有的公告
+		Announcement announcement = announcementDao.findById(announcementVO.getAnnouncementId());
+		if (announcement == null) {
+			throw new AnnouncementNotFoundException();
+		}
+
+		// 3. 修改信息
+		announcement.setAnnouncementTitle(announcementVO.getTitle());
+		announcement.setAnnouncementContent(announcementVO.getContent());
+
+		// 4. 变更时间信息
+		announcement.setAnnouncementLastChangeTime(new Date());
+
+		// 5. 持久层保存
+		announcementDao.update(announcement);
 	}
 
 }

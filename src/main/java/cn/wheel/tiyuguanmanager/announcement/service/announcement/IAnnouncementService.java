@@ -1,7 +1,10 @@
 package cn.wheel.tiyuguanmanager.announcement.service.announcement;
 
+import java.util.List;
+
 import cn.wheel.tiyuguanmanager.announcement.exception.AnnouncementNotFoundException;
 import cn.wheel.tiyuguanmanager.announcement.exception.SpecifiedAnnouncementIsNotDraftException;
+import cn.wheel.tiyuguanmanager.announcement.po.Announcement;
 import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementVO;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
@@ -43,7 +46,7 @@ public interface IAnnouncementService {
 	/**
 	 * 按时间倒序列出所有公告
 	 */
-	public void listLatestAnnouncement();
+	public List<Announcement> listLatestAnnouncement();
 
 	/**
 	 * 列出最新的 n 条公告
@@ -51,7 +54,7 @@ public interface IAnnouncementService {
 	 * @param count
 	 *            列出的公告数量
 	 */
-	public void listLateseAnnouncement(int count);
+	public List<Announcement> listLateseAnnouncement(int count);
 
 	/**
 	 * 删除公告
@@ -71,5 +74,5 @@ public interface IAnnouncementService {
 	 * @throws AnnouncementNotFoundException
 	 *             如果这个编号没有对应有效的公告，则会抛出这个异常
 	 */
-	public void updateAnnouncement(AnnouncementVO announcementVO) throws AnnouncementNotFoundException;
+	public void updateAnnouncement(AnnouncementVO announcementVO) throws AnnouncementNotFoundException, FormException;
 }
