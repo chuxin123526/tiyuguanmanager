@@ -271,6 +271,7 @@ public class UserServiceImpl implements IUserService {
 						daoCriterias.add(usernameCriteria);
 
 						showback.setUsername(usernameStr);
+						showback.setNameIncluded(true);
 					}
 				} else if (i == 1) {
 					// 角色查询
@@ -278,21 +279,25 @@ public class UserServiceImpl implements IUserService {
 					daoCriterias.add(roleIdCriteria);
 
 					showback.setRoleId(queryVO.getRoleId());
+					showback.setRoleIncluded(true);
 				} else if (i == 2) {
 					boolean student = false, teacher = false, employee = false;
-
+					
 					// 账号类型
 					for (int type : queryVO.getAccountType()) {
 						switch (type) {
 						case 0:
+							showback.setAccountTypeIncluded(true);
 							showback.setTypeStudentIncluded(true);
 							student = true;
 							break;
 						case 1:
+							showback.setAccountTypeIncluded(true);
 							showback.setTypeEmployeeIncluded(true);
 							employee = true;
 							break;
 						case 2:
+							showback.setAccountTypeIncluded(true);
 							showback.setTypeTeacherIncluded(true);
 							teacher = true;
 							break;
@@ -320,6 +325,7 @@ public class UserServiceImpl implements IUserService {
 			daoCriteriasArray[i] = daoCriterias.get(i);
 		}
 
+		showback.setPage(queryVO.getPage());
 		result.setShowback(showback);
 
 		// 2. 查询数量
@@ -341,7 +347,7 @@ public class UserServiceImpl implements IUserService {
 		if (!findAll) {
 			users = userDao.find(daoCriteriasArray, PagingUtils.calcFirstOffset(queryVO.getPage(), Constants.ITEM_PER_PAGE), Constants.ITEM_PER_PAGE);
 		} else {
-			users = userDao.find(null, 0, Constants.ITEM_PER_PAGE);
+			users = userDao.find(null, PagingUtils.calcFirstOffset(queryVO.getPage(), Constants.ITEM_PER_PAGE), Constants.ITEM_PER_PAGE);
 		}
 		result.setCurrentPage(queryVO.getPage());
 		result.setCurrentPageItem(users.size());

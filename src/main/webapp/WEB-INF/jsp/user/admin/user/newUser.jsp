@@ -82,7 +82,7 @@
 						<div class="col-md-3">
 							<select class="form-control" name="create.roleId">
 								<s:iterator value="#request.roleList" var="role">
-									<option value='<s:property value="#role.id"/>'>
+									<option value='<s:property value="#role.roleId"/>'>
 										<s:property value="#role.name" />
 									</option>
 								</s:iterator>

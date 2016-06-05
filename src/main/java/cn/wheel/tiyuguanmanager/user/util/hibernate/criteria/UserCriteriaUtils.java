@@ -46,7 +46,8 @@ public class UserCriteriaUtils {
 			}
 				break;
 			case DaoCriteria.TYPE_USER_ROLE_ID: {
-				criteria.createCriteria("role");
+				criteria = criteria.createCriteria("role");
+				
 				criteria.add(Restrictions.eq("roleId", (long) daoCriteria.getContent()));
 			}
 				break;

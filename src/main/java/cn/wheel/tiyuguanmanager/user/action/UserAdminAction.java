@@ -105,14 +105,14 @@ public class UserAdminAction {
 	}
 
 	// 用于回传查询条件的对象
-	private UserQueryShowback queryShowBack;
+	private UserQueryShowback queryShowback;
 
-	public UserQueryShowback getQueryShowBack() {
-		return queryShowBack;
+	public UserQueryShowback getQueryShowback() {
+		return queryShowback;
 	}
 
-	public void setQueryShowBack(UserQueryShowback queryShowBack) {
-		this.queryShowBack = queryShowBack;
+	public void setQueryShowback(UserQueryShowback queryShowBack) {
+		this.queryShowback = queryShowBack;
 	}
 
 	// 用于接收用户查询结果的集合类
@@ -120,6 +120,13 @@ public class UserAdminAction {
 
 	public List<User> getUserList() {
 		return userList;
+	}
+
+	// 查询结果
+	private UserQueryResult result;
+
+	public UserQueryResult getResult() {
+		return result;
 	}
 
 	/**
@@ -191,16 +198,16 @@ public class UserAdminAction {
 	 * @return
 	 */
 	public String userQuery() {
-		UserQueryResult result = this.userService.queryUser(query);
-		this.queryShowBack = result.getShowback();
+		this.result = this.userService.queryUser(query);
+		this.queryShowback = result.getShowback();
 		this.userList = result.getResult();
-		
+
 		this.maxPage = result.getMaxPage();
 		int[] bounds = PagingUtils.getPageNavigationBounds(query.getPage(), this.maxPage, 3);
 		this.minPage = bounds[0];
 		this.maxPage = bounds[1];
 		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
-		
+
 		return "success";
 	}
 }

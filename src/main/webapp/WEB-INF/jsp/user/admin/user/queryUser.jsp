@@ -49,7 +49,7 @@
 					<div class="col-md-6">
 						<select class="form-control" name="query.roleId" id="query-form-role">
 							<s:iterator value="#request.roleList" var="role">
-								<option value="<s:property value="#role.id"/>">
+								<option value="<s:property value="#role.roleId"/>">
 									<s:property value="#role.name" />
 								</option>
 							</s:iterator>
@@ -112,6 +112,8 @@
 			$("input[name='query.criteria']").change(changeForm);
 			
 			$("button#form-query-btn").bind("click", function(){
+				$("button#form-query-btn").attr("disabled", "disabled");
+				
 				$("#user-query-form").submit();
 			});
 		});

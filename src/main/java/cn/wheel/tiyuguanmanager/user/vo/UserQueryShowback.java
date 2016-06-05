@@ -14,6 +14,8 @@ public class UserQueryShowback {
 
 	private boolean forbiddenIncluded;
 
+	private int page;
+
 	public boolean isNameIncluded() {
 		return nameIncluded;
 	}
@@ -84,6 +86,14 @@ public class UserQueryShowback {
 
 	public void setForbiddenIncluded(boolean forbiddenIncluded) {
 		this.forbiddenIncluded = forbiddenIncluded;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 }
