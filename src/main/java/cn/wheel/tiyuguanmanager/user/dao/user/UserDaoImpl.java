@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
+import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
+import cn.wheel.tiyuguanmanager.common.util.hibernate.QueryEntityCountHibernateCallBack;
+import cn.wheel.tiyuguanmanager.common.util.hibernate.RowCountHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.po.User;
-import cn.wheel.tiyuguanmanager.user.util.hibernate.QueryEntityCountHibernateCallBack;
-import cn.wheel.tiyuguanmanager.user.util.hibernate.RowCountHibernateCallBack;
 import cn.wheel.tiyuguanmanager.user.util.hibernate.UserCriteriaHibernateCallBack;
 
 @Repository("userDao")

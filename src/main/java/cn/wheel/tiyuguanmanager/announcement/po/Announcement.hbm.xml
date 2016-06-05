@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="cn.wheel.tiyuguanmanager.announcement.po">
+	<class name="Announcement" table="ANNOUNCEMENT">
+		<id name="announcementId" type="long" column="ANNOUNCEMENTID">
+			<generator class="native" />
+		</id>
+		<many-to-one name="announcementPublisher" column="ANNOUCEMENTPUBLISHER"
+			class="cn.wheel.tiyuguanmanager.user.po.User" />
+		<property name="announcementPublisherTime" column="ANNOUCEMENTPUBLISHTIME" />
+		<property name="announcementLastChangeTime" column="ANNOUCEMENTLASTTIME" />
+		<property name="announcementTitle" column="ANNOUNCEMENTTITLE" />
+		<property name="announcementContent" type="text"
+			column="ANNOUNCEMENTCONTENT" />
+		<property name="announcementStatus" column="ANNOUNCEMENTSTATUS" />
+		<list name="announcementComments">
+			<key column="ANNOUNCEMENTID"></key>
+			<list-index column="ANNOUNCEMENTCOMMENTINDEX" />
+			<one-to-many class="AnnouncementComment" />
+		</list>
+	</class>
+</hibernate-mapping>

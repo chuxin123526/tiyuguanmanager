@@ -1,5 +1,6 @@
 package cn.wheel.tiyuguanmanager.user.vo.validator;
 
+import cn.wheel.tiyuguanmanager.common.vo.validator.AbstractVOValidator;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.util.InfoCheckUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;

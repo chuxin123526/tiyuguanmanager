@@ -1,5 +1,7 @@
 package cn.wheel.tiyuguanmanager.user.dao.criteria;
 
+import cn.wheel.tiyuguanmanager.common.dao.criteria.AbstractDaoCriteria;
+
 /**
  * 使用用户名作为查询条件
  * 

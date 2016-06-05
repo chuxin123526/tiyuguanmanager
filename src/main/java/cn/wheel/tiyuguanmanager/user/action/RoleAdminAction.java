@@ -8,10 +8,10 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.constants.PermissionItem;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
-import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.PreservedRoleException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleExistException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;

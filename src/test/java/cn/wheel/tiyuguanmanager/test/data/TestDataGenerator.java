@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.context.ApplicationContext;
 
+import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
-import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
@@ -49,10 +49,15 @@ public class TestDataGenerator extends BaseAppContextTest {
 		RoleVO registerRoleVO = new RoleVO();
 		registerRoleVO.setName("注册用户");
 		registerRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
+		registerRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_LIST);
+		registerRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
 
 		RoleVO verifiedRoleVO = new RoleVO();
 		verifiedRoleVO.setName("认证用户");
 		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
+		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_LIST);
+		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
+		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH);
 
 		RoleVO competitionAdminRoleVO = new RoleVO();
 		competitionAdminRoleVO.setName("赛事管理员");
@@ -61,16 +66,12 @@ public class TestDataGenerator extends BaseAppContextTest {
 		RoleVO superAdminRoleVO = new RoleVO();
 		superAdminRoleVO.setName("超级管理员");
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
-
-		// 用户管理相应权限
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_INSERT);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_DISABLE);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_QUERY);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_UPDATE);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_VERIFY);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_ENABLE);
-
-		// 角色管理相应权限
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_INSERT);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_SELECT);
 		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_UPDATE);
@@ -91,6 +92,12 @@ public class TestDataGenerator extends BaseAppContextTest {
 		RoleVO announcementAdminRoleVO = new RoleVO();
 		announcementAdminRoleVO.setName("公告管理员");
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_PUBLISH);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_DEL_ANOUNCEMENT);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_LIST);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_UPDATE_ANNOUNCEMENT);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
 
 		roleService.insertRole(registerRoleVO);
 		roleService.insertRole(verifiedRoleVO);
@@ -124,10 +131,10 @@ public class TestDataGenerator extends BaseAppContextTest {
 		superAdmin.setUsername("一个超级管理员");
 		superAdmin.setMobilePhone("18320481195");
 		superAdmin.setAccountType(Constants.UserType.TYPE_EMPLOYEE);
-		
+
 		List<Role> list = roleService.findByName("超级管理员");
-		superAdmin.setRoleId((int)list.get(0).getRoleId());
-	
+		superAdmin.setRoleId((int) list.get(0).getRoleId());
+
 		userService.register(normalUser);
 		userService.insertUser(superAdmin);
 

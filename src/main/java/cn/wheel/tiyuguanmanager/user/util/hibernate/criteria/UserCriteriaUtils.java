@@ -6,11 +6,14 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
-import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
-import cn.wheel.tiyuguanmanager.user.util.SQLUtils;
+import cn.wheel.tiyuguanmanager.common.dao.criteria.CriteriaProcessor;
+import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
+import cn.wheel.tiyuguanmanager.common.util.SQLUtils;
+import cn.wheel.tiyuguanmanager.user.po.User;
 
-public class UserCriteriaUtils {
-	public static void mergeCriteria(Criteria criteria, DaoCriteria[] daoCriterias) {
+public class UserCriteriaUtils implements CriteriaProcessor {
+	@Override
+	public void mergeCriteria(Criteria criteria, DaoCriteria[] daoCriterias) {
 		if (criteria == null || daoCriterias == null) {
 			return;
 		}
@@ -88,5 +91,11 @@ public class UserCriteriaUtils {
 				break;
 			}
 		}
+
+	}
+
+	@Override
+	public boolean canProcess(Class<? extends Object> clazz) {
+		return (clazz == User.class);
 	}
 }

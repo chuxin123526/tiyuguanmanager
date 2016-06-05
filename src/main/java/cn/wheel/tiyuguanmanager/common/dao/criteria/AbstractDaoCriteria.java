@@ -1,4 +1,6 @@
-package cn.wheel.tiyuguanmanager.user.dao.criteria;
+package cn.wheel.tiyuguanmanager.common.dao.criteria;
+
+import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
 
 public abstract class AbstractDaoCriteria implements DaoCriteria {
 

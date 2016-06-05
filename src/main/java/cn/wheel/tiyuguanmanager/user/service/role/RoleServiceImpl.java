@@ -8,13 +8,13 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
+import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
-import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
-import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.PreservedRoleException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleExistException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;

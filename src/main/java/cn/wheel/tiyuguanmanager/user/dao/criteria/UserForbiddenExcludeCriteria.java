@@ -1,5 +1,7 @@
 package cn.wheel.tiyuguanmanager.user.dao.criteria;
 
+import cn.wheel.tiyuguanmanager.common.dao.criteria.AbstractDaoCriteria;
+
 /**
  * 查询用户时是否将被禁用的用户排除
  * 

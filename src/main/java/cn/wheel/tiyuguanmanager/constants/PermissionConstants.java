@@ -25,6 +25,14 @@ public class PermissionConstants {
 			ALL_PERMISSIONS.add(new PermissionItem("用户信息变更", PERMISSION_USER_UPDATE));
 			ALL_PERMISSIONS.add(new PermissionItem("用户信息查询", PERMISSION_USER_QUERY));
 			ALL_PERMISSIONS.add(new PermissionItem("用户信息认证", PERMISSION_USER_VERIFY));
+
+			// 公告相关权限
+			ALL_PERMISSIONS.add(new PermissionItem("发布公告", PERMISSION_ANNOUNCEMENT_PUBLISH));
+			ALL_PERMISSIONS.add(new PermissionItem("获得公告列表", PERMISSION_ANNOUNCEMENT_LIST));
+			ALL_PERMISSIONS.add(new PermissionItem("查看公告", PERMISSION_ANNOUNCEMENT_VIEW));
+			ALL_PERMISSIONS.add(new PermissionItem("删除公告", PERMISSION_ANNOUNCEMENT_DEL_ANOUNCEMENT));
+			ALL_PERMISSIONS.add(new PermissionItem("修改公告", PERMISSION_ANNOUNCEMENT_UPDATE_ANNOUNCEMENT));
+			ALL_PERMISSIONS.add(new PermissionItem("发布评论", PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH));
 		}
 
 		return ALL_PERMISSIONS;
@@ -84,4 +92,34 @@ public class PermissionConstants {
 	 * 表示对角色信息和权限进行变更的权限
 	 */
 	public static final int PERMISSION_ROLE_UPDATE = 23;
+
+	/**
+	 * 表示发布公告的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_PUBLISH = 30;
+
+	/**
+	 * 获取所有公告列表的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_LIST = 31;
+
+	/**
+	 * 查看公告详情的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_VIEW = 32;
+
+	/**
+	 * 删除公告的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_DEL_ANOUNCEMENT = 33;
+
+	/**
+	 * 修改公告内容的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_UPDATE_ANNOUNCEMENT = 34;
+
+	/**
+	 * 表示发表公告评论的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH = 35;
 }

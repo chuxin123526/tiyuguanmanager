@@ -1,4 +1,4 @@
-package cn.wheel.tiyuguanmanager.user.util.hibernate;
+package cn.wheel.tiyuguanmanager.common.util.hibernate;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;

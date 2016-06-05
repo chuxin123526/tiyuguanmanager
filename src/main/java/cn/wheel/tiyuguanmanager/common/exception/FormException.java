@@ -1,4 +1,4 @@
-package cn.wheel.tiyuguanmanager.user.exception;
+package cn.wheel.tiyuguanmanager.common.exception;
 
 import java.util.Map;
 

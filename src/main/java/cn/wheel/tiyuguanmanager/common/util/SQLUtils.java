@@ -1,4 +1,4 @@
-package cn.wheel.tiyuguanmanager.user.util;
+package cn.wheel.tiyuguanmanager.common.util;
 
 /**
  * 一些跟数据库有关的辅助类

@@ -7,9 +7,9 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.context.ApplicationContext;
 
+import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
-import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.po.User;

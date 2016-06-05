@@ -1,4 +1,4 @@
-package cn.wheel.tiyuguanmanager.user.vo.validator;
+package cn.wheel.tiyuguanmanager.common.vo.validator;
 
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 

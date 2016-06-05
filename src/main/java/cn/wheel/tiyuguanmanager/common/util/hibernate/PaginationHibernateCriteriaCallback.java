@@ -1,4 +1,4 @@
-package cn.wheel.tiyuguanmanager.user.util.hibernate;
+package cn.wheel.tiyuguanmanager.common.util.hibernate;
 
 import java.util.List;
 

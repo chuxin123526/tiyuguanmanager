@@ -2,7 +2,7 @@ package cn.wheel.tiyuguanmanager.user.vo;
 
 import java.util.List;
 
-import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
+import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 
 public class RoleQueryResult {

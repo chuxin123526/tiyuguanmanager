@@ -1,4 +1,4 @@
-package cn.wheel.tiyuguanmanager.user.vo.validator;
+package cn.wheel.tiyuguanmanager.common.vo.validator;
 
 import java.util.HashMap;
 import java.util.Map;

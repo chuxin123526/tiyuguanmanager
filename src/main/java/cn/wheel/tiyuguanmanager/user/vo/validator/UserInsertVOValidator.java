@@ -1,5 +1,6 @@
 package cn.wheel.tiyuguanmanager.user.vo.validator;
 
+import cn.wheel.tiyuguanmanager.common.vo.validator.AbstractVOValidator;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.util.InfoCheckUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
@@ -56,7 +57,7 @@ public class UserInsertVOValidator extends AbstractVOValidator {
 				lengthRange(PROPERTY_STUDENT_NUMBER, userVO.getMobilePhone(), 11, 11, "手机号码长度有误");
 			}
 		}
-		
+
 		// 真实姓名
 		notEmpty(PROPERTY_REALNAME, userVO.getRealname(), "真实姓名不能为空");
 

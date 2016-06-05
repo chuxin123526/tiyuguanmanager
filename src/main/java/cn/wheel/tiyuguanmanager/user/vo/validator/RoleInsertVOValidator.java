@@ -1,5 +1,6 @@
 package cn.wheel.tiyuguanmanager.user.vo.validator;
 
+import cn.wheel.tiyuguanmanager.common.vo.validator.AbstractVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 

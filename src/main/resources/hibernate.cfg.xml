@@ -16,10 +16,9 @@
 		<!-- 自动生成表 -->
 		<property name="hbm2ddl.auto">update</property>
 
-
-
 		<!-- 导入映射文件 <mapping resource="cn/wheel/tiyuguanmanager/somebodyTest/User.hbm.xml" 
 			/> -->
+		<!-- 赛事 -->
 		<mapping resource="cn/wheel/tiyuguanmanager/competition/po/Competition.hbm.xml" />
 		<mapping
 			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionUser.hbm.xml" />
@@ -33,10 +32,18 @@
 			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionNews.hbm.xml" />
 		<mapping
 			resource="cn/wheel/tiyuguanmanager/competition/po/CompetitionNewsComment.hbm.xml" />
+
+		<!-- 用户 -->
 		<mapping resource="cn/wheel/tiyuguanmanager/user/po/Contract.hbm.xml" />
 		<mapping resource="cn/wheel/tiyuguanmanager/user/po/Permission.hbm.xml" />
 		<mapping resource="cn/wheel/tiyuguanmanager/user/po/Role.hbm.xml" />
 		<mapping resource="cn/wheel/tiyuguanmanager/user/po/User.hbm.xml" />
+
+		<!-- 公告 -->
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/announcement/po/Announcement.hbm.xml" />
+		<mapping
+			resource="cn/wheel/tiyuguanmanager/announcement/po/AnnouncementComment.hbm.xml" />
 
 	</session-factory>
 </hibernate-configuration>

@@ -2,7 +2,7 @@ package cn.wheel.tiyuguanmanager.user.service.user;
 
 import java.util.List;
 
-import cn.wheel.tiyuguanmanager.user.exception.FormException;
+import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;

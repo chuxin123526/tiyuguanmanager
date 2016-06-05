@@ -1,5 +1,7 @@
 package cn.wheel.tiyuguanmanager.user.dao.criteria;
 
+import cn.wheel.tiyuguanmanager.common.dao.criteria.AbstractDaoCriteria;
+
 /**
  * 根据用户所属的角色名称查找用户对象
  * 

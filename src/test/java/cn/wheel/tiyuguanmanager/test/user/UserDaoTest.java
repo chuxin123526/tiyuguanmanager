@@ -1,15 +1,16 @@
 package cn.wheel.tiyuguanmanager.test.user;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
-import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserPasswordCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;

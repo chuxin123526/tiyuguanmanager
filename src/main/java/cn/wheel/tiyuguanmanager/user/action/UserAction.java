@@ -7,10 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.opensymphony.xwork2.ActionContext;
-
+import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.constants.Constants;
-import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.po.User;
@@ -18,6 +16,8 @@ import cn.wheel.tiyuguanmanager.user.service.user.IUserService;
 import cn.wheel.tiyuguanmanager.user.util.MapUtils;
 import cn.wheel.tiyuguanmanager.user.util.StringUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
+
+import com.opensymphony.xwork2.ActionContext;
 
 @Controller("userAction")
 @Scope("prototype")
