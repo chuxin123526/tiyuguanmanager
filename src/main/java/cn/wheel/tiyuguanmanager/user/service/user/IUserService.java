@@ -105,4 +105,62 @@ public interface IUserService {
 	 * @return 含有相关信息的查询结果对象
 	 */
 	public UserQueryResult queryUser(UserQueryVO queryVO);
+
+	/**
+	 * 根据用户编号停用账户
+	 * 
+	 * @param userId
+	 *            用户编号
+	 * @throws UserNotExistException
+	 *             如果指定用户编号的用户不存在，则抛出这个异常
+	 */
+	public void forbidUserAccount(long userId) throws UserNotExistException;
+
+	/**
+	 * 根据用户编号启用账号
+	 * 
+	 * @param userId
+	 *            用户编号
+	 * @throws UserNotExistException
+	 *             如果指定用户编号的用户不存在，则抛出这个异常
+	 */
+	public void enableUserAccount(long userId) throws UserNotExistException;
+
+	/**
+	 * 根据用户编号查找用户 po 对象
+	 * 
+	 * @param userId
+	 *            用户编号
+	 * @return 如果数据库中存在相应的用户编号，则返回相应的用户对象，否则返回 null
+	 */
+	public User findUserById(long userId);
+
+	/**
+	 * 变更用户信息
+	 * 
+	 * @param updateVO
+	 *            含有新信息的表单对象
+	 * 
+	 * @throws UserNotExistException
+	 *             如果表单中的用户编号无效，则会抛出这个异常
+	 * @throws UserExistException
+	 *             如果新的用户名跟系统中现有的用户同名，则会抛出这个异常
+	 * @throws FormException
+	 *             如果表单校验失败，则会抛出这个异常
+	 * @throws RoleNotFoundException
+	 *             如果表单中指定的角色编号无效，则会抛出这个异常
+	 */
+	public void updateUser(UserVO updateVO) throws UserNotExistException, UserExistException, FormException, RoleNotFoundException;
+
+	/**
+	 * 用户信息认证或者撤销用户认证
+	 * 
+	 * @param userId
+	 *            要进行用户信息认证的用户编号
+	 * @param pass
+	 *            是否认证通过
+	 * @throws UserNotExistException
+	 *             如果数据库中不存在指定用户编号的用户，则抛出这个异常
+	 */
+	public void checkUser(long userId, boolean pass) throws UserNotExistException;
 }

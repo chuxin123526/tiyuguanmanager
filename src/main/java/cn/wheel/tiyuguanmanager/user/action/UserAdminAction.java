@@ -12,6 +12,7 @@ import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
+import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.service.role.IRoleService;
@@ -129,6 +130,38 @@ public class UserAdminAction {
 		return result;
 	}
 
+	// 表示页面的功能，用于页面的复用
+	// 1 -- 用户信息变更
+	// 2 -- 用户信息认证
+	// 3 -- 未认证用户信息列表
+	private int function;
+
+	public int getFunction() {
+		return function;
+	}
+
+	public void setFunction(int function) {
+		this.function = function;
+	}
+
+	// 用于禁用和启用用户账户 action 接收用户编号
+	private long userId;
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	// 变更用户信息时储存有信息的用户 po 对象
+	private User user;
+
+	public User getUser() {
+		return user;
+	}
+
 	/**
 	 * 用户管理模块首页
 	 * 
@@ -172,7 +205,6 @@ public class UserAdminAction {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void makeSurePageIsInRange(int min, int max) {
 		if (page < min) {
 			page = min;
@@ -198,6 +230,8 @@ public class UserAdminAction {
 	 * @return
 	 */
 	public String userQuery() {
+		this.tipWord = "查询结果";
+
 		this.result = this.userService.queryUser(query);
 		this.queryShowback = result.getShowback();
 		this.userList = result.getResult();
@@ -208,6 +242,163 @@ public class UserAdminAction {
 		this.maxPage = bounds[1];
 		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
 
+		return "success";
+	}
+
+	/**
+	 * 启用用户账户
+	 * 
+	 * @return
+	 */
+	public String enableUser() {
+		try {
+			userService.enableUserAccount(userId);
+
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_ENABLE_SUCCESS);
+			return "json";
+		} catch (UserNotExistException e) {
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			return "json";
+		}
+	}
+
+	/**
+	 * 禁用用户账户
+	 * 
+	 * @return
+	 */
+	public String forbidUser() {
+		try {
+			userService.forbidUserAccount(userId);
+
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_FORBID_SUCCESS);
+			return "json";
+		} catch (UserNotExistException e) {
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			return "json";
+		}
+	}
+
+	/**
+	 * 变更用户信息页面
+	 * 
+	 * @return
+	 */
+	public String updateUserPage() {
+		this.tipWord = "用户信息变更";
+		this.function = 1;
+		this.user = this.userService.findUserById(userId);
+		this.roleList = this.roleService.list();
+
+		return "success";
+	}
+
+	/**
+	 * 处理用户信息变更
+	 * 
+	 * @return
+	 */
+	public String updateUser() {
+		try {
+			this.userService.updateUser(create);
+
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_UPDATE_SUCCESS);
+			return "json";
+		} catch (FormException e) {
+			this.ajaxReturn = e.getErrorMessages();
+			this.ajaxReturn.put("code", Constants.AjaxReturnValue.FORM_EXCEPTION);
+
+			return "json";
+		} catch (UserNotExistException e) {
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			return "json";
+		} catch (UserExistException e) {
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_EXIST);
+			return "json";
+		} catch (RoleNotFoundException e) {
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID);
+			return "json";
+		}
+	}
+
+	/**
+	 * 处理用户的信息认证请求方法
+	 * 
+	 * @return
+	 */
+	public String verifyUser() {
+		try {
+			this.userService.checkUser(userId, true);
+
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_VERIFY_SUCCESS);
+			return "json";
+		} catch (UserNotExistException e) {
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			return "json";
+		}
+	}
+
+	/**
+	 * 处理撤销用户信息认证请求的方法
+	 * 
+	 * @return
+	 */
+	public String deverifyUser() {
+		try {
+			this.userService.checkUser(userId, false);
+
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_VERIFY_CANCEL_SUCCESS);
+			return "json";
+		} catch (UserNotExistException e) {
+			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			return "json";
+		}
+	}
+
+	/**
+	 * 跳转到显示未进行用户认证的用户列表
+	 * 
+	 * @return
+	 */
+	public String verifyUserPage() {
+		this.tipWord = "用户信息认证";
+		this.function = 3;
+
+		List<Role> list = this.roleService.findByName("注册用户");
+		if (list.size() == 0) {
+			return "error";
+		}
+
+		UserQueryVO queryVO = new UserQueryVO();
+		queryVO.setCriteria(new int[] { 1 });
+		queryVO.setRoleId(list.get(0).getRoleId());
+		queryVO.setForbidden(1);
+
+		this.result = this.userService.queryUser(queryVO);
+		this.queryShowback = result.getShowback();
+		this.userList = result.getResult();
+
+		this.maxPage = result.getMaxPage();
+		makeSurePageIsInRange(1, this.maxPage);
+
+		int[] bounds = PagingUtils.getPageNavigationBounds(this.page, this.maxPage, 3);
+		this.minPage = bounds[0];
+		this.maxPage = bounds[1];
+		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
+
+		return "success";
+	}
+
+	/**
+	 * 进入用户认证的详情页面
+	 * 
+	 * @return
+	 */
+	public String verifyUserDetailedPage() {
+		this.tipWord = "用户信息认证";
+		this.function = 2;
+		this.user = this.userService.findUserById(this.userId);
+		
 		return "success";
 	}
 }

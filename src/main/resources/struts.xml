@@ -172,7 +172,7 @@
 		<!-- 用户查询页面 -->
 		<action name="userQueryPage" class="userAdminAction" method="userQueryPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">14</param>
+				<param name="auth.permission">11,12,13,14,15</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/user/queryUser.jsp
 			</result>
@@ -181,9 +181,77 @@
 		<!-- 处理用户查询的方法 -->
 		<action name="userQuery" class="userAdminAction" method="userQuery">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">14</param>
+				<param name="auth.permission">11,12,13,14,15</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/user/queryResult.jsp
+			</result>
+		</action>
+
+		<!-- 处理停用用户的 ajax 请求 -->
+		<action name="forbidUser" class="userAdminAction" method="forbidUser">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">12</param>
+				<param name="ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 处理启用用户的 ajax 请求 -->
+		<action name="enableUser" class="userAdminAction" method="enableUser">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">13</param>
+				<param name="ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 变更用户信息的页面 -->
+		<action name="updateUserPage" class="userAdminAction" method="updateUserPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">11</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/user/userDetail.jsp
+			</result>
+		</action>
+
+		<!-- 处理用户信息变更请求的方法 -->
+		<action name="updateUser" class="userAdminAction" method="updateUser">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">11</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 显示未认证用户信息的列表 -->
+		<action name="verifyUserPage" class="userAdminAction" method="verifyUserPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">15</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/user/queryResult.jsp
+			</result>
+		</action>
+
+		<!-- 处理用户认证请求的方法 -->
+		<action name="verifyUser" class="userAdminAction" method="verifyUser">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">15</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 处理用户撤销认证请求的方法 -->
+		<action name="deverifyUser" class="userAdminAction" method="deverifyUser">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">15</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 信息认证，用户详情 -->
+		<action name="verifyUserDetailedPage" class="userAdminAction"
+			method="verifyUserDetailedPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">15</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/admin/user/userDetail.jsp
 			</result>
 		</action>
 	</package>

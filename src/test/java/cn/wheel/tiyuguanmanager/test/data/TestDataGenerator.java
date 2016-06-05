@@ -1,5 +1,7 @@
 package cn.wheel.tiyuguanmanager.test.data;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
+import cn.wheel.tiyuguanmanager.user.po.Role;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.service.role.IRoleService;
 import cn.wheel.tiyuguanmanager.user.service.user.IUserService;
@@ -101,27 +104,32 @@ public class TestDataGenerator extends BaseAppContextTest {
 	@Test
 	public void data01_insertUser() throws FormException, UserExistException, RoleNotFoundException {
 		UserVO normalUser = new UserVO();
-		normalUser.setGender(0);
+		normalUser.setGender(1);
 		normalUser.setIdentifierNumber("440103198502132541");
 		normalUser.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
 		normalUser.setPassword("123456");
 		normalUser.setRealname("123456");
 		normalUser.setStudentNumber("201311701407");
 		normalUser.setUsername("一个超级大帅逼");
+		normalUser.setMobilePhone("18320481195");
 		normalUser.setAccountType(Constants.UserType.TYPE_STUDENT);
 
 		UserVO superAdmin = new UserVO();
-		superAdmin.setGender(0);
+		superAdmin.setGender(1);
 		superAdmin.setIdentifierNumber("440103198502132541");
 		superAdmin.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
 		superAdmin.setPassword("123456");
 		superAdmin.setRealname("123456");
 		superAdmin.setStudentNumber("201311701407");
 		superAdmin.setUsername("一个超级管理员");
+		superAdmin.setMobilePhone("18320481195");
 		superAdmin.setAccountType(Constants.UserType.TYPE_EMPLOYEE);
-
+		
+		List<Role> list = roleService.findByName("超级管理员");
+		superAdmin.setRoleId((int)list.get(0).getRoleId());
+	
 		userService.register(normalUser);
-		userService.register(superAdmin);
+		userService.insertUser(superAdmin);
 
 		User user = userService.findUserByUsername("一个超级管理员", true).get(0);
 		userService.updateUserRole(user, "超级管理员");

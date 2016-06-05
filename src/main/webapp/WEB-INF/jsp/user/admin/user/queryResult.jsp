@@ -18,7 +18,9 @@
 		<s:if test="#request.result.totalCount!=0">
 			<div class="col-md-9">
 				<div class="row">
-					<h3>查询结果</h3>
+					<h3>
+						<s:property value="#request.tipWord" />
+					</h3>
 				</div>
 				<div class="row form-group">
 					<!-- 数据显示 -->
@@ -33,17 +35,22 @@
 						</thead>
 						<s:iterator value="#request.userList" var="user">
 							<tr>
-								<td><span> <s:property value="#user.userId" />
+								<td><span class="table-data-user-id"> <s:property value="#user.userId" />
 								</span></td>
 								<td><span> <s:property value="#user.username" />
 								</span></td>
-								<td>
-									<button class="btn btn-default">修改</button>
-								</td>
-								<td><s:if test="#user.status==0">
-										<button class="btn btn-default">禁用</button>
+								<td><s:if test="#request.function != 3">
+										<button class="btn btn-default table-btn-update">修改</button>
+									</s:if></td>
+								<td><s:if test="#request.function != 3">
+										<s:if test="#user.status==0">
+											<button class="btn btn-default table-btn-status table-btn-forbid">禁用</button>
+										</s:if>
+										<s:else>
+											<button class="btn btn-default table-btn-status table-btn-enable">启用</button>
+										</s:else>
 									</s:if> <s:else>
-										<button class="btn btn-default">启用</button>
+										<button class="btn btn-default table-btn-verify-info">详细信息</button>
 									</s:else></td>
 							</tr>
 						</s:iterator>
@@ -58,13 +65,16 @@
 							</s:if>
 							<s:iterator value="#request.allPages" var="page">
 								<s:if test="#page == #request.queryShowback.page">
-									<li class="active"><a class="pagincation-page" href="javascript:void(0);"><s:property value="#page" /></a></li>
+									<li class="active"><a class="pagincation-page" href="javascript:void(0);"><s:property
+												value="#page" /></a></li>
 								</s:if>
 								<s:else>
-									<li><a class="pagincation-page" href="javascript:void(0);"><s:property value="#page" /></a></li>
+									<li><a class="pagincation-page" href="javascript:void(0);"><s:property
+												value="#page" /></a></li>
 								</s:else>
 							</s:iterator>
-							<s:if test="#request.maxPage != #request.minPage && #request.queryShowback.page != #request.maxPage">
+							<s:if
+								test="#request.maxPage != #request.minPage && #request.queryShowback.page != #request.maxPage">
 								<li><a id="nav-next-one" href="javascript:void(0);">»</a></li>
 							</s:if>
 						</ul>
@@ -86,31 +96,36 @@
 
 	<!-- 用于保存查询条件的隐藏表单 -->
 	<div id="query-criteria" style="display: none">
-		<form id="query-criteria-form" action="userQuery.action" method="post">
-			<!--  -->
-			<input type="checkbox" id="query-form-criteria-username" name="query.criteria" value="0" />
-			<!--  -->
-			<input type="checkbox" id="query-form-criteria-role" name="query.criteria" value="1" />
-			<!--  -->
-			<input type="checkbox" id="query-form-criteria-account-type" name="query.criteria" value="2" />
-			<!--  -->
-			<input type="hidden" id="query-form-username" name="query.username" value="" />
-			<!--  -->
-			<input type="hidden" id="query-form-role" name="query.roleId" value="" />
-			<!--  -->
-			<input type="checkbox" name="query.accountType" id="query-form-type-student" value="0">
-			<!--  -->
-			<input type="checkbox" name="query.accountType" id="query-form-type-teacher" value="2" />
-			<!--  -->
-			<input type="checkbox" name="query.accountType" id="query-form-type-employee" value="1" />
-			<!--  -->
-			<input type="radio" name="query.forbidden" id="query-form-forbidden-yes" value="1"
-				checked="checked" />
-			<!--  -->
-			<input type="radio" name="query.forbidden" id="query-form-forbidden-no" value="0" />
-			<!--  -->
-			<input type="hidden" name="query.page" id="query-form-page"
-				value="<s:property value="#request.query.page"/>" />
+		<s:if test="#request.function != 3">
+			<form id="query-criteria-form" action="userQuery.action" method="post">
+		</s:if>
+		<s:else>
+			<form id="query-criteria-form" action="verifyUserPage.action" method="post">
+		</s:else>
+		<!--  -->
+		<input type="checkbox" id="query-form-criteria-username" name="query.criteria" value="0" />
+		<!--  -->
+		<input type="checkbox" id="query-form-criteria-role" name="query.criteria" value="1" />
+		<!--  -->
+		<input type="checkbox" id="query-form-criteria-account-type" name="query.criteria" value="2" />
+		<!--  -->
+		<input type="hidden" id="query-form-username" name="query.username" value="" />
+		<!--  -->
+		<input type="hidden" id="query-form-role" name="query.roleId" value="" />
+		<!--  -->
+		<input type="checkbox" name="query.accountType" id="query-form-type-student" value="0">
+		<!--  -->
+		<input type="checkbox" name="query.accountType" id="query-form-type-teacher" value="2" />
+		<!--  -->
+		<input type="checkbox" name="query.accountType" id="query-form-type-employee" value="1" />
+		<!--  -->
+		<input type="radio" name="query.forbidden" id="query-form-forbidden-yes" value="1"
+			checked="checked" />
+		<!--  -->
+		<input type="radio" name="query.forbidden" id="query-form-forbidden-no" value="0" />
+		<!--  -->
+		<input type="hidden" name="query.page" id="query-form-page"
+			value="<s:property value="#request.query.page"/>" />
 		</form>
 	</div>
 
@@ -131,6 +146,78 @@
 	
 	$("#nav-next-one").bind("click", function(){
 		gotoPage(<s:property value="#request.queryShowback.page + 1"/>);
+	});
+	
+	$("button.table-btn-update").bind("click", function(){
+		var button = $(this);
+		var id = trim(button.parent().parent().find("span.table-data-user-id").html());
+		
+		location.href = "${pageContext.request.contextPath}/user/updateUserPage?userId=" + id;
+	});
+	
+	$("button.table-btn-verify-info").bind("click", function(){
+		var button = $(this);
+		var id = trim(button.parent().parent().find("span.table-data-user-id").html());
+		
+		location.href = "${pageContext.request.contextPath}/user/verifyUserDetailedPage?userId=" + id;
+	});
+	
+	$("button.table-btn-status").bind("click", function(){
+		var button = $(this);
+		var id = trim(button.parent().parent().find("span.table-data-user-id").html());
+		
+		button.attr("disabled", "disabled");
+		if (button.hasClass("table-btn-enable")) {
+			// 如果是启用按钮
+			$.post("enableUser", {"userId": id}, function(data, textStatus){
+				if (textStatus == 'success') {
+					if (data.code == 21) {
+						// 成功启用账户
+						button.removeClass("table-btn-enable");
+						button.addClass("table-btn-forbid");
+						button.html("禁用");
+						
+						showSuccessToast("成功启用账户");
+					} else if (data.code == 20) {
+						showErrorToast("用户编号有误，请刷新页面后再重试！");
+					} else if (data.code == 2) {
+						showErrorToast("您没有启用账户的权限！");
+					} else {
+						showErrorToast("系统异常，请稍后再试！");
+					}
+				} else {
+					showErrorToast("与服务器通讯失败，请稍后再试");
+				}
+				
+				button.removeAttr("disabled");
+			});	
+		} else if (button.hasClass("table-btn-forbid")) {
+			// 如果是禁用按钮
+			$.post("forbidUser", {"userId": id}, function(data, textStatus){
+				if (textStatus == 'success') {
+					if (data.code == 22) {
+						// 成功禁用账户
+						button.addClass("table-btn-enable");
+						button.removeClass("table-btn-forbid");
+						button.html("启用");
+						
+						showSuccessToast("成功禁用账户");
+					} else if (data.code == 20) {
+						showErrorToast("用户编号有误，请刷新页面后再重试！");
+					} else if (data.code == 2) {
+						showErrorToast("您没有禁用账户的权限！");
+					} else {
+						showErrorToast("系统异常，请稍后再试！");
+					}
+				} else {
+					showErrorToast("与服务器通讯失败，请稍后再试");
+				}
+				
+				button.removeAttr("disabled");
+			});
+		} else {
+			button.removeAttr("disabled");
+		}
 	});
 	
 	<s:if test="#request.queryShowback.nameIncluded">

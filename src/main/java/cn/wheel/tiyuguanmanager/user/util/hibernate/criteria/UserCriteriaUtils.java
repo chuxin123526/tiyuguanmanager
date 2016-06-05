@@ -47,7 +47,7 @@ public class UserCriteriaUtils {
 				break;
 			case DaoCriteria.TYPE_USER_ROLE_ID: {
 				criteria = criteria.createCriteria("role");
-				
+
 				criteria.add(Restrictions.eq("roleId", (long) daoCriteria.getContent()));
 			}
 				break;
@@ -74,6 +74,13 @@ public class UserCriteriaUtils {
 			case DaoCriteria.TYPE_USER_EXCLUED_FORBIDDEN: {
 				if (daoCriteria.getOp() == DaoCriteria.OP_TRUE) {
 					criteria.add(Restrictions.eq("status", 0));
+				}
+			}
+			case DaoCriteria.TYPE_USER_USER_ID: {
+				if (daoCriteria.getOp() == DaoCriteria.OP_EQUAL) {
+					criteria.add(Restrictions.eq("userId", (long) daoCriteria.getContent()));
+				} else if (daoCriteria.getOp() == DaoCriteria.OP_DISEQUAL) {
+					criteria.add(Restrictions.ne("userId", (long) daoCriteria.getContent()));
 				}
 			}
 

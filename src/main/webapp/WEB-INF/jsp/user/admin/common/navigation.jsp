@@ -16,7 +16,7 @@
 		<ol class="list-unstyled">
 			<li><a href="${pageContext.request.contextPath}/user/newUserPage.action">添加用户</a></li>
 			<li><a href="${pageContext.request.contextPath}/user/userQueryPage.action">查找用户</a></li>
-			<li><a href="#">用户信息认证</a></li>
+			<li><a href="${pageContext.request.contextPath}/user/verifyUserPage.action">用户信息认证</a></li>
 		</ol>
 	</div>
 </body>

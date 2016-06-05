@@ -15,6 +15,7 @@ import cn.wheel.tiyuguanmanager.user.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserAccountTypeCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserForbiddenExcludeCriteria;
+import cn.wheel.tiyuguanmanager.user.dao.criteria.UserIdCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserPasswordCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleIdCriteria;
@@ -37,6 +38,7 @@ import cn.wheel.tiyuguanmanager.user.vo.UserQueryVO;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.UserInsertVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.UserRegisterVOValidator;
+import cn.wheel.tiyuguanmanager.user.vo.validator.UserUpdateVOValidator;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 
 @Service("userService")
@@ -48,23 +50,36 @@ public class UserServiceImpl implements IUserService {
 	@Resource
 	private IRoleDao roleDao;
 
-	private Role registeredRole;
-
 	private Role findRegisteredRole() {
-		if (registeredRole == null) {
-			List<Role> list = roleDao.find(new DaoCriteria[] { new RoleNameCriteria("注册用户") });
-			if (list.size() == 0) {
-				Role role = new Role();
-				role.setName("注册用户");
-				roleDao.insert(role);
+		List<Role> list = roleDao.find(new DaoCriteria[] { new RoleNameCriteria("注册用户") });
+		Role retValue = null;
+		if (list.size() == 0) {
+			Role role = new Role();
+			role.setName("注册用户");
+			roleDao.insert(role);
 
-				registeredRole = role;
-			} else {
-				registeredRole = list.get(0);
-			}
+			retValue = role;
+		} else {
+			retValue = list.get(0);
 		}
 
-		return registeredRole;
+		return retValue;
+	}
+
+	private Role findVerifiedRole() {
+		List<Role> list = roleDao.find(new DaoCriteria[] { new RoleNameCriteria("认证用户") });
+		Role retValue = null;
+		if (list.size() == 0) {
+			Role role = new Role();
+			role.setName("认证用户");
+			roleDao.insert(role);
+
+			retValue = role;
+		} else {
+			retValue = list.get(0);
+		}
+
+		return retValue;
 	}
 
 	@Transactional
@@ -282,7 +297,7 @@ public class UserServiceImpl implements IUserService {
 					showback.setRoleIncluded(true);
 				} else if (i == 2) {
 					boolean student = false, teacher = false, employee = false;
-					
+
 					// 账号类型
 					for (int type : queryVO.getAccountType()) {
 						switch (type) {
@@ -354,5 +369,114 @@ public class UserServiceImpl implements IUserService {
 		result.setResult(users);
 
 		return result;
+	}
+
+	@Transactional
+	@Override
+	public void forbidUserAccount(long userId) throws UserNotExistException {
+		User user = userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
+		user.setStatus(Constants.UserStatus.DISABLED);
+		userDao.update(user);
+	}
+
+	@Transactional
+	@Override
+	public void enableUserAccount(long userId) throws UserNotExistException {
+		User user = userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
+		user.setStatus(Constants.UserStatus.NORMAL);
+		userDao.update(user);
+	}
+
+	@Transactional
+	@Override
+	public User findUserById(long userId) {
+		return userDao.findById(userId);
+	}
+
+	@Transactional
+	@Override
+	public void updateUser(UserVO updateVO) throws UserNotExistException, UserExistException, FormException, RoleNotFoundException {
+		// 1. 校验表单
+		UserUpdateVOValidator validator = new UserUpdateVOValidator();
+		boolean validated = false;
+		try {
+			validated = validator.validate(updateVO);
+		} catch (VOTypeNotMatch e) {
+
+		}
+
+		if (!validated) {
+			throw new FormException();
+		}
+
+		// 2. 从数据库中取出用户对象
+		User user = userDao.findById(updateVO.getUserId());
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
+		// 3. 判断表单中指定的用户编号是否有效
+		Role role = roleDao.findById(updateVO.getRoleId());
+		if (role == null) {
+			throw new RoleNotFoundException();
+		}
+
+		// 4. 判断新的用户名是否与现有用户同名
+		List<User> existUser = userDao.find(new DaoCriteria[] { new UserNameCriteria(updateVO.getUsername(), true),
+				new UserIdCriteria(false, updateVO.getUserId()) });
+		if (existUser.size() > 0) {
+			throw new UserExistException();
+		}
+
+		// 5. 将表单数据填充到对象当中
+		user.setUsername(updateVO.getUsername());
+
+		if (updateVO.getPassword() != null) {
+			user.setPassword(MessageDigestUtils.md5_32(updateVO.getPassword()));
+		}
+
+		user.setGender(updateVO.getGender());
+		user.setRole(role);
+		user.setType(updateVO.getAccountType());
+		user.setIdentifierType(updateVO.getIdentifierType());
+		user.setIdentifierNumber(updateVO.getIdentifierNumber());
+		user.setRealname(updateVO.getRealname());
+		user.setStudentNumber(updateVO.getStudentNumber());
+
+		user.getContracts().clear();
+		Contract contract = new Contract();
+		contract.setType(Constants.ContratType.TYPE_MOBILE);
+		contract.setContent(updateVO.getMobilePhone());
+		user.getContracts().add(contract);
+
+		userDao.update(user);
+	}
+
+	@Transactional
+	@Override
+	public void checkUser(long userId, boolean pass) throws UserNotExistException {
+		// 1. 判断用户编号是否有效
+		User user = userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
+		// 2. 根据认证还是撤销认证对用户的角色信息进行变更
+		if (pass) {
+			user.setRole(this.findVerifiedRole());
+		} else {
+			user.setRole(this.findRegisteredRole());
+		}
+
+		// 3. 把变更写入到数据库
+		userDao.update(user);
 	}
 }

@@ -158,6 +158,11 @@ public class Constants {
 		public static final int ROLE_INVAILD_ROLE_ID = 15;
 
 		/**
+		 * 表示无法找到指定的角色
+		 */
+		public static final int ROLE_NOT_FOUND = 15;
+
+		/**
 		 * 表示要删除的角色属于系统保留角色，不能进行删除操作
 		 */
 		public static final int ROLE_PRESERVED = 16;
@@ -171,11 +176,41 @@ public class Constants {
 		 * 成功修改角色信息
 		 */
 		public static final int ROLE_UPDATE_SUCCESS = 18;
-		
+
 		/**
 		 * 成功添加用户
 		 */
 		public static final int USER_INSERT_SUCCESS = 19;
+
+		/**
+		 * 表示要进行操作的用户名不存在
+		 */
+		public static final int USER_NOT_EXIST = 20;
+
+		/**
+		 * 表示成功启用指定的用户账户
+		 */
+		public static final int USER_ENABLE_SUCCESS = 21;
+
+		/**
+		 * 表示成功禁用指定的用户账户
+		 */
+		public static final int USER_FORBID_SUCCESS = 22;
+
+		/**
+		 * 表示成功变更用户信息
+		 */
+		public static final int USER_UPDATE_SUCCESS = 23;
+
+		/**
+		 * 表示用户信息认证成功
+		 */
+		public static final int USER_VERIFY_SUCCESS = 24;
+
+		/**
+		 * 表示撤销用户认证成功
+		 */
+		public static final int USER_VERIFY_CANCEL_SUCCESS = 25;
 	}
 
 	/**
@@ -195,18 +230,18 @@ public class Constants {
 		 */
 		public static final int DISABLED = 1;
 	}
-	
+
 	public static final class UserType {
 		/**
 		 * 表示该账号属于学生账号
 		 */
 		public static final int TYPE_STUDENT = 0;
-		
+
 		/**
 		 * 表示该账号是体育馆管理人员的账号
 		 */
 		public static final int TYPE_EMPLOYEE = 1;
-		
+
 		/**
 		 * 表示该账号是老师账号
 		 */

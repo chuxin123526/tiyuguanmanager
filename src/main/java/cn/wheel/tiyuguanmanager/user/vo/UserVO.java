@@ -5,6 +5,8 @@ import java.util.Set;
 import cn.wheel.tiyuguanmanager.user.po.Contract;
 
 public class UserVO {
+	private long userId;
+
 	private String username;
 	private String password;
 	private int gender;
@@ -116,6 +118,14 @@ public class UserVO {
 
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 }
