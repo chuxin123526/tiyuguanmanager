@@ -1,6 +1,8 @@
 package cn.wheel.tiyuguanmanager.announcement.util.hibernate.criteria;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -28,7 +30,7 @@ public class AnnouncementCriteriaUtils implements CriteriaProcessor {
 				if (op == DaoCriteria.OP_EQUAL) {
 					criteria.add(Restrictions.eq("announcementTitle", daoCriteria.getContent().toString()));
 				} else if (op == DaoCriteria.OP_LIKE) {
-					criteria.add(Restrictions.like("anouncementTitle", SQLUtils.wrapLikeCriteria(daoCriteria.getContent().toString())));
+					criteria.add(Restrictions.like("announcementTitle", SQLUtils.wrapLikeCriteria(daoCriteria.getContent().toString().replace(" ", "%"))));
 				}
 			}
 				break;
@@ -49,7 +51,9 @@ public class AnnouncementCriteriaUtils implements CriteriaProcessor {
 			case DaoCriteria.TYPE_ANNOUNCEMENT_PUBLISH_TIME_RANGE: {
 				Date[] range = (Date[]) daoCriteria.getContent();
 
-				criteria.add(Restrictions.between("announcementPublisherTime", range[0], range[1]));
+				// criteria.add(Restrictions.between("announcementPublisherTime", range[0], range[1]));
+				criteria.add(Restrictions.ge("announcementPublisherTime", range[0]));
+				criteria.add(Restrictions.le("announcementPublisherTime", range[1]));
 			}
 				break;
 			case DaoCriteria.TYPE_ANNOUNCEMENT_PUBLISHER_ID: {
@@ -67,6 +71,19 @@ public class AnnouncementCriteriaUtils implements CriteriaProcessor {
 				} else if (op == DaoCriteria.ORDER_DESC) {
 					criteria.addOrder(Order.desc("announcementPublisherTime"));
 				}
+			}
+				break;
+			case DaoCriteria.TYPE_ANNOUNCEMENT_MULTI_STATUS: {
+				int[] m = (int[]) daoCriteria.getContent();
+				if (m.length == 0) {
+					continue;
+				}
+				List<Integer> cc = new ArrayList<Integer>();
+				for (int i = 0; i < m.length; i++) {
+					cc.add(m[i]);
+				}
+
+				criteria.add(Restrictions.in("announcementStatus", cc));
 			}
 			default:
 				break;

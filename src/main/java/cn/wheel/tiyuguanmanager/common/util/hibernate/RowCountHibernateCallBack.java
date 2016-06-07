@@ -1,5 +1,6 @@
 package cn.wheel.tiyuguanmanager.common.util.hibernate;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.hibernate.Criteria;
@@ -24,6 +25,7 @@ public class RowCountHibernateCallBack implements HibernateCallback<Long> {
 	private static Map<Class<? extends Object>, CriteriaProcessor> processors;
 
 	static {
+		processors = new HashMap<Class<? extends Object>, CriteriaProcessor>();
 		processors.put(User.class, new UserCriteriaUtils());
 		processors.put(Role.class, new RoleCriteriaUtils());
 		processors.put(AnnouncementComment.class, new AnnouncementCommentCriteriaUtils());

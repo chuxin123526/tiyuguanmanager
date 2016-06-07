@@ -97,6 +97,11 @@ public interface DaoCriteria {
 	public static final int TYPE_ANNOUNCEMENT_TIME_ORDER = 19;
 
 	/**
+	 * 查询多种状态的公告实体
+	 */
+	public static final int TYPE_ANNOUNCEMENT_MULTI_STATUS = 20;
+
+	/**
 	 * 相等（等于）
 	 */
 	public static final int OP_EQUAL = 1;

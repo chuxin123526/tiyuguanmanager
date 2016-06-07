@@ -19,6 +19,10 @@ table.table-with-button td span {
 	vertical-align: middle;
 }
 
+td.td-with-button {
+	text-align: center;
+}
+
 @media ( min-width : 992px) {
 	div.form-label {
 		text-align: right;

@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.context.ApplicationContext;
 
+import cn.wheel.tiyuguanmanager.announcement.service.announcement.IAnnouncementService;
+import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementVO;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
@@ -15,7 +17,6 @@ import cn.wheel.tiyuguanmanager.user.constants.Constants;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
-import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.service.role.IRoleService;
 import cn.wheel.tiyuguanmanager.user.service.user.IUserService;
 import cn.wheel.tiyuguanmanager.user.vo.RoleVO;
@@ -28,6 +29,7 @@ public class TestDataGenerator extends BaseAppContextTest {
 
 	private IUserService userService;
 	private IRoleService roleService;
+	private IAnnouncementService announcementService;
 
 	@Before
 	public void getBeans() {
@@ -41,6 +43,10 @@ public class TestDataGenerator extends BaseAppContextTest {
 
 		if (roleService == null) {
 			roleService = context.getBean(IRoleService.class);
+		}
+
+		if (announcementService == null) {
+			announcementService = context.getBean(IAnnouncementService.class);
 		}
 	}
 
@@ -106,6 +112,7 @@ public class TestDataGenerator extends BaseAppContextTest {
 		roleService.insertRole(playgroundAdminRoleVO);
 		roleService.insertRole(instrumentAdminRoleVO);
 		roleService.insertRole(systemAdminRoleVO);
+		roleService.insertRole(announcementAdminRoleVO);
 	}
 
 	@Test
@@ -135,10 +142,82 @@ public class TestDataGenerator extends BaseAppContextTest {
 		List<Role> list = roleService.findByName("超级管理员");
 		superAdmin.setRoleId((int) list.get(0).getRoleId());
 
+		list = roleService.findByName("公告管理员");
+
+		UserVO announceAdmin = new UserVO();
+		announceAdmin.setGender(1);
+		announceAdmin.setIdentifierNumber("440103198502132541");
+		announceAdmin.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
+		announceAdmin.setPassword("123456");
+		announceAdmin.setRealname("123456");
+		announceAdmin.setStudentNumber("201311701407");
+		announceAdmin.setUsername("一个公告管理员");
+		announceAdmin.setMobilePhone("18320481195");
+		announceAdmin.setAccountType(Constants.UserType.TYPE_EMPLOYEE);
+
+		announceAdmin.setRoleId((int) list.get(0).getRoleId());
+
 		userService.register(normalUser);
 		userService.insertUser(superAdmin);
+		userService.insertUser(announceAdmin);
+	}
 
-		User user = userService.findUserByUsername("一个超级管理员", true).get(0);
-		userService.updateUserRole(user, "超级管理员");
+	@Test
+	public void data02_announcement() {
+		AnnouncementVO announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("PY 交易");
+		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
+
+		announcementService.publishNewAnnouncement(announcementVO);
+
+		announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("我是一条正式公告");
+		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
+
+		announcementService.publishNewAnnouncement(announcementVO);
+
+		announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("我又是一条正式公告");
+		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
+
+		announcementService.publishNewAnnouncement(announcementVO);
+
+		announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("加测试数据好烦 →_→");
+		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
+
+		announcementService.publishNewAnnouncement(announcementVO);
+
+		announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("加测试数据好len烦 →_→");
+		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
+
+		announcementService.publishNewAnnouncement(announcementVO);
+		
+		announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("猴赛雷");
+		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
+
+		announcementService.publishNewAnnouncement(announcementVO);
+		
+		announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("雷猴");
+		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
+
+		announcementService.publishNewAnnouncement(announcementVO);
+
+		announcementVO = new AnnouncementVO();
+		announcementVO.setUserId(1);
+		announcementVO.setTitle("USB 交易");
+		announcementVO.setContent("这背后肯定有不可告人的 USB 交易（我是一条草稿）");
+
+		announcementService.saveNewAnnouncementDraft(announcementVO);
 	}
 }

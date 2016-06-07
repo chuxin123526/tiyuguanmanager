@@ -58,7 +58,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 
 			for (int i = 0; i < this.permissionArray.length; i++) {
 				try {
-					this.permissionArray[i] = Integer.parseInt(permissionItems[i]);
+					this.permissionArray[i] = Integer.parseInt(permissionItems[i].trim());
 				} catch (NumberFormatException e) {
 					logger.error("parse permission string failed.", e);
 				}

@@ -46,6 +46,14 @@ public class PagingUtils {
 
 		return ((total / countPerPage) + (total % countPerPage != 0 ? 1 : 0));
 	}
+	
+	public static int getMaxPage(long total, int countPerPage) {
+		if (total == 0) {
+			return 0;
+		}
+
+		return (int) ((total / countPerPage) + (total % countPerPage != 0 ? 1 : 0));
+	}
 
 	/**
 	 * 计算指定页码第一项相对于所有对象而言的偏移量

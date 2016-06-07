@@ -5,6 +5,8 @@ import java.util.List;
 import cn.wheel.tiyuguanmanager.announcement.exception.AnnouncementNotFoundException;
 import cn.wheel.tiyuguanmanager.announcement.exception.SpecifiedAnnouncementIsNotDraftException;
 import cn.wheel.tiyuguanmanager.announcement.po.Announcement;
+import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementQueryResult;
+import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementQueryVO;
 import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementVO;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
@@ -73,6 +75,28 @@ public interface IAnnouncementService {
 	 *            公告表单
 	 * @throws AnnouncementNotFoundException
 	 *             如果这个编号没有对应有效的公告，则会抛出这个异常
+	 * @throws UserNotExistException
+	 *             如果指定的用户无效，则会抛出这个异常
 	 */
-	public void updateAnnouncement(AnnouncementVO announcementVO) throws AnnouncementNotFoundException, FormException;
+	public void updateAnnouncement(AnnouncementVO announcementVO) throws AnnouncementNotFoundException, FormException, UserNotExistException;
+
+	/**
+	 * 根据给定的条件查询公告数据
+	 * 
+	 * @param queryVO
+	 *            查询公告条件表单
+	 * @param page
+	 *            页码
+	 * @return 结果
+	 */
+	public AnnouncementQueryResult queryAnnouncement(AnnouncementQueryVO queryVO, int page);
+
+	/**
+	 * 根据给定的公告编号寻找公告实体
+	 * 
+	 * @param announcementId
+	 *            公告编号
+	 * @return 如果数据库中存在相应的公告实体，则返回；否则返回 null
+	 */
+	public Announcement findAnnonucementById(long announcementId);
 }

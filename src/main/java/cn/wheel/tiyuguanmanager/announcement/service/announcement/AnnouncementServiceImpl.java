@@ -1,5 +1,8 @@
 package cn.wheel.tiyuguanmanager.announcement.service.announcement;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.wheel.tiyuguanmanager.announcement.constant.Constants;
 import cn.wheel.tiyuguanmanager.announcement.dao.announcement.IAnnouncementDao;
+import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementContentCriteria;
+import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementMultiTypeCriteria;
 import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementOrderCriteria;
+import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementPublisherIdCriteria;
+import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementTimeRangeCriteria;
+import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementTitleCriteria;
 import cn.wheel.tiyuguanmanager.announcement.exception.AnnouncementNotFoundException;
 import cn.wheel.tiyuguanmanager.announcement.exception.SpecifiedAnnouncementIsNotDraftException;
 import cn.wheel.tiyuguanmanager.announcement.po.Announcement;
+import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementQueryResult;
+import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementQueryShowback;
+import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementQueryVO;
 import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementVO;
 import cn.wheel.tiyuguanmanager.announcement.vo.validator.AnnouncementInsertVOValidator;
 import cn.wheel.tiyuguanmanager.announcement.vo.validator.AnnouncementUpdateValidator;
@@ -22,10 +33,17 @@ import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
 import cn.wheel.tiyuguanmanager.user.po.User;
+import cn.wheel.tiyuguanmanager.user.util.PagingUtils;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
 
 @Service("announcementService")
 public class AnnouncementServiceImpl implements IAnnouncementService {
+
+	private static SimpleDateFormat formatter;
+
+	static {
+		formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	}
 
 	@Resource
 	private IUserDao userDao;
@@ -97,7 +115,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 		Date time = new Date();
 		Announcement announcement = new Announcement();
 		announcement.setAnnouncementPublisher(user);
-		announcement.setAnnouncementPublisherTime(time);
+		announcement.setAnnouncementPublisherTime(null);
 		announcement.setAnnouncementLastChangeTime(time);
 		announcement.setAnnouncementTitle(announcementVO.getTitle());
 		announcement.setAnnouncementContent(announcementVO.getContent());
@@ -145,11 +163,13 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 
 	@Transactional
 	@Override
-	public void deleteAnnouncement(long announcementId) {
+	public void deleteAnnouncement(long announcementId) throws AnnouncementNotFoundException {
 		Announcement announcement = announcementDao.findById(announcementId);
 		if (announcement == null) {
 			throw new AnnouncementNotFoundException();
 		}
+
+		announcement.setAnnouncementStatus(Constants.AnnouncementStatus.STATUS_DELETED_ANNOUNCEMENT);
 	}
 
 	@Transactional
@@ -169,21 +189,196 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 			throw new FormException();
 		}
 
-		// 2. 提取原有的公告
+		// 2. 提取原有的公告和修改用户
 		Announcement announcement = announcementDao.findById(announcementVO.getAnnouncementId());
 		if (announcement == null) {
 			throw new AnnouncementNotFoundException();
 		}
 
+		User user = userDao.findById(announcementVO.getUserId());
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
 		// 3. 修改信息
 		announcement.setAnnouncementTitle(announcementVO.getTitle());
 		announcement.setAnnouncementContent(announcementVO.getContent());
+		announcement.setAnnouncementStatus(announcementVO.getType());
+		announcement.setAnnouncementPublisher(user);
 
 		// 4. 变更时间信息
-		announcement.setAnnouncementLastChangeTime(new Date());
+		Date now = new Date();
+		if (announcement.getAnnouncementPublisherTime() == null) {
+			announcement.setAnnouncementPublisherTime(now);
+		}
+		announcement.setAnnouncementLastChangeTime(now);
 
 		// 5. 持久层保存
 		announcementDao.update(announcement);
+	}
+
+	@Transactional
+	@Override
+	public AnnouncementQueryResult queryAnnouncement(AnnouncementQueryVO queryVO, int page) {
+		boolean findAll = false;
+		AnnouncementQueryResult result = new AnnouncementQueryResult();
+		AnnouncementQueryShowback showback = new AnnouncementQueryShowback();
+
+		// 1. 根据表单数据拼装查询条件
+		// 组装条件
+		List<DaoCriteria> daoCriteriasList = new ArrayList<>();
+		int[] formCriterias = queryVO.getCriteria();
+		if (formCriterias == null || formCriterias.length == 0) {
+			findAll = true;
+		} else {
+			for (int i : formCriterias) {
+				switch (i) {
+				case 1: {
+					// 标题
+					String title = queryVO.getTitle();
+					if (title != null && !"".equals(title.trim())) {
+						DaoCriteria titleCriteria = new AnnouncementTitleCriteria(title, false);
+						daoCriteriasList.add(titleCriteria);
+
+						showback.setTitleIncluded(true);
+						showback.setTitle(title);
+
+						findAll = false;
+					}
+				}
+					break;
+				case 2: {
+					// 内容
+					String content = queryVO.getContent();
+					if (content != null && !"".equals(content.trim())) {
+						DaoCriteria contentCriteia = new AnnouncementContentCriteria(content, false);
+						daoCriteriasList.add(contentCriteia);
+
+						showback.setContentIncluded(true);
+						showback.setContent(content);
+
+						findAll = false;
+					}
+				}
+					break;
+				case 3: {
+					// 发布者
+					DaoCriteria publisherIdCriteria = new AnnouncementPublisherIdCriteria(queryVO.getPublisherId());
+					daoCriteriasList.add(publisherIdCriteria);
+
+					showback.setPublisherIncluded(true);
+					showback.setPublisherId(queryVO.getPublisherId());
+
+					findAll = false;
+				}
+					break;
+				case 4: {
+					// 时间
+					String beginTimeStr = queryVO.getRawTime().substring(0, 10) + " 00:00:00.000";
+					String endTimeStr = queryVO.getRawTime().substring(13, 23) + " 23:59:59.999";
+
+					Date beginTime = null;
+					Date endTime = null;
+
+					try {
+						beginTime = formatter.parse(beginTimeStr);
+						endTime = formatter.parse(endTimeStr);
+					} catch (ParseException e) {
+						continue;
+					}
+
+					DaoCriteria timeRangeCriteria = new AnnouncementTimeRangeCriteria(beginTime, endTime);
+					daoCriteriasList.add(timeRangeCriteria);
+
+					showback.setRawTime(queryVO.getRawTime());
+					showback.setPublishTimeIncluded(true);
+					showback.setBeginTime(beginTimeStr);
+					showback.setEndTime(endTimeStr);
+
+					findAll = false;
+				}
+					break;
+				case 5: {
+					// 公告类型
+					int[] typeArray = queryVO.getType();
+					if (typeArray != null) {
+						showback.setTypeIncluded(true);
+
+						for (int type : typeArray) {
+							if (type == Constants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT) {
+								showback.setTypePublishedIncluded(true);
+							} else if (type == Constants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT) {
+								showback.setTypeDraftIncluded(true);
+							} else if (type == Constants.AnnouncementStatus.STATUS_DELETED_ANNOUNCEMENT) {
+								showback.setTypeDeletedIncluded(true);
+							}
+						}
+
+						DaoCriteria typeCriteria = new AnnouncementMultiTypeCriteria(typeArray);
+						daoCriteriasList.add(typeCriteria);
+
+						findAll = false;
+					}
+				}
+					break;
+
+				default:
+					break;
+				}
+			}
+		}
+
+		// 判断是否为倒序
+		if (queryVO.getDesc() == 1) {
+			DaoCriteria descOrder = new AnnouncementOrderCriteria(true);
+			daoCriteriasList.add(descOrder);
+		}
+
+		DaoCriteria[] criterias = new DaoCriteria[daoCriteriasList.size()];
+		for (int i = 0; i < daoCriteriasList.size(); i++) {
+			criterias[i] = daoCriteriasList.get(i);
+		}
+
+		// 2. 查询结果集数量
+		long totalCount = 0;
+		if (!findAll) {
+			totalCount = announcementDao.count(criterias);
+		} else {
+			totalCount = announcementDao.count();
+		}
+
+		// 3. 进行分页
+		int countPerPage = cn.wheel.tiyuguanmanager.user.constants.Constants.ITEM_PER_PAGE;
+		int maxPage = PagingUtils.getMaxPage(totalCount, countPerPage);
+		if (page < 0) {
+			page = maxPage + page + 1;
+		}
+
+		if (page < 1) {
+			page = 1;
+		} else if (page > maxPage) {
+			page = maxPage;
+		}
+		showback.setPage(page);
+
+		// 4. 查询
+		List<Announcement> resultList = this.announcementDao.find(criterias, PagingUtils.calcFirstOffset(page, countPerPage), countPerPage);
+
+		// 5. 组装结果对象
+		result.setTotalCount(totalCount);
+		result.setCurrentPage(page);
+		result.setMaxPage(maxPage);
+		result.setCurrentPageItem(resultList.size());
+		result.setResult(resultList);
+		result.setShowback(showback);
+
+		return result;
+	}
+
+	@Transactional
+	@Override
+	public Announcement findAnnonucementById(long announcementId) {
+		return this.announcementDao.findById(announcementId);
 	}
 
 }

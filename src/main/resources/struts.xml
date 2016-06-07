@@ -256,6 +256,137 @@
 		</action>
 	</package>
 
+	<!-- 公告管理模块 -->
+	<package name="annoucement" extends="base-package" namespace="/announcement">
+		<!-- 公告管理的首页 -->
+		<action name="index" class="announcementAdminAction" method="homePage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">30,33,34</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/index.jsp</result>
+		</action>
+
+		<!-- 创建新公告的页面 -->
+		<action name="createAnnouncement" class="announcementAdminAction"
+			method="createAnnouncementPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">30</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/announcementEdit.jsp
+			</result>
+		</action>
+
+		<!-- 发布公告的请求处理 -->
+		<action name="publishAnnouncement" class="announcementAdminAction"
+			method="publishAnnouncement">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">30</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 公告保存为草稿的 ajax 请求处理 -->
+		<action name="publisherDraft" class="announcementAdminAction"
+			method="publishDraft">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">30</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 查看已经发布的公告列表 -->
+		<action name="publishedAnnouncementList" class="announcementAdminAction"
+			method="publishedAnnouncementList">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31, 32</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
+			</result>
+		</action>
+
+		<!-- 查看草稿列表 -->
+		<action name="draftAnnouncementList" class="announcementAdminAction"
+			method="draftAnnouncementList">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">30, 33, 34</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
+			</result>
+		</action>
+
+		<!-- 公告查询 -->
+		<action name="queryPage" class="announcementAdminAction"
+			method="queryPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31, 32</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/announcementQuery.jsp
+			</result>
+		</action>
+
+		<!-- 真正执行查询的方法 -->
+		<action name="doQuery" class="announcementAdminAction" method="doQuery">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31, 32</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
+			</result>
+		</action>
+
+		<!-- 显示操作结果消息 -->
+		<action name="info" class="announcementAdminAction" method="showMessage">
+			<result name="success">/WEB-INF/jsp/announcement/info.jsp</result>
+		</action>
+
+		<!-- 修改公告或者草稿 -->
+		<action name="updateAnnouncement" class="announcementAdminAction"
+			method="updateAnnouncementPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">34</param>
+			</interceptor-ref>
+			<result name="404">/WEB-INF/jsp/announcement/info.jsp</result>
+			<result name="success">/WEB-INF/jsp/announcement/announcementEdit.jsp
+			</result>
+		</action>
+
+		<!-- 处理修改草稿 ajax 请求的 action -->
+		<action name="doUpdateDraft" class="announcementAdminAction"
+			method="doUpdateDraft">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">34</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 处理修改公告 ajax 请求的 action -->
+		<action name="doUpdateAnnouncement" class="announcementAdminAction"
+			method="doUpdateAnnouncement">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">34</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 将草稿发布为正式公告的处理方法 -->
+		<action name="pushDraft" class="announcementAdminAction"
+			method="pushDraft">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">30</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 处理删除公告 ajaca 请求的方法 -->
+		<action name="doDeleteAnnouncement" class="announcementAdminAction"
+			method="doDeleteAnnouncement">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">33</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+	</package>
+
 	<package name="somebody" extends="struts-default" namespace="/competition">
 		<!-- 全局跳转配置 -->
 		<global-results>

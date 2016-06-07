@@ -46,4 +46,67 @@ public class Constants {
 		 */
 		public static final int STATUS_HIDDEN = 2;
 	}
+
+	/**
+	 * 储存 ajax 返回常量
+	 * 
+	 * @author DENG YURONG
+	 * 
+	 */
+	public static final class AjaxCode {
+		/**
+		 * 表示表单校验失败
+		 */
+		public static final int FORM_EXCEPTION = 1;
+
+		/**
+		 * 表示当前没有进行该操作的权限
+		 */
+		public static final int PERMISSION_DENIED = 2;
+
+		/**
+		 * 表示成功发布公告
+		 */
+		public static final int ANNOUNCEMENT_PUBLISH_SUCCESS = 3;
+
+		/**
+		 * 表单传来的用户信息无效
+		 */
+		public static final int ANNOUNCEMENT_PUBLISHER_NOT_FOUND = 4;
+
+		/**
+		 * 表示成功保存到草稿
+		 */
+		public static final int ANNOUNCEMENT_PUBLISH_DRAFT_SUCCESS = 5;
+
+		/**
+		 * 表示成功修改草稿内容
+		 */
+		public static final int ANNOUNCEMENT_DRAFT_UPDATE_SUCCESS = 6;
+
+		/**
+		 * 指定编号的公告的类型不是草稿类型
+		 */
+		public static final int ANNOUNCEMENT_SPECIFIED_ANNOUNCEMENT_IS_NOT_DRAFT = 7;
+
+		/**
+		 * 成功修改公告内容
+		 */
+		public static final int ANNOUNCEMENT_UPDATE_SUCCESS = 8;
+
+		/**
+		 * 未找到指定编号的公告对象
+		 */
+		public static final int ANNOUNCEMENT_NOT_FOUND = 9;
+		
+		/**
+		 * 成功将草稿发布为正式公告
+		 */
+		public static final int ANNOUNCEMENT_PUSH_DRAFT_SUCCESS = 10;
+		
+		/**
+		 * 成功删除指定的公告
+		 */
+		public static final int ANNOUNCEMENT_DELETE_SUCCESS = 11;
+	}
 }
