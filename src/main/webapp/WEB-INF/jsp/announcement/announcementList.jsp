@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<!-- 显示结果 -->
-			<s:if test="#request.msgWord != null">
+			<s:if test="#request.msgWord != null && #request.msgWord.length() > 0">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="alert alert-success">
@@ -53,6 +53,12 @@
 									<td><span class="announcement-table-id"><s:property
 												value="#announcement.announcementId" /></span></td>
 									<td><span><s:property value="#announcement.announcementTitle" /></span></td>
+									<s:if test="#announcement.announcementStatus == 4">
+										<td class="td-with-button"></td>
+										<td class="td-with-button"></td>
+										<td class="td-with-button"></td>
+										<td class="td-with-button"><button class="btn btn-default list-form-recover">恢复</button></td>
+									</s:if>
 									<s:if test="#announcement.announcementStatus == 3">
 										<td class="td-with-button"></td>
 										<td class="td-with-button"><button class="btn btn-default list-form-update">修改</button></td>
@@ -110,7 +116,8 @@
 	</div>
 
 	<!-- 隐藏表单，用于查询指定公告下的所有评论 -->
-	<form id="get-comment-list-form" style="display: none" method="get" action="showAnnouncementCommentList">
+	<form id="get-comment-list-form" style="display: none" method="get"
+		action="showAnnouncementCommentList">
 		<input type="hidden" name="announcementId" id="input-comment-list-announcement-id" /> <input
 			type="hidden" name="page" id="input-comment-list-page" value="1" />
 	</form>
@@ -150,11 +157,9 @@
 				<%-- 公告类型：草稿 --%>
 				<input type="checkbox" name="query.type" id="form-type-draft" value="2" />
 				<%-- 公告类型：已删除 --%>
-				<input type="checkbox" name="query.type" id="form-type-deleted" value="4" /F>
+				<input type="checkbox" name="query.type" id="form-type-deleted" value="4" />
 				<%-- 页码 --%>
-				<input type="text" name="page" id="form-page" /> <input style="display: none;"
-					checked="checked" type="checkbox" name="query.criteria" value="5" /> <input
-					style="display: none;" checked="checked" type="checkbox" name="query.type" value="3" />
+				<input type="text" name="page" id="form-page" />
 				<%-- 用于在下个页面显示消息的，不会传递 --%>
 				<input type="hidden" name="msgWord" id="form-msg-word" />
 			</form>
@@ -171,6 +176,7 @@
 				$("#form-begin-time").val("<s:property value="#request.showback.rawTime"/>");
 				</s:if>
 				<s:if test="#request.showback.typeIncluded">
+				$("#form-criteria-type").attr("checked", "checked");
 				<s:if test="#request.showback.typePublishedIncluded">
 				$("#form-type-published").attr("checked", "checked");
 				</s:if>
@@ -186,6 +192,14 @@
 				$("#form-content").val("<s:property value="#request.showback.content"/>");
 				$("#form-page").val("<s:property value="#request.showback.page"/>");
 			</script>
+		</s:if>
+		<s:if test="#request.function == 4">
+			<form action="announcementTrash" method="post" id="query-form" style="display: none;">
+				<!--  -->
+				<input type="hidden" name="page" value="<s:property value="#request.page"/>" id="form-page" />
+				<!--  -->
+				<input type="hidden" name="msgWord" id="form-msg-word" />
+			</form>
 		</s:if>
 	</div>
 
@@ -265,12 +279,35 @@
 			}
 		});
 
-		$("button.list-form-comment").bind("click", function(){
+		$("button.list-form-comment").bind("click", function() {
 			var button = $(this);
 			var id = trim(button.parent().parent().find("span.announcement-table-id").html());
-			
+
 			$("input#input-comment-list-announcement-id").val(id);
 			$("form#get-comment-list-form").submit();
+		});
+
+		$("button.list-form-recover").bind("click", function() {
+			var button = $(this);
+			var id = trim(button.parent().parent().find("span.announcement-table-id").html());
+
+			$("table-with-button button").attr("disabled", "disabled");
+			$.post("recoverAnnouncement", {
+				"announcementId" : id
+			}, function(data, textStatus) {
+				if (textStatus == 'success') {
+					if (data.code == 19) {
+						$("#form-msg-word").val("成功恢复指定的公告");
+						$("#query-form").submit();
+					} else if (data.code == 9) {
+						// 这里应该对公告编号无效的情况进行处理
+					}
+				} else {
+					showErrorToast("与服务器通信失败，请稍后再试");
+				}
+
+				$("table-with-button button").removeAttr("disabled");
+			});
 		});
 	</script>
 

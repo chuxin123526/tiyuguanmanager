@@ -98,7 +98,7 @@
 											value="#announcement.announcementTitle" /></a>
 								</s:iterator>
 								<p style="text-align: right; margin-top: 10px;">
-									<span>查看更多...</span>
+									<span><a href="${pageContext.request.contextPath}/announcement/allAnnouncement">更多公告</a></span>
 								</p>
 							</s:if>
 							<s:else>

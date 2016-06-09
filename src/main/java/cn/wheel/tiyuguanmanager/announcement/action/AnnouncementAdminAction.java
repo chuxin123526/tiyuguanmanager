@@ -230,7 +230,6 @@ public class AnnouncementAdminAction {
 		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
 		this.showback = result.getShowback();
 		this.tipWord = "所有已经发布的公告";
-		this.msgWord = null;
 		this.announcementList = result.getResult();
 		this.function = 1;
 

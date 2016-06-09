@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.wheel.tiyuguanmanager.announcement.constant.AnnouncementConstants;
 import cn.wheel.tiyuguanmanager.announcement.dao.announcement.IAnnouncementDao;
 import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementContentCriteria;
+import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementKeywordSearchCriteria;
 import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementMultiTypeCriteria;
 import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementOrderCriteria;
 import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementPublisherIdCriteria;
@@ -379,6 +380,99 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 	@Override
 	public Announcement findAnnouncementById(long announcementId) {
 		return this.announcementDao.findById(announcementId);
+	}
+
+	@Transactional
+	@Override
+	public AnnouncementQueryResult publicAnnouncementList(int page, int countPerPage) {
+		AnnouncementQueryResult result = new AnnouncementQueryResult();
+
+		// 1. 拼装查询条件
+		DaoCriteria[] criterias = new DaoCriteria[] {
+				new AnnouncementMultiTypeCriteria(new int[] { AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT }),
+				new AnnouncementOrderCriteria(true) };
+
+		// 2. 查询总数量，计算分页参数
+		long totalCount = this.announcementDao.count(criterias);
+		int maxPage = PagingUtils.getMaxPage(totalCount, countPerPage);
+
+		if (totalCount == 0) {
+			result.setTotalCount(0);
+			return result;
+		}
+
+		// 3. 实际的查询过程
+		if (page < 0) {
+			page = page + maxPage + 1;
+		}
+
+		if (page <= 0) {
+			page = 1;
+		} else if (page > maxPage) {
+			page = maxPage;
+		}
+
+		List<Announcement> resultList = this.announcementDao.find(criterias, PagingUtils.calcFirstOffset(page, countPerPage), countPerPage);
+
+		// 4. 组装查询结果对象
+		result.setTotalCount(totalCount);
+		result.setCurrentPageItem(resultList.size());
+		result.setMaxPage(maxPage);
+		result.setResult(resultList);
+		result.setCurrentPage(page);
+
+		return result;
+	}
+
+	@Transactional
+	@Override
+	public AnnouncementQueryResult keywordSearch(String keyword, int page) {
+		AnnouncementQueryResult result = new AnnouncementQueryResult();
+
+		// 1. 拼装查询条件
+		DaoCriteria[] criterias = new DaoCriteria[] { new AnnouncementKeywordSearchCriteria(keyword) };
+
+		// 2. 查询数量
+		long totalCount = announcementDao.count(criterias);
+		result.setTotalCount(totalCount);
+
+		if (totalCount == 0) {
+			return result;
+		}
+
+		// 3. 计算分页参数
+		int maxPage = PagingUtils.getMaxPage(totalCount, 10);
+		if (page < 0) {
+			page = page + maxPage + 1;
+		}
+
+		if (page <= 0) {
+			page = 1;
+		} else if (page > maxPage) {
+			page = maxPage;
+		}
+
+		result.setMaxPage(maxPage);
+		result.setCurrentPage(page);
+
+		// 4. 实际的查询
+		List<Announcement> resultList = this.announcementDao.find(criterias, PagingUtils.calcFirstOffset(page, 10), 10);
+		result.setCurrentPageItem(resultList.size());
+		result.setResult(resultList);
+
+		return result;
+	}
+
+	@Transactional
+	@Override
+	public void recoverAnnouncement(long announcementId) throws AnnouncementNotFoundException {
+		Announcement announcement = this.announcementDao.findById(announcementId);
+		if (announcement == null || announcement.getAnnouncementStatus() != AnnouncementConstants.AnnouncementStatus.STATUS_DELETED_ANNOUNCEMENT) {
+			throw new AnnouncementNotFoundException();
+		}
+
+		announcement.setAnnouncementStatus(AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT);
+		announcementDao.update(announcement);
 	}
 
 }

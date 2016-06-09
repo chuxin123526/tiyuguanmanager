@@ -51,7 +51,8 @@ public class AnnouncementCriteriaUtils implements CriteriaProcessor {
 			case DaoCriteria.TYPE_ANNOUNCEMENT_PUBLISH_TIME_RANGE: {
 				Date[] range = (Date[]) daoCriteria.getContent();
 
-				// criteria.add(Restrictions.between("announcementPublisherTime", range[0], range[1]));
+				// criteria.add(Restrictions.between("announcementPublisherTime",
+				// range[0], range[1]));
 				criteria.add(Restrictions.ge("announcementPublisherTime", range[0]));
 				criteria.add(Restrictions.le("announcementPublisherTime", range[1]));
 			}
@@ -85,6 +86,17 @@ public class AnnouncementCriteriaUtils implements CriteriaProcessor {
 
 				criteria.add(Restrictions.in("announcementStatus", cc));
 			}
+				break;
+			case DaoCriteria.TYPE_ANNOUNCEMENT_COMMENT_SEARCH_KEYWORD: {
+				String keyword = daoCriteria.getContent().toString().replace(" ", "%");
+				if (keyword == null || "".equals(keyword.trim())) {
+					continue;
+				}
+
+				criteria.add(Restrictions.or(Restrictions.like("announcementTitle", SQLUtils.wrapLikeCriteria(keyword)),
+						Restrictions.like("announcementContent", SQLUtils.wrapLikeCriteria(keyword))));
+			}
+				break;
 			default:
 				break;
 			}

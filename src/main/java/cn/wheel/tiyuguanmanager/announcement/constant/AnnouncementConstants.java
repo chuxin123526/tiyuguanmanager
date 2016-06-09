@@ -148,5 +148,10 @@ public class AnnouncementConstants {
 		 * 没有找到指定的评论
 		 */
 		public static final int COMMENT_NOT_FOUND = 18;
+
+		/**
+		 * 成功将公告从已删除的状态恢复到正常状态
+		 */
+		public static final int ANNOUNCEMENT_RECOVER_SUCCESS = 19;
 	}
 }

@@ -11,8 +11,8 @@
 		<interceptors>
 			<interceptor name="auth" class="authenticationInterceptor" />
 			<interceptor-stack name="authenticationInterceptor">
-				<interceptor-ref name="defaultStack" />
 				<interceptor-ref name="auth" />
+				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
 
@@ -26,7 +26,6 @@
 			</result>
 		</global-results>
 	</package>
-
 
 	<!-- 系统首页 -->
 	<package name="default" extends="base-package">
@@ -304,6 +303,14 @@
 			</result>
 		</action>
 
+		<!-- 恢复已删除公告的 ajax 请求处理 -->
+		<action name="recoverAnnouncement" class="announcementRecoverAction">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">30</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
 		<!-- 查看草稿列表 -->
 		<action name="draftAnnouncementList" class="announcementAdminAction"
 			method="draftAnnouncementList">
@@ -328,7 +335,6 @@
 		<action name="doQuery" class="announcementAdminAction" method="doQuery">
 			<interceptor-ref name="authenticationInterceptor">
 				<param name="auth.permission">31, 32</param>
-				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
 			</result>
@@ -377,13 +383,19 @@
 			</interceptor-ref>
 		</action>
 
-		<!-- 处理删除公告 ajaca 请求的方法 -->
+		<!-- 处理删除公告 ajax 请求的方法 -->
 		<action name="doDeleteAnnouncement" class="announcementAdminAction"
 			method="doDeleteAnnouncement">
 			<interceptor-ref name="authenticationInterceptor">
 				<param name="auth.permission">33</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
+		</action>
+
+		<!-- 公告回收站 -->
+		<action name="announcementTrash" class="announcementTrash">
+			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
+			</result>
 		</action>
 
 		<!-- 公告前台，查看公告类 -->
@@ -405,45 +417,87 @@
 
 		<!-- 获得指定公告评论数量的 ajax 请求处理 -->
 		<action name="getAnnouncementCommentCount" class="getAnnouncementCommentCount">
-
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31, 32</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
 		</action>
 
 		<!-- 获得指定公告评论内容的 ajax 请求处理 -->
 		<action name="getAnnoucementComment" class="getAnnouncementCommentAction">
-
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31, 32</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
 		</action>
 
 		<!-- 用户删除自己发布评论的 ajax 请求处理 -->
 		<action name="deleteAnnouncementComment" class="deleteAnnouncementComment">
-
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">35</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
 		</action>
 
 		<!-- 评论查询页面 -->
 		<action name="commentQueryPage" class="announcementCommentQueryPage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">37</param>
+			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementCommentQuery.jsp
 			</result>
 		</action>
 
 		<!-- 执行评论查询的方法 -->
 		<action name="doCommentQuery" class="doCommentQuery">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">37</param>
+			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementCommentList.jsp
 			</result>
 		</action>
 
 		<!-- 后台管理查看某一条公告记录的所有评论页面 -->
 		<action name="showAnnouncementCommentList" class="showAnnouncementCommentList">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">38</param>
+			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementCommentList.jsp
 			</result>
 		</action>
 
 		<!-- 隐藏评论 -->
 		<action name="commentHide" class="commentHide">
-
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">39</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
 		</action>
 
 		<!-- 恢复评论 -->
 		<action name="commentRecover" class="commentRecover">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">40</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
 
+		<!-- 对所有用户：查看公告列表 -->
+		<action name="allAnnouncement" class="publicAnnouncementList">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31, 32</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/publicAnnouncement.jsp
+			</result>
+		</action>
+
+		<!-- 对所有用户：搜索公告 -->
+		<action name="searchAnnouncement" class="announcementSearch">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31, 32</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/publicAnnouncement.jsp
+			</result>
 		</action>
 	</package>
 

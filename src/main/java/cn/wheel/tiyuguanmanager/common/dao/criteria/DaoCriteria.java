@@ -117,6 +117,11 @@ public interface DaoCriteria {
 	public static final int TYPE_ANNOUNCEMENT_COMMENT_ANNOUNCEMENT_TITLE = 23;
 
 	/**
+	 * 根据关键字同时搜索内容和标题
+	 */
+	public static final int TYPE_ANNOUNCEMENT_COMMENT_SEARCH_KEYWORD = 24;
+
+	/**
 	 * 相等（等于）
 	 */
 	public static final int OP_EQUAL = 1;

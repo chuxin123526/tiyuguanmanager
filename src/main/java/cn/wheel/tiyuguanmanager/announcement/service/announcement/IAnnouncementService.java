@@ -99,4 +99,36 @@ public interface IAnnouncementService {
 	 * @return 如果数据库中存在相应的公告实体，则返回；否则返回 null
 	 */
 	public Announcement findAnnouncementById(long announcementId);
+
+	/**
+	 * 用于获得公开的公告列表
+	 * 
+	 * @param page
+	 *            页码
+	 * @param countPerPage
+	 *            每一页的公告数量
+	 * @return 含有公告数据的结果对象
+	 */
+	public AnnouncementQueryResult publicAnnouncementList(int page, int countPerPage);
+
+	/**
+	 * 根据公告内容和标题查询对公告进行查找
+	 * 
+	 * @param keyword
+	 *            要查找的关键字
+	 * @param page
+	 *            页码
+	 * @return 含有查询结果以及其他附加信息的结果类
+	 */
+	public AnnouncementQueryResult keywordSearch(String keyword, int page);
+
+	/**
+	 * 恢复已经删除的公告
+	 * 
+	 * @param announcementId
+	 *            要恢复的公告编号
+	 * @throws AnnouncementNotFoundException
+	 *             如果公告编号指定的公告对象不存在则会抛出这个异常
+	 */
+	public void recoverAnnouncement(long announcementId) throws AnnouncementNotFoundException;
 }

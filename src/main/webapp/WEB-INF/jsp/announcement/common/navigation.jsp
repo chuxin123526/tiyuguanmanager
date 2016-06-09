@@ -18,6 +18,9 @@
 				href="${pageContext.request.contextPath}/announcement/draftAnnouncementList">草稿管理</a>
 			<!--  -->
 			<a class="list-group-item" href="${pageContext.request.contextPath}/announcement/queryPage">公告查询</a>
+			<!--  -->
+			<a class="list-group-item"
+				href="${pageContext.request.contextPath}/announcement/announcementTrash">已删除的公告</a>
 		</div>
 		<h4>评论管理</h4>
 		<div class="list-group">

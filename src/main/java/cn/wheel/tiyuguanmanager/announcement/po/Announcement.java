@@ -1,8 +1,10 @@
 package cn.wheel.tiyuguanmanager.announcement.po;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import cn.wheel.tiyuguanmanager.announcement.util.HTMLUtils;
 import cn.wheel.tiyuguanmanager.user.po.User;
 
 /**
@@ -12,6 +14,12 @@ import cn.wheel.tiyuguanmanager.user.po.User;
  * 
  */
 public class Announcement {
+	private static SimpleDateFormat format;
+
+	static {
+		format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	}
+
 	private long announcementId;
 	private User announcementPublisher;
 	private Date announcementPublisherTime;
@@ -86,4 +94,20 @@ public class Announcement {
 		this.announcementComments = announcementComments;
 	}
 
+	public String getAnnouncementPublisherTimeString() {
+		return format.format(this.announcementPublisherTime);
+	}
+
+	public String getAnnouncementLastChangeTimeString() {
+		return format.format(this.announcementLastChangeTime);
+	}
+
+	public String getSimpleDescription() {
+		String s = HTMLUtils.removeHTMLTag(this.announcementContent);
+		if (s.length() > 100) {
+			s = s.substring(0, 100) + "...";
+		}
+
+		return s;
+	}
 }

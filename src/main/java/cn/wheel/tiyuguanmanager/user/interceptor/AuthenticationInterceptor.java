@@ -43,7 +43,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 	private String permission;
 	private int[] permissionArray;
 	private boolean ajaxAction;
-	private Map<String, Object> ajaxJson;
+	private Map<String, Object> ajaxReturn;
 
 	public String getPermission() {
 		return permission;
@@ -81,8 +81,8 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 		this.ajaxAction = ajaxAction;
 	}
 
-	public Map<String, Object> getAjaxJson() {
-		return ajaxJson;
+	public Map<String, Object> getAjaxReturn() {
+		return ajaxReturn;
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 			if (!ajaxAction) {
 				return RETURN_LOGIN;
 			} else {
-				this.ajaxJson = new MapUtils().put("code", UserConstants.AjaxReturnValue.NOT_LOGIN).toMap();
+				this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.NOT_LOGIN).toMap();
 				return "json";
 			}
 		}
@@ -110,7 +110,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 
 		if (!hasPermission) {
 			if (ajaxAction) {
-				this.ajaxJson = new MapUtils().put("code", UserConstants.AjaxReturnValue.PERMISSION_DENIED).toMap();
+				this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.PERMISSION_DENIED).toMap();
 				return "json";
 			} else {
 				return PERMISSION_DENIED;

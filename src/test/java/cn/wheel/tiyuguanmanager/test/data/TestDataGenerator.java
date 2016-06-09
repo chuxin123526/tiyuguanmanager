@@ -101,9 +101,13 @@ public class TestDataGenerator extends BaseAppContextTest {
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_PUBLISH);
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_DEL_ANOUNCEMENT);
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_LIST);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH);
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_UPDATE_ANNOUNCEMENT);
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_HIDE);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_RECOVER);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_MANAGE_COMMENT_LIST);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_MANAGE_QUERY);
 
 		roleService.insertRole(registerRoleVO);
 		roleService.insertRole(verifiedRoleVO);
@@ -198,14 +202,14 @@ public class TestDataGenerator extends BaseAppContextTest {
 		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
 
 		announcementService.publishNewAnnouncement(announcementVO);
-		
+
 		announcementVO = new AnnouncementVO();
 		announcementVO.setUserId(1);
 		announcementVO.setTitle("猴赛雷");
 		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
 
 		announcementService.publishNewAnnouncement(announcementVO);
-		
+
 		announcementVO = new AnnouncementVO();
 		announcementVO.setUserId(1);
 		announcementVO.setTitle("雷猴");

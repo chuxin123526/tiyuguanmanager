@@ -122,4 +122,29 @@ public class PermissionConstants {
 	 * 表示发表公告评论的权限
 	 */
 	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH = 35;
+
+	/**
+	 * 前台公告查询权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_QUERY = 36;
+
+	/**
+	 * 后台公告查询权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_MANAGE_QUERY = 37;
+
+	/**
+	 * 后台公告评论查询权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_MANAGE_COMMENT_LIST = 38;
+
+	/**
+	 * 后台隐藏公告评论的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_HIDE = 39;
+
+	/**
+	 * 后台恢复公告评论的权限
+	 */
+	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_RECOVER = 40;
 }
