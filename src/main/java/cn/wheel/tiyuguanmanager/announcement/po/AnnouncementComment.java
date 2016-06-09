@@ -10,6 +10,7 @@ public class AnnouncementComment {
 	private Date commentPublishTime;
 	private String commentContent;
 	private int commentStatus;
+	private Announcement announcement;
 
 	public long getCommentId() {
 		return commentId;
@@ -49,6 +50,14 @@ public class AnnouncementComment {
 
 	public void setCommentStatus(int commentStatus) {
 		this.commentStatus = commentStatus;
+	}
+
+	public Announcement getAnnouncement() {
+		return announcement;
+	}
+
+	public void setAnnouncement(Announcement announcement) {
+		this.announcement = announcement;
 	}
 
 }

@@ -1,7 +1,7 @@
 package cn.wheel.tiyuguanmanager.user.vo.validator;
 
 import cn.wheel.tiyuguanmanager.common.vo.validator.AbstractVOValidator;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.util.InfoCheckUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
@@ -40,12 +40,12 @@ public class UserUpdateVOValidator extends AbstractVOValidator {
 		valueRange(PROPERTY_ACCOUNT_TYPE, userVO.getAccountType(), 0, 2, "账号类型无效");
 
 		int type = userVO.getAccountType();
-		if (type == Constants.UserType.TYPE_TEACHER || type == Constants.UserType.TYPE_STUDENT) {
+		if (type == UserConstants.UserType.TYPE_TEACHER || type == UserConstants.UserType.TYPE_STUDENT) {
 			// 证件类型
 			valueRange(PROPERTY_IDENTIFIER_TYPE, userVO.getIdentifierType(), 1, 3, "证件类型无效");
 
 			// 如果用户选择的证件类型是身份证，则对用户的身份证号码进行合法性校验
-			if (userVO.getIdentifierType() == Constants.IdentifierType.TYPE_CITIZEN_ID) {
+			if (userVO.getIdentifierType() == UserConstants.IdentifierType.TYPE_CITIZEN_ID) {
 				if (!InfoCheckUtils.checkCitizenId(userVO.getIdentifierNumber())) {
 					errorFlag = true;
 					addErrorMessage(PROPERTY_IDENTIFIER_NUMBER, "身份账号码不合法");
@@ -53,7 +53,7 @@ public class UserUpdateVOValidator extends AbstractVOValidator {
 			}
 
 			// 如果是学生还需要判断校验学号
-			if (type == Constants.UserType.TYPE_STUDENT) {
+			if (type == UserConstants.UserType.TYPE_STUDENT) {
 				notEmpty(PROPERTY_STUDENT_NUMBER, userVO.getStudentNumber(), "学号不能为空");
 				lengthRange(PROPERTY_STUDENT_NUMBER, userVO.getMobilePhone(), 11, 11, "手机号码长度有误");
 			}

@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.po.User;
 import cn.wheel.tiyuguanmanager.user.util.MapUtils;
 
@@ -94,7 +94,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 			if (!ajaxAction) {
 				return RETURN_LOGIN;
 			} else {
-				this.ajaxJson = new MapUtils().put("code", Constants.AjaxReturnValue.NOT_LOGIN).toMap();
+				this.ajaxJson = new MapUtils().put("code", UserConstants.AjaxReturnValue.NOT_LOGIN).toMap();
 				return "json";
 			}
 		}
@@ -110,7 +110,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 
 		if (!hasPermission) {
 			if (ajaxAction) {
-				this.ajaxJson = new MapUtils().put("code", Constants.AjaxReturnValue.PERMISSION_DENIED).toMap();
+				this.ajaxJson = new MapUtils().put("code", UserConstants.AjaxReturnValue.PERMISSION_DENIED).toMap();
 				return "json";
 			} else {
 				return PERMISSION_DENIED;

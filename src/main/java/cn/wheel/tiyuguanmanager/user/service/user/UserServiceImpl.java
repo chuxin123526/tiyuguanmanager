@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserAccountTypeCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserForbiddenExcludeCriteria;
@@ -118,14 +118,14 @@ public class UserServiceImpl implements IUserService {
 		user.setRole(role);
 		user.setStudentNumber(userVO.getStudentNumber());
 		user.setUsername(userVO.getUsername());
-		user.setStatus(Constants.UserStatus.NORMAL);
-		user.setType(Constants.UserType.TYPE_STUDENT);
+		user.setStatus(UserConstants.UserStatus.NORMAL);
+		user.setType(UserConstants.UserType.TYPE_STUDENT);
 
 		String mobilePhone = userVO.getMobilePhone();
 		if (!StringUtils.isEmpty(mobilePhone)) {
 			Contract mobile = new Contract();
 			mobile.setContent(mobilePhone);
-			mobile.setType(Constants.ContratType.TYPE_MOBILE);
+			mobile.setType(UserConstants.ContratType.TYPE_MOBILE);
 
 			Set<Contract> contacts = new HashSet<>();
 			contacts.add(mobile);
@@ -150,7 +150,7 @@ public class UserServiceImpl implements IUserService {
 			User user = list.get(0);
 			user.getRole();
 
-			if (user.getStatus() == Constants.UserStatus.DISABLED) {
+			if (user.getStatus() == UserConstants.UserStatus.DISABLED) {
 				throw new UserForbiddenException();
 			}
 
@@ -253,7 +253,7 @@ public class UserServiceImpl implements IUserService {
 		user.setRole(role);
 		user.setStudentNumber(userVO.getStudentNumber());
 		user.setUsername(userVO.getUsername());
-		user.setStatus(Constants.UserStatus.NORMAL);
+		user.setStatus(UserConstants.UserStatus.NORMAL);
 		user.setType(userVO.getAccountType());
 
 		// 5. 交给持久层写入数据库
@@ -354,15 +354,15 @@ public class UserServiceImpl implements IUserService {
 		result.setTotalCount(totalCount);
 
 		// 3. 计算分页数据
-		int maxPage = PagingUtils.getMaxPage((int) totalCount, Constants.ITEM_PER_PAGE);
+		int maxPage = PagingUtils.getMaxPage((int) totalCount, UserConstants.ITEM_PER_PAGE);
 		result.setMaxPage(maxPage);
 
 		// 4. 查询
 		List<User> users = null;
 		if (!findAll) {
-			users = userDao.find(daoCriteriasArray, PagingUtils.calcFirstOffset(queryVO.getPage(), Constants.ITEM_PER_PAGE), Constants.ITEM_PER_PAGE);
+			users = userDao.find(daoCriteriasArray, PagingUtils.calcFirstOffset(queryVO.getPage(), UserConstants.ITEM_PER_PAGE), UserConstants.ITEM_PER_PAGE);
 		} else {
-			users = userDao.find(null, PagingUtils.calcFirstOffset(queryVO.getPage(), Constants.ITEM_PER_PAGE), Constants.ITEM_PER_PAGE);
+			users = userDao.find(null, PagingUtils.calcFirstOffset(queryVO.getPage(), UserConstants.ITEM_PER_PAGE), UserConstants.ITEM_PER_PAGE);
 		}
 		result.setCurrentPage(queryVO.getPage());
 		result.setCurrentPageItem(users.size());
@@ -379,7 +379,7 @@ public class UserServiceImpl implements IUserService {
 			throw new UserNotExistException();
 		}
 
-		user.setStatus(Constants.UserStatus.DISABLED);
+		user.setStatus(UserConstants.UserStatus.DISABLED);
 		userDao.update(user);
 	}
 
@@ -391,7 +391,7 @@ public class UserServiceImpl implements IUserService {
 			throw new UserNotExistException();
 		}
 
-		user.setStatus(Constants.UserStatus.NORMAL);
+		user.setStatus(UserConstants.UserStatus.NORMAL);
 		userDao.update(user);
 	}
 
@@ -453,7 +453,7 @@ public class UserServiceImpl implements IUserService {
 
 		user.getContracts().clear();
 		Contract contract = new Contract();
-		contract.setType(Constants.ContratType.TYPE_MOBILE);
+		contract.setType(UserConstants.ContratType.TYPE_MOBILE);
 		contract.setContent(updateVO.getMobilePhone());
 		user.getContracts().add(contract);
 

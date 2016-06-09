@@ -18,10 +18,12 @@
 				href="${pageContext.request.contextPath}/announcement/draftAnnouncementList">草稿管理</a>
 			<!--  -->
 			<a class="list-group-item" href="${pageContext.request.contextPath}/announcement/queryPage">公告查询</a>
-			<!--  -->
-			<a class="list-group-item" href="#">评论管理</a>
+		</div>
+		<h4>评论管理</h4>
+		<div class="list-group">
+			<a class="list-group-item"
+				href="${pageContext.request.contextPath}/announcement/commentQueryPage">评论查询</a>
 		</div>
 	</div>
-
 </body>
 </html>

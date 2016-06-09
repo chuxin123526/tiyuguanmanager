@@ -98,5 +98,5 @@ public interface IAnnouncementService {
 	 *            公告编号
 	 * @return 如果数据库中存在相应的公告实体，则返回；否则返回 null
 	 */
-	public Announcement findAnnonucementById(long announcementId);
+	public Announcement findAnnouncementById(long announcementId);
 }

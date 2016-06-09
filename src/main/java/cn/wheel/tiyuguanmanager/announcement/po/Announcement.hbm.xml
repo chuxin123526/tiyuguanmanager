@@ -16,7 +16,7 @@
 		<property name="announcementContent" type="text"
 			column="ANNOUNCEMENTCONTENT" />
 		<property name="announcementStatus" column="ANNOUNCEMENTSTATUS" />
-		<list name="announcementComments">
+		<list name="announcementComments" inverse="true">
 			<key column="ANNOUNCEMENTID"></key>
 			<list-index column="ANNOUNCEMENTCOMMENTINDEX" />
 			<one-to-many class="AnnouncementComment" />

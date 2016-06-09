@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.po.User;
@@ -59,12 +59,12 @@ public class UserAction {
 	public String login() {
 		// 判断用户提交的表单
 		if (StringUtils.isEmpty(username)) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.LOGIN_EMPTY_USERNAME).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.LOGIN_EMPTY_USERNAME).toMap();
 			return "json";
 		}
 
 		if (StringUtils.isEmpty(password)) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.LOGIN_EMPTY_PASSWORD).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.LOGIN_EMPTY_PASSWORD).toMap();
 			return "json";
 		}
 
@@ -73,12 +73,12 @@ public class UserAction {
 		try {
 			user = userService.login(username, password);
 		} catch (UserForbiddenException e) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.USER_FORBIDDEN).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.USER_FORBIDDEN).toMap();
 			return "json";
 		}
 
 		if (user == null) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.LOGIN_FAILED_DUE_TO_INFO_ERROR).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.LOGIN_FAILED_DUE_TO_INFO_ERROR).toMap();
 			return "json";
 		}
 
@@ -86,7 +86,7 @@ public class UserAction {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		session.put("user", user);
 
-		this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.LOGIN_SUCCESS).toMap();
+		this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.LOGIN_SUCCESS).toMap();
 		return "json";
 	}
 
@@ -95,7 +95,7 @@ public class UserAction {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		User user = (User) session.get("user");
 		if (user == null) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.NOT_LOGIN).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.NOT_LOGIN).toMap();
 			return "json";
 		}
 
@@ -103,19 +103,19 @@ public class UserAction {
 		session.remove("user");
 
 		// 返回
-		this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.LOGOUT_SUCCESS).toMap();
+		this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.LOGOUT_SUCCESS).toMap();
 		return "json";
 	}
 
 	public String register() {
 		try {
 			userService.register(register);
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.REGISTER_SUCCESS).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.REGISTER_SUCCESS).toMap();
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxReturnValue.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", UserConstants.AjaxReturnValue.FORM_EXCEPTION);
 		} catch (UserExistException e) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.USER_EXIST).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.USER_EXIST).toMap();
 		}
 
 		return "json";

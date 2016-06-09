@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserPasswordCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
@@ -33,7 +33,7 @@ public class UserDaoTest extends BaseAppContextTest {
 		User user = new User();
 		user.setUsername("test");
 		user.setPassword("password");
-		user.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
+		user.setIdentifierType(UserConstants.IdentifierType.TYPE_CITIZEN_ID);
 		user.setIdentifierNumber("123456789012345678");
 		user.setRealname("aaa");
 		user.setRole(null);

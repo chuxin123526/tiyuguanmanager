@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import cn.wheel.tiyuguanmanager.announcement.constant.Constants;
+import cn.wheel.tiyuguanmanager.announcement.constant.AnnouncementConstants;
 import cn.wheel.tiyuguanmanager.announcement.po.Announcement;
 import cn.wheel.tiyuguanmanager.announcement.service.announcement.IAnnouncementService;
 import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementQueryVO;
@@ -31,7 +31,7 @@ public class IndexPageAction {
 	public String homePage() {
 		AnnouncementQueryVO queryVO = new AnnouncementQueryVO();
 		queryVO.setCriteria(new int[] { 5 });
-		queryVO.setType(new int[] { Constants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT });
+		queryVO.setType(new int[] { AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT });
 		queryVO.setDesc(1);
 		
 		this.announcementList = this.announcementService.queryAnnouncement(queryVO, 1).getResult();

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.constants.PermissionItem;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.exception.PreservedRoleException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleExistException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleIsInUseException;
@@ -162,7 +162,7 @@ public class RoleAdminAction {
 
 		// 第一步：获得所有角色数量，计算分页相应参数
 		long count = roleService.getCountOfAllRoles();
-		int maxPage = PagingUtils.getMaxPage((int) count, Constants.ITEM_PER_PAGE);
+		int maxPage = PagingUtils.getMaxPage((int) count, UserConstants.ITEM_PER_PAGE);
 
 		// 如果页码是负数，则从倒数开始算
 		if (this.page < 0) {
@@ -170,17 +170,17 @@ public class RoleAdminAction {
 		}
 		makeSurePageIsInRange(1, maxPage);
 
-		int[] bounds = PagingUtils.getPageNavigationBounds(page, maxPage, Constants.NAVI_PAGE_OFFSET);
+		int[] bounds = PagingUtils.getPageNavigationBounds(page, maxPage, UserConstants.NAVI_PAGE_OFFSET);
 		this.minPage = bounds[0];
 		this.maxPage = bounds[1];
 
 		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
 
 		// 第二步：根据页码计算当前的偏移量和数量
-		int offset = PagingUtils.calcFirstOffset(page, Constants.ITEM_PER_PAGE);
+		int offset = PagingUtils.calcFirstOffset(page, UserConstants.ITEM_PER_PAGE);
 
 		// 第三步：从数据库中查询相应的项目
-		roleList = this.roleService.list(offset, Constants.ITEM_PER_PAGE);
+		roleList = this.roleService.list(offset, UserConstants.ITEM_PER_PAGE);
 
 		return "success";
 	}
@@ -206,15 +206,15 @@ public class RoleAdminAction {
 
 		try {
 			this.roleService.insertRole(form);
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_CREATE_SUCCESS).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_CREATE_SUCCESS).toMap();
 
 			return "json";
 		} catch (RoleExistException e) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_EXIST).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_EXIST).toMap();
 			return "json";
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxReturnValue.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", UserConstants.AjaxReturnValue.FORM_EXCEPTION);
 			return "json";
 		}
 	}
@@ -228,16 +228,16 @@ public class RoleAdminAction {
 		try {
 			this.roleService.deleteRole(form);
 
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_DELETE_SUCCESS).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_DELETE_SUCCESS).toMap();
 			return "json";
 		} catch (RoleIsInUseException e) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_IS_IN_USE).put("name", e.getRoleName()).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_IS_IN_USE).put("name", e.getRoleName()).toMap();
 			return "json";
 		} catch (RoleNotFoundException e) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID).toMap();
 			return "json";
 		} catch (PreservedRoleException e) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_PRESERVED).put("name", e.getRoleName()).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_PRESERVED).put("name", e.getRoleName()).toMap();
 			return "json";
 		}
 	}
@@ -268,10 +268,10 @@ public class RoleAdminAction {
 		try {
 			this.roleService.updateRole(form);
 
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_UPDATE_SUCCESS).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_UPDATE_SUCCESS).toMap();
 			return "json";
 		} catch (RoleNotFoundException e) {
-			this.ajaxReturn = new MapUtils().put("code", Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID).toMap();
+			this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID).toMap();
 			return "json";
 		}
 	}
@@ -306,7 +306,7 @@ public class RoleAdminAction {
 		this.roleList = result.getResult();
 
 		// 计算分页导航参数
-		int[] bounds = PagingUtils.getPageNavigationBounds(this.page, result.getMaxPage(), Constants.NAVI_PAGE_OFFSET);
+		int[] bounds = PagingUtils.getPageNavigationBounds(this.page, result.getMaxPage(), UserConstants.NAVI_PAGE_OFFSET);
 		this.minPage = bounds[0];
 		this.maxPage = bounds[1];
 

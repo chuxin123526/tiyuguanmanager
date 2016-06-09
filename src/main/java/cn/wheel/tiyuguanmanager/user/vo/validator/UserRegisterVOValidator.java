@@ -1,7 +1,7 @@
 package cn.wheel.tiyuguanmanager.user.vo.validator;
 
 import cn.wheel.tiyuguanmanager.common.vo.validator.AbstractVOValidator;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.util.InfoCheckUtils;
 import cn.wheel.tiyuguanmanager.user.vo.UserVO;
 import cn.wheel.tiyuguanmanager.user.vo.validator.exception.VOTypeNotMatch;
@@ -42,7 +42,7 @@ public class UserRegisterVOValidator extends AbstractVOValidator {
 		valueRange(PROPERTY_IDENTIFIER_TYPE, userVO.getIdentifierType(), 1, 3, "证件类型无效");
 
 		// 如果用户选择的证件类型是身份证，则对用户的身份证号码进行合法性校验
-		if (userVO.getIdentifierType() == Constants.IdentifierType.TYPE_CITIZEN_ID) {
+		if (userVO.getIdentifierType() == UserConstants.IdentifierType.TYPE_CITIZEN_ID) {
 			if (!InfoCheckUtils.checkCitizenId(userVO.getIdentifierNumber())) {
 				errorFlag = true;
 				addErrorMessage(PROPERTY_IDENTIFIER_NUMBER, "身份账号码不合法");

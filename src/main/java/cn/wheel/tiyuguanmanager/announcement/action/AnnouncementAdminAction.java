@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import cn.wheel.tiyuguanmanager.announcement.constant.Constants;
+import cn.wheel.tiyuguanmanager.announcement.constant.AnnouncementConstants;
 import cn.wheel.tiyuguanmanager.announcement.exception.AnnouncementNotFoundException;
 import cn.wheel.tiyuguanmanager.announcement.exception.SpecifiedAnnouncementIsNotDraftException;
 import cn.wheel.tiyuguanmanager.announcement.po.Announcement;
@@ -220,7 +220,7 @@ public class AnnouncementAdminAction {
 	public String publishedAnnouncementList() {
 		AnnouncementQueryVO queryVO = new AnnouncementQueryVO();
 		queryVO.setCriteria(new int[] { 5 });
-		queryVO.setType(new int[] { Constants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT });
+		queryVO.setType(new int[] { AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT });
 
 		AnnouncementQueryResult result = announcementService.queryAnnouncement(queryVO, page);
 		int[] bounds = PagingUtils.getPageNavigationBounds(result.getCurrentPage(), result.getMaxPage(), 3);
@@ -230,6 +230,7 @@ public class AnnouncementAdminAction {
 		this.allPages = PagingUtils.buildPageArray(this.minPage, this.maxPage);
 		this.showback = result.getShowback();
 		this.tipWord = "所有已经发布的公告";
+		this.msgWord = null;
 		this.announcementList = result.getResult();
 		this.function = 1;
 
@@ -240,7 +241,7 @@ public class AnnouncementAdminAction {
 	public String draftAnnouncementList() {
 		AnnouncementQueryVO queryVO = new AnnouncementQueryVO();
 		queryVO.setCriteria(new int[] { 5 });
-		queryVO.setType(new int[] { Constants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT });
+		queryVO.setType(new int[] { AnnouncementConstants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT });
 
 		AnnouncementQueryResult result = announcementService.queryAnnouncement(queryVO, page);
 
@@ -266,12 +267,12 @@ public class AnnouncementAdminAction {
 		try {
 			this.announcementService.publishNewAnnouncement(announcement);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUBLISH_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUBLISH_SUCCESS);
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxCode.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", AnnouncementConstants.AjaxCode.FORM_EXCEPTION);
 		}
 
 		return "json";
@@ -286,14 +287,14 @@ public class AnnouncementAdminAction {
 		try {
 			this.announcementService.saveNewAnnouncementDraft(announcement);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUBLISH_DRAFT_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUBLISH_DRAFT_SUCCESS);
 			return "json";
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
 			return "json";
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxCode.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", AnnouncementConstants.AjaxCode.FORM_EXCEPTION);
 			return "json";
 		}
 	}
@@ -303,13 +304,13 @@ public class AnnouncementAdminAction {
 		try {
 			this.announcementService.publishDraft(announcement);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUSH_DRAFT_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUSH_DRAFT_SUCCESS);
 		} catch (AnnouncementNotFoundException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_NOT_FOUND);
 		} catch (UserNotExistException e) {
 			// 不会进这里
 		} catch (SpecifiedAnnouncementIsNotDraftException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_SPECIFIED_ANNOUNCEMENT_IS_NOT_DRAFT);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_SPECIFIED_ANNOUNCEMENT_IS_NOT_DRAFT);
 		}
 
 		return "json";
@@ -342,7 +343,7 @@ public class AnnouncementAdminAction {
 
 	// 修改公告或者草稿
 	public String updateAnnouncementPage() {
-		Announcement announce = this.announcementService.findAnnonucementById(announcement.getAnnouncementId());
+		Announcement announce = this.announcementService.findAnnouncementById(announcement.getAnnouncementId());
 		if (announce == null) {
 			this.function = 5;
 			return "404";
@@ -358,19 +359,19 @@ public class AnnouncementAdminAction {
 
 	// 处理修改草稿请求的方法
 	public String doUpdateDraft() {
-		this.announcement.setType(Constants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT);
+		this.announcement.setType(AnnouncementConstants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT);
 
 		try {
 			this.announcementService.updateAnnouncement(announcement);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_DRAFT_UPDATE_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_DRAFT_UPDATE_SUCCESS);
 		} catch (AnnouncementNotFoundException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_NOT_FOUND);
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxCode.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", AnnouncementConstants.AjaxCode.FORM_EXCEPTION);
 		}
 
 		return "json";
@@ -378,19 +379,19 @@ public class AnnouncementAdminAction {
 
 	// 处理修改公告请求方法
 	public String doUpdateAnnouncement() {
-		this.announcement.setType(Constants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT);
+		this.announcement.setType(AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT);
 
 		try {
 			this.announcementService.updateAnnouncement(announcement);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_UPDATE_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_UPDATE_SUCCESS);
 		} catch (AnnouncementNotFoundException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_NOT_FOUND);
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxCode.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", AnnouncementConstants.AjaxCode.FORM_EXCEPTION);
 		}
 
 		return "json";
@@ -401,9 +402,9 @@ public class AnnouncementAdminAction {
 		try {
 			this.announcementService.deleteAnnouncement(announcement.getAnnouncementId());
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_DELETE_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_DELETE_SUCCESS);
 		} catch (AnnouncementNotFoundException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
+			this.ajaxReturn = MapUtils.generatorCodeMap(AnnouncementConstants.AjaxCode.ANNOUNCEMENT_PUBLISHER_NOT_FOUND);
 		}
 
 		return "json";

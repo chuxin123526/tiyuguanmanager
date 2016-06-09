@@ -102,6 +102,21 @@ public interface DaoCriteria {
 	public static final int TYPE_ANNOUNCEMENT_MULTI_STATUS = 20;
 
 	/**
+	 * 根据公告ID查询公告的评论信息
+	 */
+	public static final int TYPE_ANNOUNCEMENT_COMMENT_ANNOUNCEMENT_ID = 21;
+
+	/**
+	 * 多种类型的评论查询条件
+	 */
+	public static final int TYPE_ANNOUNCEMENT_COMMENT_MULTI_TYPE = 22;
+
+	/**
+	 * 根据公告标题筛选评论
+	 */
+	public static final int TYPE_ANNOUNCEMENT_COMMENT_ANNOUNCEMENT_TITLE = 23;
+
+	/**
 	 * 相等（等于）
 	 */
 	public static final int OP_EQUAL = 1;

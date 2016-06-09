@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.wheel.tiyuguanmanager.announcement.constant.Constants;
+import cn.wheel.tiyuguanmanager.announcement.constant.AnnouncementConstants;
 import cn.wheel.tiyuguanmanager.announcement.dao.announcement.IAnnouncementDao;
 import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementContentCriteria;
 import cn.wheel.tiyuguanmanager.announcement.dao.criteria.announcement.AnnouncementMultiTypeCriteria;
@@ -82,7 +82,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 		announcement.setAnnouncementLastChangeTime(time);
 		announcement.setAnnouncementTitle(announcementVO.getTitle());
 		announcement.setAnnouncementContent(announcementVO.getContent());
-		announcement.setAnnouncementStatus(Constants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT);
+		announcement.setAnnouncementStatus(AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT);
 
 		// 4. 交给持久层写入数据库
 		announcementDao.insert(announcement);
@@ -119,7 +119,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 		announcement.setAnnouncementLastChangeTime(time);
 		announcement.setAnnouncementTitle(announcementVO.getTitle());
 		announcement.setAnnouncementContent(announcementVO.getContent());
-		announcement.setAnnouncementStatus(Constants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT);
+		announcement.setAnnouncementStatus(AnnouncementConstants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT);
 
 		// 4. 交给持久层写入数据库
 		announcementDao.insert(announcement);
@@ -135,10 +135,10 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 		}
 
 		// 2. 修改状态
-		if (draft.getAnnouncementStatus() != Constants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT) {
+		if (draft.getAnnouncementStatus() != AnnouncementConstants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT) {
 			throw new SpecifiedAnnouncementIsNotDraftException();
 		}
-		draft.setAnnouncementStatus(Constants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT);
+		draft.setAnnouncementStatus(AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT);
 
 		// 3. 更改发布时间
 		Date now = new Date();
@@ -169,7 +169,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 			throw new AnnouncementNotFoundException();
 		}
 
-		announcement.setAnnouncementStatus(Constants.AnnouncementStatus.STATUS_DELETED_ANNOUNCEMENT);
+		announcement.setAnnouncementStatus(AnnouncementConstants.AnnouncementStatus.STATUS_DELETED_ANNOUNCEMENT);
 	}
 
 	@Transactional
@@ -305,11 +305,11 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 						showback.setTypeIncluded(true);
 
 						for (int type : typeArray) {
-							if (type == Constants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT) {
+							if (type == AnnouncementConstants.AnnouncementStatus.STATUS_PUBLISHED_ANNOUNCEMENT) {
 								showback.setTypePublishedIncluded(true);
-							} else if (type == Constants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT) {
+							} else if (type == AnnouncementConstants.AnnouncementStatus.STATUS_DRAFT_ANNOUNCEMENT) {
 								showback.setTypeDraftIncluded(true);
-							} else if (type == Constants.AnnouncementStatus.STATUS_DELETED_ANNOUNCEMENT) {
+							} else if (type == AnnouncementConstants.AnnouncementStatus.STATUS_DELETED_ANNOUNCEMENT) {
 								showback.setTypeDeletedIncluded(true);
 							}
 						}
@@ -348,7 +348,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 		}
 
 		// 3. 进行分页
-		int countPerPage = cn.wheel.tiyuguanmanager.user.constants.Constants.ITEM_PER_PAGE;
+		int countPerPage = cn.wheel.tiyuguanmanager.user.constants.UserConstants.ITEM_PER_PAGE;
 		int maxPage = PagingUtils.getMaxPage(totalCount, countPerPage);
 		if (page < 0) {
 			page = maxPage + page + 1;
@@ -377,7 +377,7 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 
 	@Transactional
 	@Override
-	public Announcement findAnnonucementById(long announcementId) {
+	public Announcement findAnnouncementById(long announcementId) {
 		return this.announcementDao.findById(announcementId);
 	}
 

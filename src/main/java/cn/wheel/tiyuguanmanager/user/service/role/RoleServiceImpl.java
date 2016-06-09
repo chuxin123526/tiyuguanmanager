@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.wheel.tiyuguanmanager.common.dao.criteria.DaoCriteria;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.RoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
@@ -166,13 +166,13 @@ public class RoleServiceImpl implements IRoleService {
 
 		// 查询总数量
 		long totalCount = this.roleDao.count(criterias);
-		int maxPage = PagingUtils.getMaxPage((int) totalCount, Constants.ITEM_PER_PAGE);
+		int maxPage = PagingUtils.getMaxPage((int) totalCount, UserConstants.ITEM_PER_PAGE);
 
 		result.setTotalCount(totalCount);
 		result.setMaxPage(maxPage);
 
 		// 查询指定分页的数据
-		List<Role> list = this.roleDao.find(criterias, PagingUtils.calcFirstOffset(page, Constants.ITEM_PER_PAGE), Constants.ITEM_PER_PAGE);
+		List<Role> list = this.roleDao.find(criterias, PagingUtils.calcFirstOffset(page, UserConstants.ITEM_PER_PAGE), UserConstants.ITEM_PER_PAGE);
 		result.setCurrentPage(page);
 		result.setCurragePageItem(list.size());
 		result.setResult(list);

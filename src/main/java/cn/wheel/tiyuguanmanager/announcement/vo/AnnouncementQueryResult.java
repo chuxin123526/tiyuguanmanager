@@ -1,5 +1,6 @@
 package cn.wheel.tiyuguanmanager.announcement.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.wheel.tiyuguanmanager.announcement.po.Announcement;
@@ -62,7 +63,30 @@ public class AnnouncementQueryResult {
 	}
 
 	public void setResult(List<Announcement> result) {
-		this.result = result;
+		List<Announcement> retValue = new ArrayList<Announcement>();
+
+		for (Announcement announcement : result) {
+			Announcement anotherAnnouncement = new Announcement();
+			anotherAnnouncement.setAnnouncementId(announcement.getAnnouncementId());
+			anotherAnnouncement.setAnnouncementPublisher(announcement.getAnnouncementPublisher());
+			anotherAnnouncement.setAnnouncementPublisherTime(announcement.getAnnouncementPublisherTime());
+			anotherAnnouncement.setAnnouncementLastChangeTime(announcement.getAnnouncementLastChangeTime());
+			anotherAnnouncement.setAnnouncementContent(announcement.getAnnouncementContent());
+			anotherAnnouncement.setAnnouncementStatus(announcement.getAnnouncementStatus());
+
+			String rawTitle = announcement.getAnnouncementTitle();
+			String newTitle = "";
+			if (rawTitle.length() > 30) {
+				newTitle = rawTitle.substring(0, 30) + "...";
+			} else {
+				newTitle = rawTitle;
+			}
+			
+			anotherAnnouncement.setAnnouncementTitle(newTitle);
+			retValue.add(anotherAnnouncement);
+		}
+
+		this.result = retValue;
 	}
 
 	public AnnouncementQueryShowback getShowback() {

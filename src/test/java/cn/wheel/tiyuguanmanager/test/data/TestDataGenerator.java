@@ -13,7 +13,7 @@ import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementVO;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.po.Role;
@@ -120,24 +120,24 @@ public class TestDataGenerator extends BaseAppContextTest {
 		UserVO normalUser = new UserVO();
 		normalUser.setGender(1);
 		normalUser.setIdentifierNumber("440103198502132541");
-		normalUser.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
+		normalUser.setIdentifierType(UserConstants.IdentifierType.TYPE_CITIZEN_ID);
 		normalUser.setPassword("123456");
 		normalUser.setRealname("123456");
 		normalUser.setStudentNumber("201311701407");
 		normalUser.setUsername("一个超级大帅逼");
 		normalUser.setMobilePhone("18320481195");
-		normalUser.setAccountType(Constants.UserType.TYPE_STUDENT);
+		normalUser.setAccountType(UserConstants.UserType.TYPE_STUDENT);
 
 		UserVO superAdmin = new UserVO();
 		superAdmin.setGender(1);
 		superAdmin.setIdentifierNumber("440103198502132541");
-		superAdmin.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
+		superAdmin.setIdentifierType(UserConstants.IdentifierType.TYPE_CITIZEN_ID);
 		superAdmin.setPassword("123456");
 		superAdmin.setRealname("123456");
 		superAdmin.setStudentNumber("201311701407");
 		superAdmin.setUsername("一个超级管理员");
 		superAdmin.setMobilePhone("18320481195");
-		superAdmin.setAccountType(Constants.UserType.TYPE_EMPLOYEE);
+		superAdmin.setAccountType(UserConstants.UserType.TYPE_EMPLOYEE);
 
 		List<Role> list = roleService.findByName("超级管理员");
 		superAdmin.setRoleId((int) list.get(0).getRoleId());
@@ -147,13 +147,13 @@ public class TestDataGenerator extends BaseAppContextTest {
 		UserVO announceAdmin = new UserVO();
 		announceAdmin.setGender(1);
 		announceAdmin.setIdentifierNumber("440103198502132541");
-		announceAdmin.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
+		announceAdmin.setIdentifierType(UserConstants.IdentifierType.TYPE_CITIZEN_ID);
 		announceAdmin.setPassword("123456");
 		announceAdmin.setRealname("123456");
 		announceAdmin.setStudentNumber("201311701407");
 		announceAdmin.setUsername("一个公告管理员");
 		announceAdmin.setMobilePhone("18320481195");
-		announceAdmin.setAccountType(Constants.UserType.TYPE_EMPLOYEE);
+		announceAdmin.setAccountType(UserConstants.UserType.TYPE_EMPLOYEE);
 
 		announceAdmin.setRoleId((int) list.get(0).getRoleId());
 

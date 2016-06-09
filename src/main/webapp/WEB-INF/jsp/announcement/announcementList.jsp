@@ -46,6 +46,7 @@
 								<th style="width: 3.5em; text-align: center;"></th>
 								<th style="width: 3.5em; text-align: center;"></th>
 								<th style="width: 3.5em; text-align: center;"></th>
+								<th style="width: 3.5em; text-align: center;"></th>
 							</tr>
 							<s:iterator value="#request.announcementList" var="announcement">
 								<tr>
@@ -55,10 +56,12 @@
 									<s:if test="#announcement.announcementStatus == 3">
 										<td class="td-with-button"></td>
 										<td class="td-with-button"><button class="btn btn-default list-form-update">修改</button></td>
+										<td class="td-with-button"><button class="btn btn-default list-form-comment">公告评论</button></td>
 										<td class="td-with-button"><button class="btn btn-default list-form-delete">删除</button></td>
 									</s:if>
 									<s:if test="#announcement.announcementStatus == 2">
 										<td class="td-with-button"><button class="btn btn-default list-form-update">修改</button></td>
+										<td class="td-with-button"><button class="btn btn-default list-form-comment">公告评论</button></td>
 										<td class="td-with-button"><button class="btn btn-default list-form-publish">发布</button></td>
 										<td class="td-with-button"><button class="btn btn-default list-form-delete">删除</button></td>
 									</s:if>
@@ -105,6 +108,12 @@
 			</s:else>
 		</div>
 	</div>
+
+	<!-- 隐藏表单，用于查询指定公告下的所有评论 -->
+	<form id="get-comment-list-form" style="display: none" method="get" action="showAnnouncementCommentList">
+		<input type="hidden" name="announcementId" id="input-comment-list-announcement-id" /> <input
+			type="hidden" name="page" id="input-comment-list-page" value="1" />
+	</form>
 
 	<!-- 隐藏表单，保存查询条件 -->
 	<div style="display: none;">
@@ -254,6 +263,14 @@
 					}
 				});
 			}
+		});
+
+		$("button.list-form-comment").bind("click", function(){
+			var button = $(this);
+			var id = trim(button.parent().parent().find("span.announcement-table-id").html());
+			
+			$("input#input-comment-list-announcement-id").val(id);
+			$("form#get-comment-list-form").submit();
 		});
 	</script>
 

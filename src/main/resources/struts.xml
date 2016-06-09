@@ -385,6 +385,66 @@
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
+
+		<!-- 公告前台，查看公告类 -->
+		<action name="announcementPage" class="getAnnouncementAction">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">32</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/announcement/announcementPage.jsp
+			</result>
+		</action>
+
+		<!-- 处理发布公告评论的 ajax 请求处理 -->
+		<action name="commentPublish" class="commentPublishAction">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">35</param>
+				<param name="auth.ajaxAction">true</param>
+			</interceptor-ref>
+		</action>
+
+		<!-- 获得指定公告评论数量的 ajax 请求处理 -->
+		<action name="getAnnouncementCommentCount" class="getAnnouncementCommentCount">
+
+		</action>
+
+		<!-- 获得指定公告评论内容的 ajax 请求处理 -->
+		<action name="getAnnoucementComment" class="getAnnouncementCommentAction">
+
+		</action>
+
+		<!-- 用户删除自己发布评论的 ajax 请求处理 -->
+		<action name="deleteAnnouncementComment" class="deleteAnnouncementComment">
+
+		</action>
+
+		<!-- 评论查询页面 -->
+		<action name="commentQueryPage" class="announcementCommentQueryPage">
+			<result name="success">/WEB-INF/jsp/announcement/announcementCommentQuery.jsp
+			</result>
+		</action>
+
+		<!-- 执行评论查询的方法 -->
+		<action name="doCommentQuery" class="doCommentQuery">
+			<result name="success">/WEB-INF/jsp/announcement/announcementCommentList.jsp
+			</result>
+		</action>
+
+		<!-- 后台管理查看某一条公告记录的所有评论页面 -->
+		<action name="showAnnouncementCommentList" class="showAnnouncementCommentList">
+			<result name="success">/WEB-INF/jsp/announcement/announcementCommentList.jsp
+			</result>
+		</action>
+
+		<!-- 隐藏评论 -->
+		<action name="commentHide" class="commentHide">
+
+		</action>
+
+		<!-- 恢复评论 -->
+		<action name="commentRecover" class="commentRecover">
+
+		</action>
 	</package>
 
 	<package name="somebody" extends="struts-default" namespace="/competition">

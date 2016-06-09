@@ -40,12 +40,32 @@ public class AnnouncementCommentCriteriaUtils implements CriteriaProcessor {
 				criteria.add(Restrictions.between("commentPublishTime", timeRange[0], timeRange[1]));
 			}
 				break;
-			case DaoCriteria.TYPE_ANNOUNCEMENT_COMMENT_PUBLISHER_ID: {
-				criteria = criteria.createCriteria("commentPublisher");
-				criteria.add(Restrictions.eq("userId", (long) daoCriteria.getContent()));
+			case DaoCriteria.TYPE_ANNOUNCEMENT_COMMENT_MULTI_TYPE: {
+				int[] types = (int[]) daoCriteria.getContent();
+				Object[] objArray = new Object[types.length];
+				for (int i = 0; i < types.length; i++) {
+					objArray[i] = types[i];
+				}
+
+				criteria.add(Restrictions.in("commentStatus", objArray));
 			}
 				break;
-
+			case DaoCriteria.TYPE_ANNOUNCEMENT_COMMENT_PUBLISHER_ID: {
+				Criteria announcemnetCriteria = criteria.createCriteria("commentPublisher");
+				announcemnetCriteria.add(Restrictions.eq("userId", (long) daoCriteria.getContent()));
+			}
+				break;
+			case DaoCriteria.TYPE_ANNOUNCEMENT_COMMENT_ANNOUNCEMENT_ID: {
+				Criteria announcemnetCriteria = criteria.createCriteria("announcement");
+				announcemnetCriteria.add(Restrictions.eq("announcementId", (long) daoCriteria.getContent()));
+			}
+				break;
+			case DaoCriteria.TYPE_ANNOUNCEMENT_COMMENT_ANNOUNCEMENT_TITLE: {
+				Criteria announcementCriteria = criteria.createCriteria("announcement");
+				announcementCriteria.add(Restrictions.like("announcementTitle",
+						SQLUtils.wrapLikeCriteria(daoCriteria.getContent().toString().replace(" ", "%"))));
+			}
+				break;
 			default:
 				break;
 			}

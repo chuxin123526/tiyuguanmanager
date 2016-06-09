@@ -93,7 +93,9 @@
 						<div class="list-group">
 							<s:if test="#request.announcementList.size != 0">
 								<s:iterator value="#request.announcementList" var="announcement">
-									<a class="list-group-item"><s:property value="#announcement.announcementTitle" /></a>
+									<a class="list-group-item" class="announcement-link" target="_blank"
+										href="announcement/announcementPage?id=<s:property value="#announcement.announcementId"/>"><s:property
+											value="#announcement.announcementTitle" /></a>
 								</s:iterator>
 								<p style="text-align: right; margin-top: 10px;">
 									<span>查看更多...</span>
@@ -118,6 +120,7 @@
 				location.href = "${pageContext.request.contextPath}/announcement/index";
 			});
 			// /announcement/index
+
 		});
 	</script>
 </body>

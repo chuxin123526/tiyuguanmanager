@@ -10,6 +10,8 @@
 		</id>
 		<many-to-one name="commentPublisher" column="COMMENTPUBLISHER"
 			class="cn.wheel.tiyuguanmanager.user.po.User" />
+		<many-to-one name="announcement" column="ANNOUNCEMENTID"
+			class="Announcement" />
 		<property name="commentPublishTime" column="COMMENTPUBLISHTIME" />
 		<property name="commentContent" column="COMMENTCONTENT" type="text" />
 		<property name="commentStatus" column="COMMENTSTATUS" />

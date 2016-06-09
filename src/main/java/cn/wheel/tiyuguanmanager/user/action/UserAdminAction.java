@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
@@ -190,17 +190,17 @@ public class UserAdminAction {
 	public String newUser() {
 		try {
 			this.userService.insertUser(create);
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_INSERT_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_INSERT_SUCCESS);
 			return "json";
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxReturnValue.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", UserConstants.AjaxReturnValue.FORM_EXCEPTION);
 			return "json";
 		} catch (UserExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_EXIST);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_EXIST);
 			return "json";
 		} catch (RoleNotFoundException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID);
 			return "json";
 		}
 	}
@@ -254,10 +254,10 @@ public class UserAdminAction {
 		try {
 			userService.enableUserAccount(userId);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_ENABLE_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_ENABLE_SUCCESS);
 			return "json";
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_NOT_EXIST);
 			return "json";
 		}
 	}
@@ -271,10 +271,10 @@ public class UserAdminAction {
 		try {
 			userService.forbidUserAccount(userId);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_FORBID_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_FORBID_SUCCESS);
 			return "json";
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_NOT_EXIST);
 			return "json";
 		}
 	}
@@ -302,21 +302,21 @@ public class UserAdminAction {
 		try {
 			this.userService.updateUser(create);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_UPDATE_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_UPDATE_SUCCESS);
 			return "json";
 		} catch (FormException e) {
 			this.ajaxReturn = e.getErrorMessages();
-			this.ajaxReturn.put("code", Constants.AjaxReturnValue.FORM_EXCEPTION);
+			this.ajaxReturn.put("code", UserConstants.AjaxReturnValue.FORM_EXCEPTION);
 
 			return "json";
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_NOT_EXIST);
 			return "json";
 		} catch (UserExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_EXIST);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_EXIST);
 			return "json";
 		} catch (RoleNotFoundException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.ROLE_INVAILD_ROLE_ID);
 			return "json";
 		}
 	}
@@ -330,10 +330,10 @@ public class UserAdminAction {
 		try {
 			this.userService.checkUser(userId, true);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_VERIFY_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_VERIFY_SUCCESS);
 			return "json";
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_NOT_EXIST);
 			return "json";
 		}
 	}
@@ -347,10 +347,10 @@ public class UserAdminAction {
 		try {
 			this.userService.checkUser(userId, false);
 
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_VERIFY_CANCEL_SUCCESS);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_VERIFY_CANCEL_SUCCESS);
 			return "json";
 		} catch (UserNotExistException e) {
-			this.ajaxReturn = MapUtils.generatorCodeMap(Constants.AjaxReturnValue.USER_NOT_EXIST);
+			this.ajaxReturn = MapUtils.generatorCodeMap(UserConstants.AjaxReturnValue.USER_NOT_EXIST);
 			return "json";
 		}
 	}

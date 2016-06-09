@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
-import cn.wheel.tiyuguanmanager.user.constants.Constants;
+import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.po.User;
@@ -38,7 +38,7 @@ public class UserServiceTest extends BaseAppContextTest {
 		UserVO vo = new UserVO();
 		vo.setGender(0);
 		vo.setIdentifierNumber("440103198502132541");
-		vo.setIdentifierType(Constants.IdentifierType.TYPE_CITIZEN_ID);
+		vo.setIdentifierType(UserConstants.IdentifierType.TYPE_CITIZEN_ID);
 		vo.setPassword("123456");
 		vo.setRealname("123456");
 		vo.setStudentNumber("201311701407");

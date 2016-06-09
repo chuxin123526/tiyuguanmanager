@@ -14,7 +14,7 @@ import cn.wheel.tiyuguanmanager.common.util.hibernate.QueryEntityCountHibernateC
 import cn.wheel.tiyuguanmanager.common.util.hibernate.RowCountHibernateCallBack;
 
 @Repository("announcementCommentDao")
-public class AnnouncementCommentDaoImpl implements IAnnouncementComment {
+public class AnnouncementCommentDaoImpl implements IAnnouncementCommentDao {
 
 	@Resource
 	private HibernateTemplate hibernateTemplate;
