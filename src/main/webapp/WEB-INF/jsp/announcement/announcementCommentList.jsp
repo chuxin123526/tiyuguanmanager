@@ -204,7 +204,9 @@
 				"commentId" : id
 			}, function(data, textStatus) {
 				if (textStatus == 'success') {
-					if (data.code == 17) {
+					if (data == null) {
+						showErrorToast("您没有恢复评论的权限");
+					} else if (data.code == 17) {
 						// 恢复成功
 						showSuccessToast("成功恢复评论");
 
@@ -212,9 +214,9 @@
 						$("span.comment-status[commentid='" + id + "']").html("正常").removeClass("comment-status-deleted").removeClass("comment-status-hidden")
 								.addClass("comment-status-normal");
 					} else if (data.code == 2) {
-						// 没有权限
+						showErrorToast("您没有恢复评论的权限");
 					} else if (data.code == 18) {
-						// 评论编号无效
+						showErrorToast("指定的评论编号无效，请刷新页面再进行操作");
 					}
 				} else {
 					showErrorToast("与服务器通信失败，请稍后再试");
@@ -233,7 +235,9 @@
 				"commentId" : id
 			}, function(data, textStatus) {
 				if (textStatus == 'success') {
-					if (data.code == 16) {
+					if (data == null) {
+						showErrorToast("您没有隐藏评论操作的权限");
+					} else if (data.code == 16) {
 						// 隐藏成功
 						showSuccessToast("成功隐藏评论");
 
@@ -241,8 +245,10 @@
 						$("span.comment-status[commentid='" + id + "']").html("被隐藏").removeClass("comment-status-normal").addClass("comment-status-hidden");
 					} else if (data.code == 2) {
 						// 没有权限
+						showErrorToast("您没有隐藏评论操作的权限");
 					} else if (data.code == 18) {
 						// 评论编号无效
+						showErrorToast("进行操作的评论");
 					}
 				} else {
 					showErrorToast("与服务器通信失败，请稍后再试");

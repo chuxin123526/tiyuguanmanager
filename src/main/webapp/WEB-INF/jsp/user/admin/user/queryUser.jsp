@@ -89,8 +89,6 @@
 		$("#nav-search-user").addClass("active");
 
 		function changeForm() {
-			console.log("debug");
-
 			if ($("input#query-form-criteria-username").is(":checked")) {
 				$("div#form-div-username").css("display", "block");
 			} else {

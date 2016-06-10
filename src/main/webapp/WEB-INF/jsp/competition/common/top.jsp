@@ -82,6 +82,8 @@
 			$("#nav-bar-user").addClass("active");
 		} else if (location.href.indexOf("${pageContext.request.contextPath}/announcement") != -1) {
 			$("#nav-bar-announcement").addClass("active");
+		} else if (location.href.indexOf("${pageContext.request.contextPath}/competition") != -1) {
+			$("#nav-bar-competition").addClass("active");
 		}
 	</script>
 </body>

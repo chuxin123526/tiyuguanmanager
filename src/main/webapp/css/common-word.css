@@ -4,6 +4,10 @@ div.clear {
 	clear: both;
 }
 
+p.btn-p {
+	height: 25px;
+}
+
 div.home-welcome {
 	padding-top: 10px;
 	padding-left: 10px;
@@ -47,10 +51,10 @@ div.function-box span {
 	color: rgb(101, 101, 101);
 }
 
-div.function-box button {
+div.function-box a {
 	float: right;
 }
 
-div.function-box button span {
+div.function-box a span {
 	color: #ffffff;
 }

@@ -191,32 +191,32 @@
 
 	<jsp:include page="../../../competition/common/pagefoot.jsp"></jsp:include>
 	<script type="text/javascript">
-	var idNumberWeight = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
-	var checkBit = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+		var idNumberWeight = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+		var checkBit = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
 
-	$("#nav-new-user").addClass("active");
-	
-	// 身份证号码校验
-	function checkIdNumber(idNumber) {
-		var totalWeight = 0;
-		// 长度不对
-		if (idNumber.length != 18) {
-			return false;
-		}
-		// 计算权值和
-		for (var i = 0; i < 17; i++) {
-			var c = idNumber.charAt(i);
-			if (c >= '0' && c <= '9') {
-				totalWeight = totalWeight + (parseInt(c) * idNumberWeight[i]);
-			} else {
+		$("#nav-new-user").addClass("active");
+
+		// 身份证号码校验
+		function checkIdNumber(idNumber) {
+			var totalWeight = 0;
+			// 长度不对
+			if (idNumber.length != 18) {
 				return false;
 			}
+			// 计算权值和
+			for (var i = 0; i < 17; i++) {
+				var c = idNumber.charAt(i);
+				if (c >= '0' && c <= '9') {
+					totalWeight = totalWeight + (parseInt(c) * idNumberWeight[i]);
+				} else {
+					return false;
+				}
+			}
+			// 得到校验位
+			var checkBitIndex = totalWeight % 11;
+			return (checkBit[checkBitIndex] == idNumber.toUpperCase().charAt(17));
 		}
-		// 得到校验位
-		var checkBitIndex = totalWeight % 11;
-		return (checkBit[checkBitIndex] == idNumber.toUpperCase().charAt(17));
-	}
-	
+
 		// 表单校验函数
 		function checkForm() {
 			var pass = true;
@@ -226,56 +226,56 @@
 			if (isStringEmpty(username)) {
 				$("#create-form-username").parent().addClass("has-error");
 				$("#error-username").html("用户名为必填项");
-				
+
 				pass = false;
 			} else {
-				if (username.length < 6 || username.length > 16) {
+				if (username.length > 16 || username.length < 6) {
 					$("#create-form-username").parent().addClass("has-error");
 					$("#error-username").html("用户名长度必须为 6~16 ");
-					
+
 					pass = false;
 				}
 			}
-			
+
 			// 密码校验
 			var password = $("#create-form-password").val();
 			if (isStringEmpty(password)) {
 				$("#create-form-password").parent().addClass("has-error");
 				$("#error-password").html("密码为必填项");
-				
+
 				pass = false;
 			} else {
-				if (password.length < 6 || password.length > 16) {
+				if (password.length > 16 || password.length < 6) {
 					$("#create-form-password").parent().addClass("has-error");
 					$("#error-password").html("确认密码必须为 6~16 ");
-					
+
 					pass = false;
 				}
 			}
-			
+
 			// 确认密码校验
 			var confirmPassword = $("#create-form-confirm-password").val();
 			if (isStringEmpty(confirmPassword)) {
 				$("#create-form-confirm-password").parent().addClass("has-error");
 				$("#error-confirm-password").html("密码为必填项");
-				
+
 				pass = false;
 			} else {
-				if (confirmPassword.length < 6 || confirmPassword.length > 16) {
+				if (confirmPassword.length > 16 || confirmPassword.length < 6) {
 					$("#create-form-confirm-password").parent().addClass("has-error");
 					$("#error-confirm-password").html("确认密码必须为 6~16 ");
-					
+
 					pass = false;
 				} else {
 					if (password != confirmPassword) {
 						$("#create-form-confirm-password").parent().addClass("has-error");
 						$("#error-confirm-password").html("两次输入的密码不一致");
-						
+
 						pass = false;
 					}
 				}
 			}
-			
+
 			var accountType = $('input[name="create.accountType"]:checked').val();
 			if (accountType == 0 || accountType == 2) {
 				// 学生账号
@@ -286,65 +286,65 @@
 					if (!checkIdNumber(idNumber)) {
 						$("#create-form-id-number").parent().addClass("has-error");
 						$("#error-id-number").html("身份证号码有误");
-						
+
 						pass = false;
 					}
 				}
-				
+
 				// 2. 如果是学生账号还需要校验学号
 				if (accountType == 0) {
 					var stuNumber = trim($("#create-form-student-number").val());
 					if (stuNumber.length != 12) {
 						$("#create-form-student-number").parent().addClass("has-error");
 						$("#error-stu-number").html("学号长度有误");
-						
+
 						pass = false;
 					}
 				}
 			}
-			
+
 			// 校验姓名
 			var name = $("#create-form-realname").val();
 			if (isStringEmpty(name)) {
 				$("#create-form-realname").parent().addClass("has-error");
 				$("#error-stu-realname").html("姓名不能为空！");
-				
+
 				pass = false;
 			}
-			
+
 			// 校验手机号码
 			var phone = trim($("#create-form-mobile-number").val());
 			if (isStringEmpty(phone)) {
 				$("#create-form-mobile-number").parent().addClass("has-error");
 				$("#error-mobile").html("手机号码不能为空");
-				
+
 				pass = false;
 			} else {
 				if (phone.length != 11) {
 					$("#create-form-mobile-number").parent().addClass("has-error");
 					$("#error-mobile").html("手机号码长度为空");
-					
+
 					pass = false;
 				}
 			}
 
 			return pass;
 		}
-		
+
 		function clearError(element) {
 			var div = element.parent();
-			
+
 			if (div.hasClass("has-error")) {
 				div.removeClass("has-error");
 			}
 			div.parent().find("span.error-msg").html("");
 		}
-		
+
 		function clearForm() {
 			$("input[type='text']").val("");
 			$("input[type='password']").val("");
 		}
-		
+
 		$("input.form-control").bind("input propertychange", function() {
 			clearError($(this));
 		});
@@ -381,13 +381,15 @@
 			}
 		});
 
-		$("#form-create-submit-button").bind("click", function() {		
+		$("#form-create-submit-button").bind("click", function() {
 			if (checkForm()) {
 				$("#form-create-submit-button").attr("disabled", "disabled");
-				
+
 				$.post("newUser.action", $("#create-form").serialize(), function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 19) {
+						if (data == null) {
+							showErrorToast("您没有创建用户的权限");
+						} else if (data.code == 19) {
 							// 添加成功
 							showSuccessToast("成功添加用户");
 							clearForm();
@@ -400,12 +402,14 @@
 							$("#error-username").html("该用户名已经被使用");
 						} else if (data.code == 15) {
 							// 角色无效
-							
+							showErrorToast("当前选择的角色无效，请确认后重试");
+						} else if (data.code == 2) {
+							showErrorToast("您没有创建用户的权限");
 						}
 					} else {
 						showErrorToast("与服务器通讯出错，请稍后再试");
 					}
-										
+
 					$("#form-create-submit-button").removeAttr("disabled");
 				});
 			}

@@ -43,7 +43,8 @@
 						<label class="form-label">公告内容：</label>
 					</div>
 					<div class="col-md-10">
-						<textarea rows="2" cols="20" class="ckeditor" name="announcement.content"></textarea>
+						<textarea id="announcement-content" rows="2" cols="20" class="ckeditor"
+							name="announcement.content"></textarea>
 					</div>
 				</div>
 			</form>
@@ -87,6 +88,12 @@
 
 		function checkForm() {
 			if (isStringEmpty($("#form-title-input").val())) {
+				showErrorToast("公告的标题不能为空");
+				return false;
+			}
+
+			if (isStringEmpty($("#announcement-content").val())) {
+				showErrorToast("公告的内容不能为空");
 				return false;
 			}
 
@@ -116,7 +123,9 @@
 				$("button.btn-announcement-flow").attr("disabled", "disabled");
 				$.post("publishAnnouncement", $("#announcement-form").serialize(), function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 3) {
+						if (data == null) {
+							showErrorToast("您没有发布公告的权限！");
+						} else if (data.code == 3) {
 							location.href = "${pageContext.request.contextPath}/announcement/info?function=1";
 						} else if (data.code == 4) {
 							showErrorToast("请重新登录再试");
@@ -141,12 +150,16 @@
 				$("button.btn-announcement-flow").attr("disabled", "disabled");
 				$.post("publisherDraft", $("#announcement-form").serialize(), function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 5) {
+						if (data == null) {
+							showErrorToast("您没有发布草稿的权限");
+						} else if (data.code == 5) {
 							location.href = "${pageContext.request.contextPath}/announcement/info?function=2";
 						} else if (data.code == 4) {
 							showErrorToast("请重新登录再试");
 						} else if (data.code == 8) {
 							showErrorToast("表单有误，请核对后再提交");
+						} else if (data.code == 2) {
+							showErrorToast("您没有发布草稿的权限");
 						}
 					} else {
 						showErrorToast("与服务器通讯失败，请稍后再试！");
@@ -181,10 +194,14 @@
 					$("button.btn-announcement-flow").attr("disabled", "disabled");
 					$.post("doUpdateDraft", $("#announcement-form").serialize(), function(data, textStatus) {
 						if (textStatus == 'success') {
-							if (data.code == 6) {
+							if (data == null) {
+								showErrorToast("您没有更改草稿的权限");
+							} else if (data.code == 6) {
+								// 成功变更草稿内容，跳转到信息页面并显示相应的提示信息
 								location.href = "${pageContext.request.contextPath}/announcement/info?function=4";
 							} else if (data.code == 9) {
 								// 指定的公告编号无效
+								showErrorToast("该公告的编号已经失效，请确认后再进行相应的操作");
 							} else if (data.code == 4) {
 								// 指定的用户编号无效
 							} else if (data.code == 1) {
@@ -207,14 +224,20 @@
 					$("button.btn-announcement-flow").attr("disabled", "disabled");
 					$.post("doUpdateAnnouncement", $("#announcement-form").serialize(), function(data, textStatus) {
 						if (textStatus == 'success') {
-							if (data.code == 8) {
+							if (data == null) {
+								showErrorToast("您没有发布和修改公告的权限");
+							} else if (data.code == 8) {
+								//  成功修改并发布公告，转到相应的信息提示界面
 								location.href = "${pageContext.request.contextPath}/announcement/info?function=6";
 							} else if (data.code == 9) {
-								// 指定的公告编号无效
+								// 公告编号无效
+								showErrorToast("该公告编号已经失效，请确认后再进行该操作");
 							} else if (data.code == 4) {
 								// 指定的用户编号无效
+								showErrorToast("当前登录状态已经失效，请重新登录");
 							} else if (data.code == 1) {
 								// 后台表单校验失败
+								showErrorToast("表单填写有误，请确认核实后再次保存");
 							}
 						} else {
 							showErrorToast("与服务器通讯失败，请稍后再试！");
@@ -237,14 +260,21 @@
 					$("button.btn-announcement-flow").attr("disabled", "disabled");
 					$.post("doUpdateAnnouncement", $("#announcement-form").serialize(), function(data, textStatus) {
 						if (textStatus == 'success') {
-							if (data.code == 8) {
+							if (data == null) {
+								// 没有相应的权限
+								showErrorToast("您没有更改公告的权限");
+							} else if (data.code == 8) {
+								// 变更公告内容之后跳转到相应的信息页面
 								location.href = "${pageContext.request.contextPath}/announcement/info?function=3";
 							} else if (data.code == 9) {
 								// 指定的公告编号无效
+								showErrorToast("当前的公告编号已经失效，请确认后再进行操作");
 							} else if (data.code == 4) {
 								// 指定的用户编号无效
+								showErrorToast("登录状态已经失效，请重新登录再继续该操作");
 							} else if (data.code == 1) {
 								// 后台表单校验失败
+								showErrorToast("(╯‵□′)╯︵┻━┻ 别耍坏，表单后台校验出错了");
 							}
 						} else {
 							showErrorToast("与服务器通讯失败，请稍后再试！");

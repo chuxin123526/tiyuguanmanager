@@ -86,7 +86,18 @@
 			</div>
 		</s:if>
 		<s:else>
-
+			<div class="col-md-10 col-md-offset-2">
+				<s:if test="#request.function == 1">
+					<div class="alert alert-warning">
+						<p>现在系统中还没有发布任何公告，敬请期待 ^-^</p>
+					</div>
+				</s:if>
+				<s:if test="#request.function == 2">
+					<div class="alert alert-warning">
+						<p>很抱歉！找不到满足条件的公告信息</p>
+					</div>
+				</s:if>
+			</div>
 		</s:else>
 	</div>
 

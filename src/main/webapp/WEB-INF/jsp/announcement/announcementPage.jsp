@@ -11,7 +11,7 @@
 	<jsp:include page="../competition/common/top.jsp"></jsp:include>
 
 	<div class="container">
-		<s:if test="#request.announcement != null">
+		<s:if test="#request.announcement != null && #request.announcement.announcementStatus == 3">
 			<!-- 这里是标题和发布时间信息 -->
 			<div class="row" style="margin-top: 20px">
 				<div class="col-md-12">
@@ -72,7 +72,7 @@
 		</s:if>
 		<s:else>
 			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-10 col-md-offset-1" style="margin-top: 30px;">
 					<div class="alert alert-danger">
 						<p>没有找到指定的公告</p>
 					</div>
@@ -83,8 +83,6 @@
 
 	<jsp:include page="../competition/common/pagefoot.jsp"></jsp:include>
 	<script type="text/javascript">
-		// 删除评论处理：deleteAnnouncementComment
-
 		function generateCommentBox(content, time, publisher, id) {
 			var mainDiv = $("<div></div>").addClass("list-group-item").attr("announcement-pulisher", publisher).attr("announcement-id", id);
 			var contentP = $("<p></p>").addClass("announcement-comment-content").html(content);
@@ -96,7 +94,6 @@
 			}
 
 			infoP.append($("<span></span>").html(time));
-
 			return mainDiv.append(contentP).append(infoP);
 		}
 
@@ -134,7 +131,9 @@
 
 			$.post("getAnnoucementComment", data, function(data, textStatus) {
 				if (textStatus == 'success') {
-					if (data.totalCount == 0) {
+					if (data == null) {
+						infoBox(3, "当前登录用户没有获得评论信息的权限");
+					} else if (data.totalCount == 0) {
 						infoBox(2, "暂无评论");
 
 						$("#comment-status").css("display", "block");
@@ -151,15 +150,15 @@
 						var newFrom = from + comments.length;
 						$("#max-comment-id").html(newFrom);
 						$("#comment-box").css("display", "block");
+
+						if (data.hasMore) {
+
+						} else {
+							$("#comment-more-btn").html("所有评论加载完毕").attr("disabled", "disabled");
+						}
+
+						refreshLinkEvent();
 					}
-
-					if (data.hasMore) {
-
-					} else {
-						$("#comment-more-btn").html("所有评论加载完毕").attr("disabled", "disabled");
-					}
-
-					refreshLinkEvent();
 
 					if (callback) {
 						callback(true, !data.hasMore);
@@ -187,7 +186,9 @@
 					"commentId" : id
 				}, function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 14) {
+						if (data == null) {
+							showErrorToast("您没有删除公告评论的权限");
+						} else if (data.code == 14) {
 							// 删除成功
 							var from = parseInt($("#max-comment-id").html());
 							$("#max-comment.id").html(from - 1);
@@ -201,6 +202,8 @@
 						} else if (data.code == 15) {
 							// 删除不是自己发布的评论
 							showErrorToast("你只能删除自己发布的评论！");
+						} else if (data.code == 2) {
+							showErrorToast("您没有删除公告评论的权限");
 						}
 					} else {
 						showErrorToast("与服务器通讯失败，请稍后再试");
@@ -227,7 +230,9 @@
 			$("#comment-publish-btn").attr("disabled", "disabled");
 			$.post("commentPublish", data, function(data, textStatus) {
 				if (textStatus == 'success') {
-					if (data.code == 12) {
+					if (data == null) {
+						showErrorToast("您当前没有发布评论的权限");
+					} else if (data.code == 12) {
 						// 评论发布成功
 						showSuccessToast("评论发布成功");
 
@@ -245,7 +250,7 @@
 					} else if (data.code == 9) {
 						// 公告编号无效
 						showErrorToast("公告编号无效，可能该公告已经被删除");
-					}
+					} 
 				} else {
 					showErrorToast("与服务器通讯失败，请稍后再试");
 				}

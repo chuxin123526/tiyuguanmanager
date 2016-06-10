@@ -518,7 +518,9 @@
 				
 				$.post("verifyUser", {"userId": id}, function(data, textStatus){
 					if (textStatus == 'success') {
-						if (data.code == 2) {
+						if (data == null) {
+							showErrorToast("您没有进行用户认证的权限！");					
+						} else if (data.code == 2) {
 							showErrorToast("您没有进行用户认证的权限！");
 						} else if (data.code == 24) {
 							showSuccessToast("该用户已经成功通过信息认证！");
@@ -537,6 +539,8 @@
 							$("div#verify-success-box").css("display", "block");
 						} else if (data.code == 20) {
 							showErrorToast("指定的用户编号无效，请重新在列表中选择要进行认证的用户重新操作");
+						} else {
+							
 						}
 					} else {
 						showErrorToast("与服务器通信异常，请稍后再试");
@@ -558,7 +562,9 @@
 				
 				$.post("deverifyUser", {"userId": id}, function(data, textStatus){
 					if (textStatus == 'success') {
-						if (data.code == 2) {
+						if (data == null) {
+							showErrorToast("您没有进行用户认证的权限！");
+						} else if (data.code == 2) {
 							showErrorToast("您没有进行用户认证的权限！");
 						} else if (data.code == 25) {
 							showSuccessToast("该用户已经成功撤销信息认证！");
@@ -582,7 +588,9 @@
 				$("div#verify-button-flow button").attr("disabled", "disabled");
 				$.post("updateUser", data, function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 23) {
+						if (data == null) {
+							showErrorToast("您没有变更用户信息的权限");
+						} else if (data.code == 23) {
 							// 成功更改信息
 							showSuccessToast("该用户信息已经成功更改");
 							$("div#verify-button-flow").css("display", "none");

@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="zh">
 <head>
-<title>这个是注册页面</title>
+<title>注册</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style type="text/css">
 label.form-label,div.form-radio,div.error-msg {
@@ -29,7 +29,7 @@ span.error-msg {
 		<div class="container container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="${pageContext.request.contextPath}/index">HOME</a>
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/index">体育馆管理系统</a>
 			</div>
 		</div>
 	</nav>

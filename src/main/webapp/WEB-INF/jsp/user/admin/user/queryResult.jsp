@@ -16,7 +16,7 @@
 		</div>
 
 		<s:if test="#request.result.totalCount!=0">
-			<div class="col-md-9">
+			<div class="col-md-9" style="margin-top: 10px;">
 				<div class="row">
 					<h4>
 						<s:property value="#request.tipWord" />
@@ -200,7 +200,9 @@
 			// 如果是启用按钮
 			$.post("enableUser", {"userId": id}, function(data, textStatus){
 				if (textStatus == 'success') {
-					if (data.code == 21) {
+					if (data == null) {
+						showErrorToast("您没有启用账户的权限");
+					} else if (data.code == 21) {
 						// 成功启用账户
 						button.removeClass("table-btn-enable");
 						button.addClass("table-btn-forbid");
@@ -224,7 +226,9 @@
 			// 如果是禁用按钮
 			$.post("forbidUser", {"userId": id}, function(data, textStatus){
 				if (textStatus == 'success') {
-					if (data.code == 22) {
+					if (data == null) {
+						showErrorToast("您没有禁用账户的权限！");
+					} else if (data.code == 22) {
 						// 成功禁用账户
 						button.addClass("table-btn-enable");
 						button.removeClass("table-btn-forbid");

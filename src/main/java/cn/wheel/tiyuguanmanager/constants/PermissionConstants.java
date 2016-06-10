@@ -73,6 +73,7 @@ public class PermissionConstants {
 			ALL_PERMISSIONS.add(new PermissionItem("评论查询", PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_QUERY));
 			ALL_PERMISSIONS.add(new PermissionItem("隐藏公告评论", PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_HIDE));
 			ALL_PERMISSIONS.add(new PermissionItem("恢复公告评论", PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_RECOVER));
+			ALL_PERMISSIONS.add(new PermissionItem("修改公告或草稿", PERMISSION_ADMIN_ANNOUNCEMENT_UPDATE));
 		}
 
 		return ALL_PERMISSIONS;

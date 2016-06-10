@@ -27,10 +27,11 @@
 							<p>
 								<img src="image/icon/instrument.png" /> <span> 体育馆器材的查询，租借预约等 </span>
 							</p>
-							<button class="btn btn-primary">
-								<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
-							</button>
-							<div class="clear"></div>
+							<p class="btn-p">
+								<a class="btn btn-primary" href="#"> <span>进入</span><span
+									class="glyphicon glyphicon-triangle-right"></span>
+								</a>
+							</p>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12 function-box">
@@ -39,10 +40,11 @@
 							<p>
 								<img src="image/icon/instrument.png" /> <span> 赛事的查询，预约，申请等 </span>
 							</p>
-							<button class="btn btn-primary">
-								<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
-							</button>
-							<div class="clear"></div>
+							<p class="btn-p">
+								<a class="btn btn-primary" href="#"> <span>进入</span><span
+									class="glyphicon glyphicon-triangle-right"></span>
+								</a>
+							</p>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12 function-box">
@@ -51,10 +53,11 @@
 							<p>
 								<img src="image/icon/instrument.png" /> <span> 场地的查询，预约，租借等 </span>
 							</p>
-							<button class="btn btn-primary">
-								<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
-							</button>
-							<div class="clear"></div>
+							<p class="btn-p">
+								<a class="btn btn-primary" href="#"> <span>进入</span><span
+									class="glyphicon glyphicon-triangle-right"></span>
+								</a>
+							</p>
 						</div>
 					</div>
 					<s:if test="#session.announcementAdminAccess">
@@ -64,10 +67,12 @@
 								<p>
 									<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
 								</p>
-								<button class="btn btn-primary" id="btn-announcement-module">
-									<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
-								</button>
-								<div class="clear"></div>
+								<p class="btn-p">
+									<a class="btn btn-primary" id="btn-announcement-module"
+										href="${pageContext.request.contextPath}/announcement/adminIndex"> <span>进入</span><span
+										class="glyphicon glyphicon-triangle-right"></span>
+									</a>
+								</p>
 							</div>
 						</div>
 					</s:if>
@@ -76,12 +81,14 @@
 							<div class="function-box-body well">
 								<h2>用户管理</h2>
 								<p>
-									<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
+									<img src="image/icon/instrument.png" /> <span> 角色和用户的添加、删除和修改等 </span>
 								</p>
-								<button class="btn btn-primary" id="btn-user-module">
-									<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
-								</button>
-								<div class="clear"></div>
+								<p class="btn-p">
+									<a class="btn btn-primary" id="btn-user-module"
+										href="${pageContext.request.contextPath}/user/adminIndex"> <span>进入</span><span
+										class="glyphicon glyphicon-triangle-right"></span>
+									</a>
+								</p>
 							</div>
 						</div>
 					</s:if>
@@ -102,7 +109,8 @@
 											value="#announcement.announcementTitle" /></a>
 								</s:iterator>
 								<p style="text-align: right; margin-top: 10px;">
-									<span><a href="${pageContext.request.contextPath}/announcement/allAnnouncement">更多公告</a></span>
+									<span><a target="_blank"
+										href="${pageContext.request.contextPath}/announcement/allAnnouncement">更多公告</a></span>
 								</p>
 							</s:if>
 							<s:else>
@@ -114,18 +122,5 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		$(function() {
-			$("#btn-user-module").bind("click", function() {
-				location.href = "${pageContext.request.contextPath}/user/adminIndex";
-			});
-
-			$("#btn-announcement-module").bind("click", function() {
-				location.href = "${pageContext.request.contextPath}/announcement/adminIndex";
-			});
-			// /announcement/index
-
-		});
-	</script>
 </body>
 </html>

@@ -246,7 +246,9 @@
 			}, function(data, textStatus) {
 				if (textStatus == 'success') {
 					// form-msg-word
-					if (data.code == 10) {
+					if (data == null) {
+						showErrorToast("您没有把草稿发布为正式公告的权限");
+					} else if (data.code == 10) {
 						$("#form-msg-word").val("成功将指定草稿发布为正式公告");
 						$("#query-form").submit();
 					} else if (data.code == 9) {
@@ -255,6 +257,8 @@
 					} else if (data.code == 7) {
 						// 指定的公告对象不是一个草稿对象
 						$("table-with-button button").removeAttr("disabled");
+					} else if (data.code == 2) {
+						showErrorToast("您没有把草稿发布为正式公告的权限");
 					}
 				} else {
 					showErrorToast("与服务器通讯失败，请稍后再试");
@@ -278,13 +282,17 @@
 					"announcement.announcementId" : id
 				}, function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 11) {
+						if (data == null) {
+							showErrorToast("您没有删除公告的权限");
+						} else if (data.code == 11) {
 							// 成功删除
 							$("#form-msg-word").val("成功删除指定的公告");
 							$("#query-form").submit();
 						} else if (data.code == 4) {
 							// 找不到指定公告编号对应的公告记录
 							$("table-with-button button").removeAttr("disabled");
+						} else if (data.code == 2) {
+							showErrorToast("您没有删除公告的权限");
 						}
 					} else {
 						showErrorToast("与服务器通讯失败，请稍后再试！");
@@ -311,11 +319,16 @@
 				"announcementId" : id
 			}, function(data, textStatus) {
 				if (textStatus == 'success') {
-					if (data.code == 19) {
+					if (data == null) {
+						showErrorToast("您没有恢复公告的权限");
+					} else if (data.code == 19) {
 						$("#form-msg-word").val("成功恢复指定的公告");
 						$("#query-form").submit();
 					} else if (data.code == 9) {
 						// 这里应该对公告编号无效的情况进行处理
+						showErrorToast("该公告编号已经失效，请重新确认已经再进行操作");
+					} else if (data.code == 2) {
+						showErrorToast("您没有恢复公告的权限");
 					}
 				} else {
 					showErrorToast("与服务器通信失败，请稍后再试");

@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="zh">
 <head>
-<title>这个是登录页面</title>
+<title>登录</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style type="text/css">
 span.login-forget,span.login-register {
@@ -38,7 +38,7 @@ div.dialog {
 		<div class="container container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">HOME</a>
+				<a class="navbar-brand" href="#">体育馆管理系统</a>
 			</div>
 		</div>
 	</nav>
@@ -61,11 +61,13 @@ div.dialog {
 								<label for="login-password-box">密码：</label> <input type="password" id="login-password-box"
 									class="form-control" value="123456" />
 							</div>
+							<!-- 
 							<div class="form-group account-control">
 								<span class="login-register"> <a href="registerPage">注册</a>
 								</span>
 							</div>
-							<div class="form-group">
+							 -->
+							<div class="form-group" style="margin-top: 50px;">
 								<button id="login-login-button" class="btn btn-primary" style="width: 100%">登录</button>
 							</div>
 						</form>

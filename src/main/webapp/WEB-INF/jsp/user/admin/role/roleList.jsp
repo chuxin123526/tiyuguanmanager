@@ -168,6 +168,13 @@
 				
 				$.post("deleteRole", {"form.id": roleId}, function(data, textStatus) {
 					if (textStatus == 'success') {
+						if (data == null) {
+							showErrorToast("您没有删除角色的权限");
+							$("button.delete-btn").removeAttr("disabled");
+							
+							return;
+						}
+						
 						switch (data.code) {
 						case 14:
 							showErrorToast("角色 \""+data.name+"\" 下仍然具有用户，请先变更这些用户的角色再删除");

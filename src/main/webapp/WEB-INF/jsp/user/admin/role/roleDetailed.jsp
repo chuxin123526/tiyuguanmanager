@@ -110,7 +110,9 @@
 				var data = $("#role-form").serialize();
 				$.post("updateRole", data, function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 15) {
+						if (data == null) {
+							showErrorToast("您没有变更角色信息的权限");
+						} else if (data.code == 15) {
 							showErrorToast("当前角色编号无效，请确认后再试");
 						} else if (data.code == 18) {
 							location.href = "${pageContext.request.contextPath}/user/roleList?from=3&page=" + returnPage;
@@ -134,7 +136,9 @@
 				var data = $("#role-form").serialize();
 				$.post("insertRole", data, function(data, textStatus) {
 					if (textStatus == 'success') {
-						if (data.code == 12) {
+						if (data == null) {
+							showErrorToast("您没有添加角色的权限");
+						} else if (data.code == 12) {
 							$("#role-form-name-input-div").addClass("has-error");
 							$("#role-form-name-error-span").html("该角色名已经存在");
 						} else if (data.code == 13) {
