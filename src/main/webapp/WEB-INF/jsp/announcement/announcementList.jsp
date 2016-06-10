@@ -124,18 +124,27 @@
 
 	<!-- 隐藏表单，保存查询条件 -->
 	<div style="display: none;">
+		<%-- 已发布的公告列表 --%>
 		<s:if test="#request.function == 1">
 			<form action="publishedAnnouncementList" method="post" id="query-form">
 				<input type="text" name="page" id="form-page" /> <input type="hidden" name="msgWord"
 					id="form-msg-word" />
 			</form>
+			<script type="text/javascript">
+				$("#nav-puslied-announcement").addClass("active");
+			</script>
 		</s:if>
+		<%-- 草稿列表 --%>
 		<s:if test="#request.function == 2">
 			<form action="draftAnnouncementList" method="post" id="query-form">
 				<input type="text" name="page" id="form-page" /> <input type="hidden" name="msgWord"
 					id="form-msg-word" />
 			</form>
+			<script type="text/javascript">
+				$("#nav-draft-announcement").addClass("active");
+			</script>
 		</s:if>
+		<%-- 公告查询功能 --%>
 		<s:if test="#request.function == 3">
 			<form action="doQuery" method="post" id="query-form">
 				<%-- 使用标题作为查询条件 --%>
@@ -165,6 +174,8 @@
 			</form>
 
 			<script type="text/javascript">
+				$("#nav-announcement-query").addClass("active");
+
 				<s:if test="#request.showback.titleIncluded">
 				$("#form-criteria-title").attr("checked", "checked");
 				</s:if>
@@ -193,6 +204,7 @@
 				$("#form-page").val("<s:property value="#request.showback.page"/>");
 			</script>
 		</s:if>
+		<%-- 已删除公告列表 --%>
 		<s:if test="#request.function == 4">
 			<form action="announcementTrash" method="post" id="query-form" style="display: none;">
 				<!--  -->
@@ -200,6 +212,9 @@
 				<!--  -->
 				<input type="hidden" name="msgWord" id="form-msg-word" />
 			</form>
+			<script type="text/javascript">
+				$("#nav-deleted-announcement").addClass("active");
+			</script>
 		</s:if>
 	</div>
 

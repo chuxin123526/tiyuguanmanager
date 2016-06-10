@@ -96,8 +96,9 @@
 		$('#form-begin-time').daterangepicker(null, function(start, end, label) {
 
 		});
-	</script>
-	<script type="text/javascript">
+
+		$("#nav-announcement-query").addClass("active");
+
 		var raw = "<s:property value="#request.tipWord"/> - <s:property value="#request.tipWord"/>";
 
 		$("#form-begin-time").val(raw);
@@ -144,7 +145,7 @@
 			contentCheckBox.removeAttr("checked");
 			timeCheckBox.removeAttr("checked");
 			typeCheckBox.removeAttr("checked");
-			
+
 			changeForm();
 
 			$("#query-form input[type='text']").val("");

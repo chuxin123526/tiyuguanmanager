@@ -9,7 +9,6 @@ import org.junit.runners.MethodSorters;
 import org.springframework.context.ApplicationContext;
 
 import cn.wheel.tiyuguanmanager.announcement.service.announcement.IAnnouncementService;
-import cn.wheel.tiyuguanmanager.announcement.vo.AnnouncementVO;
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.test.BaseAppContextTest;
@@ -54,60 +53,57 @@ public class TestDataGenerator extends BaseAppContextTest {
 	public void data00_insertRole() {
 		RoleVO registerRoleVO = new RoleVO();
 		registerRoleVO.setName("注册用户");
-		registerRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
-		registerRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_LIST);
+
 		registerRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
 
 		RoleVO verifiedRoleVO = new RoleVO();
 		verifiedRoleVO.setName("认证用户");
-		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
-		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_LIST);
+
 		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
 		verifiedRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH);
 
 		RoleVO competitionAdminRoleVO = new RoleVO();
 		competitionAdminRoleVO.setName("赛事管理员");
-		competitionAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
 
 		RoleVO superAdminRoleVO = new RoleVO();
 		superAdminRoleVO.setName("超级管理员");
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_INSERT);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_DISABLE);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_QUERY);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_UPDATE);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_VERIFY);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_USER_ENABLE);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_INSERT);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_SELECT);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_UPDATE);
-		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ROLE_DELETE);
+
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ROLE_CREATE);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ROLE_DELETE);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ROLE_QUERY);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ROLE_UPDATE);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_USER_CREATE);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_USER_ENABLE);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_USER_FORBID);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_USER_QUERY);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_USER_UPDATE);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_USER_VERIFY);
+		superAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_USER_VERIFY_CANCEL);
 
 		RoleVO playgroundAdminRoleVO = new RoleVO();
 		playgroundAdminRoleVO.setName("场地管理员");
-		playgroundAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
 
 		RoleVO instrumentAdminRoleVO = new RoleVO();
 		instrumentAdminRoleVO.setName("器材管理员");
-		instrumentAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
 
 		RoleVO systemAdminRoleVO = new RoleVO();
 		systemAdminRoleVO.setName("系统管理员");
-		systemAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
 
 		RoleVO announcementAdminRoleVO = new RoleVO();
 		announcementAdminRoleVO.setName("公告管理员");
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_LOGIN);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_PUBLISH);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_DEL_ANOUNCEMENT);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_LIST);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_UPDATE_ANNOUNCEMENT);
+
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_VIEW);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_HIDE);
 		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_COMMENT_RECOVER);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_MANAGE_COMMENT_LIST);
-		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ANNOUNCEMENT_MANAGE_QUERY);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_HIDE);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_QUERY);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_RECOVER);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_DELETE);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_PUBLISH);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_PUBLISH_DRAFT);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_RECOVER);
+		announcementAdminRoleVO.addPermission(PermissionConstants.PERMISSION_ADMIN_ANNOUNCEMENT_UPDATE);
 
 		roleService.insertRole(registerRoleVO);
 		roleService.insertRole(verifiedRoleVO);
@@ -128,7 +124,7 @@ public class TestDataGenerator extends BaseAppContextTest {
 		normalUser.setPassword("123456");
 		normalUser.setRealname("123456");
 		normalUser.setStudentNumber("201311701407");
-		normalUser.setUsername("一个超级大帅逼");
+		normalUser.setUsername("一个普通的测试账号");
 		normalUser.setMobilePhone("18320481195");
 		normalUser.setAccountType(UserConstants.UserType.TYPE_STUDENT);
 
@@ -168,60 +164,6 @@ public class TestDataGenerator extends BaseAppContextTest {
 
 	@Test
 	public void data02_announcement() {
-		AnnouncementVO announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("PY 交易");
-		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
 
-		announcementService.publishNewAnnouncement(announcementVO);
-
-		announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("我是一条正式公告");
-		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
-
-		announcementService.publishNewAnnouncement(announcementVO);
-
-		announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("我又是一条正式公告");
-		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
-
-		announcementService.publishNewAnnouncement(announcementVO);
-
-		announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("加测试数据好烦 →_→");
-		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
-
-		announcementService.publishNewAnnouncement(announcementVO);
-
-		announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("加测试数据好len烦 →_→");
-		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
-
-		announcementService.publishNewAnnouncement(announcementVO);
-
-		announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("猴赛雷");
-		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
-
-		announcementService.publishNewAnnouncement(announcementVO);
-
-		announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("雷猴");
-		announcementVO.setContent("这背后肯定有不可告人的 PY 交易");
-
-		announcementService.publishNewAnnouncement(announcementVO);
-
-		announcementVO = new AnnouncementVO();
-		announcementVO.setUserId(1);
-		announcementVO.setTitle("USB 交易");
-		announcementVO.setContent("这背后肯定有不可告人的 USB 交易（我是一条草稿）");
-
-		announcementService.saveNewAnnouncementDraft(announcementVO);
 	}
 }

@@ -1,5 +1,6 @@
 package cn.wheel.tiyuguanmanager.user.po;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class User {
@@ -15,6 +16,10 @@ public class User {
 	private Set<Contract> contracts;
 	private int status;
 	private int type;
+
+	public User() {
+		this.contracts = new HashSet<>();
+	}
 
 	public long getUserId() {
 		return userId;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
+import cn.wheel.tiyuguanmanager.user.exception.UserAuthException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
@@ -163,4 +164,27 @@ public interface IUserService {
 	 *             如果数据库中不存在指定用户编号的用户，则抛出这个异常
 	 */
 	public void checkUser(long userId, boolean pass) throws UserNotExistException;
+
+	/**
+	 * 查询等待进行验证的用户的数量
+	 * 
+	 * @return
+	 */
+	public int countUserToBeVerified();
+
+	/**
+	 * 更改密码
+	 * 
+	 * @param userId
+	 *            要更改密码的用户编号
+	 * @param oldPassword
+	 *            旧密码
+	 * @param newPassword
+	 *            新密码
+	 * @throws UserAuthException
+	 *             如果旧密码出错，则抛出这个异常
+	 * @throws UserNotExistException
+	 *             如果指定用户编号无效，则抛出这个异常
+	 */
+	public void updatePassword(long userId, String oldPassword, String newPassword) throws UserAuthException, UserNotExistException;
 }

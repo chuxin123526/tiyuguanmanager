@@ -31,7 +31,7 @@
 	<package name="default" extends="base-package">
 		<action name="index" class="indexPageAction" method="homePage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">1</param>
+				<param name="auth.loginOnly">true</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/index.jsp</result>
 		</action>
@@ -78,7 +78,7 @@
 		<!-- 用户管理的首页 -->
 		<action name="adminIndex" class="userAdminAction" method="index">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">10,11,12,13,14,20,21,22,23</param>
+				<param name="auth.permission">10,11,12,13,14,15,16</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/index.jsp</result>
 		</action>
@@ -86,7 +86,7 @@
 		<!-- 角色列表页面 -->
 		<action name="roleList" class="roleAdminAction" method="roleList">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">21,22,23</param>
+				<param name="auth.permission">1,2,3,4</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/role/roleList.jsp
 			</result>
@@ -95,7 +95,7 @@
 		<!-- 创建新角色页面 -->
 		<action name="insertRolePage" class="roleAdminAction" method="insertRolePage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">20</param>
+				<param name="auth.permission">1</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/role/roleDetailed.jsp
 			</result>
@@ -104,7 +104,7 @@
 		<!-- 真正处理角色添加的方法 -->
 		<action name="insertRole" class="roleAdminAction" method="insertRole">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">20</param>
+				<param name="auth.permission">1</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -112,7 +112,7 @@
 		<!-- 处理删除角色的 action -->
 		<action name="deleteRole" class="roleAdminAction" method="deleteRole">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">21</param>
+				<param name="auth.permission">2</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -120,7 +120,7 @@
 		<!-- 变更角色页面 -->
 		<action name="updateRolePage" class="roleAdminAction" method="updateRolePage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">23</param>
+				<param name="auth.permission">3</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/role/roleDetailed.jsp
 			</result>
@@ -129,7 +129,7 @@
 		<!-- 处理角色变更请求 -->
 		<action name="updateRole" class="roleAdminAction" method="updateRole">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">23</param>
+				<param name="auth.permission">3</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -137,7 +137,7 @@
 		<!-- 角色查询 -->
 		<action name="roleQueryPage" class="roleAdminAction" method="roleQueryPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">22</param>
+				<param name="auth.permission">4</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/role/roleQuery.jsp
 			</result>
@@ -146,7 +146,7 @@
 		<!-- 角色查询响应处理 -->
 		<action name="roleQuery" class="roleAdminAction" method="roleQuery">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">22</param>
+				<param name="auth.permission">4</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/role/roleList.jsp
 			</result>
@@ -171,7 +171,7 @@
 		<!-- 用户查询页面 -->
 		<action name="userQueryPage" class="userAdminAction" method="userQueryPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">11,12,13,14,15</param>
+				<param name="auth.permission">11</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/user/queryUser.jsp
 			</result>
@@ -180,7 +180,7 @@
 		<!-- 处理用户查询的方法 -->
 		<action name="userQuery" class="userAdminAction" method="userQuery">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">11,12,13,14,15</param>
+				<param name="auth.permission">11</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/user/queryResult.jsp
 			</result>
@@ -190,7 +190,7 @@
 		<action name="forbidUser" class="userAdminAction" method="forbidUser">
 			<interceptor-ref name="authenticationInterceptor">
 				<param name="auth.permission">12</param>
-				<param name="ajaxAction">true</param>
+				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
 
@@ -198,14 +198,14 @@
 		<action name="enableUser" class="userAdminAction" method="enableUser">
 			<interceptor-ref name="authenticationInterceptor">
 				<param name="auth.permission">13</param>
-				<param name="ajaxAction">true</param>
+				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
 
 		<!-- 变更用户信息的页面 -->
 		<action name="updateUserPage" class="userAdminAction" method="updateUserPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">11</param>
+				<param name="auth.permission">14</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/user/userDetail.jsp
 			</result>
@@ -214,7 +214,7 @@
 		<!-- 处理用户信息变更请求的方法 -->
 		<action name="updateUser" class="userAdminAction" method="updateUser">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">11</param>
+				<param name="auth.permission">14</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -222,7 +222,7 @@
 		<!-- 显示未认证用户信息的列表 -->
 		<action name="verifyUserPage" class="userAdminAction" method="verifyUserPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">15</param>
+				<param name="auth.permission">15, 16</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/user/queryResult.jsp
 			</result>
@@ -239,7 +239,7 @@
 		<!-- 处理用户撤销认证请求的方法 -->
 		<action name="deverifyUser" class="userAdminAction" method="deverifyUser">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">15</param>
+				<param name="auth.permission">16</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -253,14 +253,35 @@
 			<result name="success">/WEB-INF/jsp/user/admin/user/userDetail.jsp
 			</result>
 		</action>
+
+		<!-- 获得等待认证的用户的数量（ajax 请求） -->
+		<action name="getUserCountToBeVerify" class="getUserCountToBeVerify">
+		</action>
+
+		<!-- 更改密码（ajax 请求） -->
+		<action name="doPasswordUpdate" class="passwordUpdate"></action>
+
+		<!-- 更改密码的页面 -->
+		<action name="updatePassword" class="pageAction" method="updatePasswordPage">
+			<result name="success">/WEB-INF/jsp/user/updatePassword.jsp</result>
+		</action>
+
+		<!-- 查看用户信息的页面 -->
+		<action name="userInfo" class="userInfo">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">17</param>
+			</interceptor-ref>
+			<result name="success">/WEB-INF/jsp/user/userInfo.jsp</result>
+		</action>
 	</package>
 
 	<!-- 公告管理模块 -->
 	<package name="annoucement" extends="base-package" namespace="/announcement">
 		<!-- 公告管理的首页 -->
-		<action name="index" class="announcementAdminAction" method="homePage">
+		<action name="adminIndex" class="announcementAdminAction"
+			method="homePage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">30,33,34</param>
+				<param name="auth.permission">31,33,34,35,36,37,38,39</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/index.jsp</result>
 		</action>
@@ -269,7 +290,7 @@
 		<action name="createAnnouncement" class="announcementAdminAction"
 			method="createAnnouncementPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">30</param>
+				<param name="auth.permission">31, 33</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementEdit.jsp
 			</result>
@@ -279,7 +300,7 @@
 		<action name="publishAnnouncement" class="announcementAdminAction"
 			method="publishAnnouncement">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">30</param>
+				<param name="auth.permission">31</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -288,7 +309,7 @@
 		<action name="publisherDraft" class="announcementAdminAction"
 			method="publishDraft">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">30</param>
+				<param name="auth.permission">33</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -297,7 +318,7 @@
 		<action name="publishedAnnouncementList" class="announcementAdminAction"
 			method="publishedAnnouncementList">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">31, 32</param>
+				<param name="auth.permission">31,33,34,35,36,37,38,39</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
 			</result>
@@ -306,7 +327,7 @@
 		<!-- 恢复已删除公告的 ajax 请求处理 -->
 		<action name="recoverAnnouncement" class="announcementRecoverAction">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">30</param>
+				<param name="auth.permission">37</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -315,7 +336,7 @@
 		<action name="draftAnnouncementList" class="announcementAdminAction"
 			method="draftAnnouncementList">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">30, 33, 34</param>
+				<param name="auth.permission">31,33,34,35,36,37,38,39</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
 			</result>
@@ -325,7 +346,7 @@
 		<action name="queryPage" class="announcementAdminAction"
 			method="queryPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">31, 32</param>
+				<param name="auth.permission">31,33,34,35,36,37,38,39</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementQuery.jsp
 			</result>
@@ -334,7 +355,7 @@
 		<!-- 真正执行查询的方法 -->
 		<action name="doQuery" class="announcementAdminAction" method="doQuery">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">31, 32</param>
+				<param name="auth.permission">31,33,34,35,36,37,38,39</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
 			</result>
@@ -342,6 +363,9 @@
 
 		<!-- 显示操作结果消息 -->
 		<action name="info" class="announcementAdminAction" method="showMessage">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">31,33,34,35,36,37,38,39</param>
+			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/info.jsp</result>
 		</action>
 
@@ -349,7 +373,7 @@
 		<action name="updateAnnouncement" class="announcementAdminAction"
 			method="updateAnnouncementPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">34</param>
+				<param name="auth.permission">31,33,35</param>
 			</interceptor-ref>
 			<result name="404">/WEB-INF/jsp/announcement/info.jsp</result>
 			<result name="success">/WEB-INF/jsp/announcement/announcementEdit.jsp
@@ -360,7 +384,7 @@
 		<action name="doUpdateDraft" class="announcementAdminAction"
 			method="doUpdateDraft">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">34</param>
+				<param name="auth.permission">35</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -369,7 +393,7 @@
 		<action name="doUpdateAnnouncement" class="announcementAdminAction"
 			method="doUpdateAnnouncement">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">34</param>
+				<param name="auth.permission">35</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -378,7 +402,7 @@
 		<action name="pushDraft" class="announcementAdminAction"
 			method="pushDraft">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">30</param>
+				<param name="auth.permission">31</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -387,13 +411,16 @@
 		<action name="doDeleteAnnouncement" class="announcementAdminAction"
 			method="doDeleteAnnouncement">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">33</param>
+				<param name="auth.permission">36</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
 
 		<!-- 公告回收站 -->
 		<action name="announcementTrash" class="announcementTrash">
+			<interceptor-ref name="authenticationInterceptor">
+				<param name="auth.permission">37</param>
+			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementList.jsp
 			</result>
 		</action>
@@ -401,7 +428,7 @@
 		<!-- 公告前台，查看公告类 -->
 		<action name="announcementPage" class="getAnnouncementAction">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">32</param>
+				<param name="auth.permission">30</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementPage.jsp
 			</result>
@@ -410,7 +437,7 @@
 		<!-- 处理发布公告评论的 ajax 请求处理 -->
 		<action name="commentPublish" class="commentPublishAction">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">35</param>
+				<param name="auth.permission">32</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -418,7 +445,7 @@
 		<!-- 获得指定公告评论数量的 ajax 请求处理 -->
 		<action name="getAnnouncementCommentCount" class="getAnnouncementCommentCount">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">31, 32</param>
+				<param name="auth.permission">30</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -426,7 +453,7 @@
 		<!-- 获得指定公告评论内容的 ajax 请求处理 -->
 		<action name="getAnnoucementComment" class="getAnnouncementCommentAction">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">31, 32</param>
+				<param name="auth.permission">30</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -434,7 +461,7 @@
 		<!-- 用户删除自己发布评论的 ajax 请求处理 -->
 		<action name="deleteAnnouncementComment" class="deleteAnnouncementComment">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">35</param>
+				<param name="auth.permission">32</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -442,7 +469,7 @@
 		<!-- 评论查询页面 -->
 		<action name="commentQueryPage" class="announcementCommentQueryPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">37</param>
+				<param name="auth.permission">38, 39, 34</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementCommentQuery.jsp
 			</result>
@@ -451,7 +478,7 @@
 		<!-- 执行评论查询的方法 -->
 		<action name="doCommentQuery" class="doCommentQuery">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">37</param>
+				<param name="auth.permission">34, 38, 39</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementCommentList.jsp
 			</result>
@@ -460,7 +487,8 @@
 		<!-- 后台管理查看某一条公告记录的所有评论页面 -->
 		<action name="showAnnouncementCommentList" class="showAnnouncementCommentList">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">38</param>
+				<param name="auth.permission">34, 38, 39</param>
+				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/announcementCommentList.jsp
 			</result>
@@ -469,7 +497,7 @@
 		<!-- 隐藏评论 -->
 		<action name="commentHide" class="commentHide">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">39</param>
+				<param name="auth.permission">38</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -477,7 +505,7 @@
 		<!-- 恢复评论 -->
 		<action name="commentRecover" class="commentRecover">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">40</param>
+				<param name="auth.permission">39</param>
 				<param name="auth.ajaxAction">true</param>
 			</interceptor-ref>
 		</action>
@@ -485,7 +513,7 @@
 		<!-- 对所有用户：查看公告列表 -->
 		<action name="allAnnouncement" class="publicAnnouncementList">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">31, 32</param>
+				<param name="auth.permission">30</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/publicAnnouncement.jsp
 			</result>
@@ -494,7 +522,7 @@
 		<!-- 对所有用户：搜索公告 -->
 		<action name="searchAnnouncement" class="announcementSearch">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">31, 32</param>
+				<param name="auth.permission">30</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/announcement/publicAnnouncement.jsp
 			</result>

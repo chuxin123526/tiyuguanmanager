@@ -15,9 +15,9 @@
 			<jsp:include page="../common/navigation.jsp"></jsp:include>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-9" style="margin-top: 10px;">
 			<div class="row">
-				<h3>查找用户</h3>
+				<h4>查找用户</h4>
 			</div>
 			<form action="userQuery.action" id="user-query-form" method="post">
 				<div class="row form-group">
@@ -86,6 +86,8 @@
 	<jsp:include page="../../../competition/common/pagefoot.jsp"></jsp:include>
 
 	<script type="text/javascript">
+		$("#nav-search-user").addClass("active");
+
 		function changeForm() {
 			console.log("debug");
 
@@ -110,10 +112,10 @@
 
 		$(function() {
 			$("input[name='query.criteria']").change(changeForm);
-			
-			$("button#form-query-btn").bind("click", function(){
+
+			$("button#form-query-btn").bind("click", function() {
 				$("button#form-query-btn").attr("disabled", "disabled");
-				
+
 				$("#user-query-form").submit();
 			});
 		});

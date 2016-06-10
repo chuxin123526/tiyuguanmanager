@@ -30,11 +30,10 @@ div.dialog {
 	padding-right: 20px;
 }
 </style>
-
+<jsp:include page="../competition/common/common.jsp"></jsp:include>
 </head>
 
 <body>
-	<jsp:include page="../competition/common/common.jsp"></jsp:include>
 	<nav class="navbar navbar-default">
 		<div class="container container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->

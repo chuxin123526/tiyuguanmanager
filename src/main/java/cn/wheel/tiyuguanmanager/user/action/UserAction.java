@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import cn.wheel.tiyuguanmanager.common.exception.FormException;
+import cn.wheel.tiyuguanmanager.constants.PermissionConstants;
 import cn.wheel.tiyuguanmanager.user.constants.UserConstants;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
@@ -82,9 +83,15 @@ public class UserAction {
 			return "json";
 		}
 
+		// 计算一些权限
+		boolean userModuleAccess = PermissionConstants.hasUserAdminPermission(user);
+		boolean annoucementModuleAccess = PermissionConstants.hasAnnouncementPermission(user);
+
 		// 存入 session
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		session.put("user", user);
+		session.put("userAdminAccess", userModuleAccess);
+		session.put("announcementAdminAccess", annoucementModuleAccess);
 
 		this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.LOGIN_SUCCESS).toMap();
 		return "json";

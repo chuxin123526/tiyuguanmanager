@@ -18,9 +18,9 @@
 		<s:if test="#request.result.totalCount!=0">
 			<div class="col-md-9">
 				<div class="row">
-					<h3>
+					<h4>
 						<s:property value="#request.tipWord" />
-					</h3>
+					</h4>
 				</div>
 				<div class="row form-group">
 					<!-- 数据显示 -->
@@ -84,10 +84,26 @@
 		</s:if>
 		<s:else>
 			<!-- 如果没有查询结果 -->
-			<div class="col-md-9" style="padding-top: 10px">
+			<div class="col-md-9" style="margin-top: 10px;">
+				<div class="row">
+					<s:if test="#request.function == 3">
+						<h4>
+							<s:property value="#request.tipWord" />
+						</h4>
+					</s:if>
+					<s:else>
+						<h4>查询结果</h4>
+					</s:else>
+				</div>
 				<div class="row">
 					<div class="alert alert-danger">
-						<p>没有找到相关的数据！</p>
+						<%-- 如果是从用户信息认证跳转过来的 --%>
+						<s:if test="#request.function == 3">
+							<p>系统中没有等待认证的用户</p>
+						</s:if>
+						<s:else>
+							<p>没有找到满足条件的用户数据</p>
+						</s:else>
 					</div>
 				</div>
 			</div>
@@ -130,6 +146,19 @@
 	</div>
 
 	<jsp:include page="../../../competition/common/pagefoot.jsp"></jsp:include>
+
+	<%-- 用户认证  --%>
+	<s:if test="#request.function == 3">
+		<script type="text/javascript">
+			$("#nav-verify-user").addClass("active");
+		</script>
+	</s:if>
+	<s:else>
+		<script type="text/javascript">
+			$("#nav-search-user").addClass("active");
+		</script>
+	</s:else>
+
 	<script type="text/javascript">
 	function gotoPage(page) {	
 		$("#query-form-page").val(page);

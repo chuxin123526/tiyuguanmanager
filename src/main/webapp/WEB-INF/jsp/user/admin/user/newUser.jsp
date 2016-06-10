@@ -15,9 +15,9 @@
 			<jsp:include page="../common/navigation.jsp"></jsp:include>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-9" style="margin-top: 10px;">
 			<div class="row">
-				<h3>创建新用户</h3>
+				<h4>创建新用户</h4>
 			</div>
 			<div class="row form-group">
 				<form id="create-form" onsubmit="return false;">
@@ -193,6 +193,8 @@
 	<script type="text/javascript">
 	var idNumberWeight = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
 	var checkBit = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+
+	$("#nav-new-user").addClass("active");
 	
 	// 身份证号码校验
 	function checkIdNumber(idNumber) {

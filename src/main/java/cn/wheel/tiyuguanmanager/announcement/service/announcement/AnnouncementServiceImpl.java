@@ -348,6 +348,16 @@ public class AnnouncementServiceImpl implements IAnnouncementService {
 			totalCount = announcementDao.count();
 		}
 
+		if (totalCount == 0) {
+			result.setCurrentPage(1);
+			result.setCurrentPageItem(0);
+			result.setResult(new ArrayList<Announcement>());
+			result.setMaxPage(1);
+			result.setShowback(showback);
+
+			return result;
+		}
+
 		// 3. ½øÐÐ·ÖÒ³
 		int countPerPage = cn.wheel.tiyuguanmanager.user.constants.UserConstants.ITEM_PER_PAGE;
 		int maxPage = PagingUtils.getMaxPage(totalCount, countPerPage);

@@ -3,148 +3,188 @@ package cn.wheel.tiyuguanmanager.constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.wheel.tiyuguanmanager.user.po.Permission;
+import cn.wheel.tiyuguanmanager.user.po.User;
+
 public class PermissionConstants {
 	private static List<PermissionItem> ALL_PERMISSIONS;
+
+	public static boolean isUserAdminPermission(int permission) {
+		return (permission >= 10 && permission <= 17);
+	}
+
+	public static boolean hasUserAdminPermission(User user) {
+		for (Permission permission : user.getRole().getPermissions()) {
+			if (isUserAdminPermission(permission.getType())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static boolean isAnnouncementPermission(int permission) {
+		if (permission == 30 || permission == 32) {
+			return false;
+		}
+
+		return (permission >= 31 && permission <= 39);
+	}
+
+	public static boolean hasAnnouncementPermission(User user) {
+		for (Permission permission : user.getRole().getPermissions()) {
+			if (isAnnouncementPermission(permission.getType())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	public static List<PermissionItem> getAllPermissionsList() {
 		if (ALL_PERMISSIONS == null) {
 			ALL_PERMISSIONS = new ArrayList<>();
 
-			ALL_PERMISSIONS.add(new PermissionItem("登录", PERMISSION_LOGIN));
+			// 角色相关的权限
+			ALL_PERMISSIONS.add(new PermissionItem("创建角色", PERMISSION_ADMIN_ROLE_CREATE));
+			ALL_PERMISSIONS.add(new PermissionItem("删除角色", PERMISSION_ADMIN_ROLE_DELETE));
+			ALL_PERMISSIONS.add(new PermissionItem("变更角色", PERMISSION_ADMIN_ROLE_UPDATE));
+			ALL_PERMISSIONS.add(new PermissionItem("查询角色", PERMISSION_ADMIN_ROLE_QUERY));
 
-			// 角色相关权限
-			ALL_PERMISSIONS.add(new PermissionItem("添加角色", PERMISSION_ROLE_INSERT));
-			ALL_PERMISSIONS.add(new PermissionItem("删除角色", PERMISSION_ROLE_DELETE));
-			ALL_PERMISSIONS.add(new PermissionItem("更改角色", PERMISSION_ROLE_UPDATE));
-			ALL_PERMISSIONS.add(new PermissionItem("角色查询", PERMISSION_ROLE_SELECT));
+			// 用户相关的权限
+			ALL_PERMISSIONS.add(new PermissionItem("创建用户", PERMISSION_ADMIN_USER_CREATE));
+			ALL_PERMISSIONS.add(new PermissionItem("查询用户", PERMISSION_ADMIN_USER_QUERY));
+			ALL_PERMISSIONS.add(new PermissionItem("停用用户", PERMISSION_ADMIN_USER_FORBID));
+			ALL_PERMISSIONS.add(new PermissionItem("启用用户", PERMISSION_ADMIN_USER_ENABLE));
+			ALL_PERMISSIONS.add(new PermissionItem("变更用户", PERMISSION_ADMIN_USER_UPDATE));
+			ALL_PERMISSIONS.add(new PermissionItem("用户认证", PERMISSION_ADMIN_USER_VERIFY));
+			ALL_PERMISSIONS.add(new PermissionItem("撤销用户认证", PERMISSION_ADMIN_USER_VERIFY_CANCEL));
+			ALL_PERMISSIONS.add(new PermissionItem("查看用户详情", PERMISSION_USER_DETAIL_INFO));
 
-			// 用户相关权限
-			ALL_PERMISSIONS.add(new PermissionItem("添加用户", PERMISSION_USER_INSERT));
-			ALL_PERMISSIONS.add(new PermissionItem("停用用户", PERMISSION_USER_DISABLE));
-			ALL_PERMISSIONS.add(new PermissionItem("启用用户", PERMISSION_USER_ENABLE));
-			ALL_PERMISSIONS.add(new PermissionItem("用户信息变更", PERMISSION_USER_UPDATE));
-			ALL_PERMISSIONS.add(new PermissionItem("用户信息查询", PERMISSION_USER_QUERY));
-			ALL_PERMISSIONS.add(new PermissionItem("用户信息认证", PERMISSION_USER_VERIFY));
-
-			// 公告相关权限
-			ALL_PERMISSIONS.add(new PermissionItem("发布公告", PERMISSION_ANNOUNCEMENT_PUBLISH));
-			ALL_PERMISSIONS.add(new PermissionItem("获得公告列表", PERMISSION_ANNOUNCEMENT_LIST));
-			ALL_PERMISSIONS.add(new PermissionItem("查看公告", PERMISSION_ANNOUNCEMENT_VIEW));
-			ALL_PERMISSIONS.add(new PermissionItem("删除公告", PERMISSION_ANNOUNCEMENT_DEL_ANOUNCEMENT));
-			ALL_PERMISSIONS.add(new PermissionItem("修改公告", PERMISSION_ANNOUNCEMENT_UPDATE_ANNOUNCEMENT));
+			// 前台公告的权限
+			ALL_PERMISSIONS.add(new PermissionItem("查看公告及评论", PERMISSION_ANNOUNCEMENT_VIEW));
 			ALL_PERMISSIONS.add(new PermissionItem("发布评论", PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH));
+
+			// 后台公告的权限
+			ALL_PERMISSIONS.add(new PermissionItem("发布公告", PERMISSION_ADMIN_ANNOUNCEMENT_PUBLISH));
+			ALL_PERMISSIONS.add(new PermissionItem("发布草稿", PERMISSION_ADMIN_ANNOUNCEMENT_PUBLISH_DRAFT));
+			ALL_PERMISSIONS.add(new PermissionItem("删除公告", PERMISSION_ADMIN_ANNOUNCEMENT_DELETE));
+			ALL_PERMISSIONS.add(new PermissionItem("恢复公告", PERMISSION_ADMIN_ANNOUNCEMENT_RECOVER));
+			ALL_PERMISSIONS.add(new PermissionItem("评论查询", PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_QUERY));
+			ALL_PERMISSIONS.add(new PermissionItem("隐藏公告评论", PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_HIDE));
+			ALL_PERMISSIONS.add(new PermissionItem("恢复公告评论", PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_RECOVER));
 		}
 
 		return ALL_PERMISSIONS;
 	}
 
 	/**
-	 * 登录系统的权限
+	 * 用户后台管理：添加角色的权限
 	 */
-	public static final int PERMISSION_LOGIN = 1;
+	public static final int PERMISSION_ADMIN_ROLE_CREATE = 1;
 
 	/**
-	 * 表示添加用户的权限
+	 * 用户后台管理：删除角色的权限
 	 */
-	public static final int PERMISSION_USER_INSERT = 10;
+	public static final int PERMISSION_ADMIN_ROLE_DELETE = 2;
 
 	/**
-	 * 表示变更用户信息的权限
+	 * 用户后台管理：变更角色的权限
 	 */
-	public static final int PERMISSION_USER_UPDATE = 11;
+	public static final int PERMISSION_ADMIN_ROLE_UPDATE = 3;
 
 	/**
-	 * 表示禁用用户的权限
+	 * 用户后台管理：查询角色的权限
 	 */
-	public static final int PERMISSION_USER_DISABLE = 12;
+	public static final int PERMISSION_ADMIN_ROLE_QUERY = 4;
 
 	/**
-	 * 表示对已经禁用的账号启用的权限
+	 * 用户后台管理：创建用户的权限
 	 */
-	public static final int PERMISSION_USER_ENABLE = 13;
+	public static final int PERMISSION_ADMIN_USER_CREATE = 10;
 
 	/**
-	 * 表示查询用户详细信息的权限
+	 * 用户后台管理：查询用户详细信息的权限
 	 */
-	public static final int PERMISSION_USER_QUERY = 14;
+	public static final int PERMISSION_ADMIN_USER_QUERY = 11;
 
 	/**
-	 * 表示审核用户信息的权限
+	 * 用户后台管理：停用用户的权限
 	 */
-	public static final int PERMISSION_USER_VERIFY = 15;
+	public static final int PERMISSION_ADMIN_USER_FORBID = 12;
 
 	/**
-	 * 表示增加角色的权限
+	 * 用户后台管理：启用用户的权限
 	 */
-	public static final int PERMISSION_ROLE_INSERT = 20;
+	public static final int PERMISSION_ADMIN_USER_ENABLE = 13;
 
 	/**
-	 * 表示删除角色的权限
+	 * 用户后台管理：变更用户信息的权限
 	 */
-	public static final int PERMISSION_ROLE_DELETE = 21;
+	public static final int PERMISSION_ADMIN_USER_UPDATE = 14;
 
 	/**
-	 * 表示查询角色详细信息的权限
+	 * 用户后台管理：对用户信息进行认证的权限
 	 */
-	public static final int PERMISSION_ROLE_SELECT = 22;
+	public static final int PERMISSION_ADMIN_USER_VERIFY = 15;
 
 	/**
-	 * 表示对角色信息和权限进行变更的权限
+	 * 用户后台管理：对用户信息认证撤销的权限
 	 */
-	public static final int PERMISSION_ROLE_UPDATE = 23;
+	public static final int PERMISSION_ADMIN_USER_VERIFY_CANCEL = 16;
 
 	/**
-	 * 表示发布公告的权限
+	 * 用户管理：查看用户详情的权限
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_PUBLISH = 30;
+	public static final int PERMISSION_USER_DETAIL_INFO = 17;
 
 	/**
-	 * 获取所有公告列表的权限
+	 * 前台公告权限：查看公告及评论
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_LIST = 31;
+	public static final int PERMISSION_ANNOUNCEMENT_VIEW = 30;
 
 	/**
-	 * 查看公告详情的权限
+	 * 公告后台管理：发布公告
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_VIEW = 32;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_PUBLISH = 31;
 
 	/**
-	 * 删除公告的权限
+	 * 前台公告权限：发布公告评论
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_DEL_ANOUNCEMENT = 33;
+	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH = 32;
 
 	/**
-	 * 修改公告内容的权限
+	 * 公告后台管理：发布草稿
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_UPDATE_ANNOUNCEMENT = 34;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_PUBLISH_DRAFT = 33;
 
 	/**
-	 * 表示发表公告评论的权限
+	 * 公告后台管理：评论查询
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_PUBLISH = 35;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_QUERY = 34;
 
 	/**
-	 * 前台公告查询权限
+	 * 公告后台管理：公告修改
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_QUERY = 36;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_UPDATE = 35;
 
 	/**
-	 * 后台公告查询权限
+	 * 公告后台管理：删除公告
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_MANAGE_QUERY = 37;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_DELETE = 36;
 
 	/**
-	 * 后台公告评论查询权限
+	 * 公告后台管理：恢复公告
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_MANAGE_COMMENT_LIST = 38;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_RECOVER = 37;
 
 	/**
-	 * 后台隐藏公告评论的权限
+	 * 公告后台管理：隐藏公告评论
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_HIDE = 39;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_HIDE = 38;
 
 	/**
-	 * 后台恢复公告评论的权限
+	 * 公告后台管理：重新显示公告评论
 	 */
-	public static final int PERMISSION_ANNOUNCEMENT_COMMENT_RECOVER = 40;
+	public static final int PERMISSION_ADMIN_ANNOUNCEMENT_COMMENT_RECOVER = 39;
 }

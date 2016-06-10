@@ -8,6 +8,10 @@ public class RoleVO {
 	private String name;
 	private List<Integer> permissions;
 
+	public RoleVO() {
+		this.permissions = new ArrayList<>();
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -36,7 +40,7 @@ public class RoleVO {
 		if (this.permissions == null) {
 			this.permissions = new ArrayList<>();
 		}
-		
+
 		this.permissions.add(type);
 	}
 }

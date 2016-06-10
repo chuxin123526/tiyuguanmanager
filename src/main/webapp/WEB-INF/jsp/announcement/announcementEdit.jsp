@@ -104,6 +104,8 @@
 	<%-- 如果是创建新公告 --%>
 	<s:if test="#request.function == 1">
 		<script type="text/javascript">
+			$("#nav-new-announcement").addClass("active");
+
 			$("button#btn-save-published").bind("click", function() {
 				save();
 				if (!checkForm()) {

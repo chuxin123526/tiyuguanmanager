@@ -97,6 +97,8 @@
 		src="${pageContext.request.contextPath}/js/datepicker/daterangepicker.js"></script>
 
 	<script type="text/javascript">
+		$("#nav-comment-query").addClass("active");
+
 		$("#query-form-input-time").daterangepicker(null, function(start, end, label) {
 
 		});

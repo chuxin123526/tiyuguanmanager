@@ -192,6 +192,7 @@ public class RoleAdminAction {
 	 */
 	public String insertRolePage() {
 		this.isUpdateRole = false;
+		this.tipWord = "创建角色";
 
 		return "success";
 	}
@@ -249,6 +250,7 @@ public class RoleAdminAction {
 	 */
 	public String updateRolePage() {
 		this.isUpdateRole = true;
+		this.tipWord = "变更角色";
 
 		this.role = this.roleService.findById(form.getId());
 		if (this.role == null) {

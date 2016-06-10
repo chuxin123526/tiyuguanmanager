@@ -50,6 +50,12 @@ div.public-annoucement-list-time {
 	font-size: 12px;
 }
 
+h4.nav-title {
+	text-align: center;
+	font-size: 16px;
+	font-family: 黑体;
+}
+
 @media ( min-width : 992px) {
 	div.form-label {
 		text-align: right;

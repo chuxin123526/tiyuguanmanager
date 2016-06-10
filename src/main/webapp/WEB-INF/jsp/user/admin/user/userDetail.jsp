@@ -522,6 +522,16 @@
 							showErrorToast("您没有进行用户认证的权限！");
 						} else if (data.code == 24) {
 							showSuccessToast("该用户已经成功通过信息认证！");
+							
+							var currentCount = parseInt(trim($("span#user-count").html()));
+							currentCount = currentCount - 1;
+							
+							if (currentCount > 0) {
+								$("span#user-count").html(currentCount);
+							} else {
+								$("span#user-count").html("");
+							}
+							
 							$("div#verify-button-flow").css("display", "none");
 							$("div#verify-success-box").removeClass().addClass("alert alert-success").html("该用户成功通过认证");
 							$("div#verify-success-box").css("display", "block");

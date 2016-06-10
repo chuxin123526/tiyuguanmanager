@@ -211,6 +211,16 @@ public class UserConstants {
 		 * 表示撤销用户认证成功
 		 */
 		public static final int USER_VERIFY_CANCEL_SUCCESS = 25;
+
+		/**
+		 * 用户成功修改密码
+		 */
+		public static final int USER_UPDATE_PASSWORD_SUCCESS = 26;
+
+		/**
+		 * 用户修改密码时输入的旧密码无效
+		 */
+		public static final int USER_UPDATE_PASSWORD_AUTH_FAILED = 27;
 	}
 
 	/**

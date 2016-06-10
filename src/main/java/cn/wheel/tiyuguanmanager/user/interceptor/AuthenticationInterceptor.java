@@ -43,6 +43,7 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 	private String permission;
 	private int[] permissionArray;
 	private boolean ajaxAction;
+	private boolean loginOnly;
 	private Map<String, Object> ajaxReturn;
 
 	public String getPermission() {
@@ -81,6 +82,10 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 		this.ajaxAction = ajaxAction;
 	}
 
+	public void setLoginOnly(boolean loginOnly) {
+		this.loginOnly = loginOnly;
+	}
+
 	public Map<String, Object> getAjaxReturn() {
 		return ajaxReturn;
 	}
@@ -97,6 +102,10 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
 				this.ajaxReturn = new MapUtils().put("code", UserConstants.AjaxReturnValue.NOT_LOGIN).toMap();
 				return "json";
 			}
+		}
+
+		if (loginOnly) {
+			return invocation.invoke();
 		}
 
 		// 判断当前的登录用户是否具有相应的权限

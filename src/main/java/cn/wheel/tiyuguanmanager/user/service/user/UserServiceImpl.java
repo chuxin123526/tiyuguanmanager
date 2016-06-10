@@ -20,9 +20,11 @@ import cn.wheel.tiyuguanmanager.user.dao.criteria.UserIdCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserPasswordCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleIdCriteria;
+import cn.wheel.tiyuguanmanager.user.dao.criteria.UserRoleNameCriteria;
 import cn.wheel.tiyuguanmanager.user.dao.role.IRoleDao;
 import cn.wheel.tiyuguanmanager.user.dao.user.IUserDao;
 import cn.wheel.tiyuguanmanager.user.exception.RoleNotFoundException;
+import cn.wheel.tiyuguanmanager.user.exception.UserAuthException;
 import cn.wheel.tiyuguanmanager.user.exception.UserExistException;
 import cn.wheel.tiyuguanmanager.user.exception.UserForbiddenException;
 import cn.wheel.tiyuguanmanager.user.exception.UserNotExistException;
@@ -256,6 +258,12 @@ public class UserServiceImpl implements IUserService {
 		user.setStatus(UserConstants.UserStatus.NORMAL);
 		user.setType(userVO.getAccountType());
 
+		Contract mobileContract = new Contract();
+		mobileContract.setType(UserConstants.ContratType.TYPE_MOBILE);
+		mobileContract.setContent(userVO.getMobilePhone());
+
+		user.getContracts().add(mobileContract);
+
 		// 5. 交给持久层写入数据库
 		userDao.insert(user);
 	}
@@ -477,6 +485,32 @@ public class UserServiceImpl implements IUserService {
 		}
 
 		// 3. 把变更写入到数据库
+		userDao.update(user);
+	}
+
+	@Transactional
+	@Override
+	public int countUserToBeVerified() {
+		DaoCriteria[] criterias = new DaoCriteria[] { new UserRoleNameCriteria("注册用户") };
+
+		return (int) this.userDao.count(criterias);
+	}
+
+	@Transactional
+	@Override
+	public void updatePassword(long userId, String oldPassword, String newPassword) throws UserAuthException {
+		User user = this.userDao.findById(userId);
+		if (user == null) {
+			throw new UserNotExistException();
+		}
+
+		String oldPwd = MessageDigestUtils.md5_32(oldPassword);
+		if (!user.getPassword().equals(oldPwd)) {
+			throw new UserAuthException();
+		}
+
+		String newPwd = MessageDigestUtils.md5_32(newPassword);
+		user.setPassword(newPwd);
 		userDao.update(user);
 	}
 }

@@ -15,13 +15,13 @@
 			<jsp:include page="../common/navigation.jsp"></jsp:include>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-9" style="margin-top: 10px;">
 			<!-- 顶部标题部分 -->
 			<div class="row">
 				<div class="col-md-12">
-					<h3>
+					<h4>
 						<s:property value="#request.tipWord" />
-					</h3>
+					</h4>
 				</div>
 			</div>
 			<!-- 用于显示角色基本信息 -->
@@ -126,6 +126,8 @@
 	</s:if>
 	<s:else>
 		<script type="text/javascript">
+			$("#nav-new-role").addClass("active");
+
 			$("#form-btn-create").bind("click", function() {
 				$("#form-btn-create").attr("disabled", "disabled");
 

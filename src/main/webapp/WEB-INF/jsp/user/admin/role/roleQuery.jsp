@@ -15,10 +15,10 @@
 			<jsp:include page="../common/navigation.jsp"></jsp:include>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-9" style="margin-top: 10px;">
 			<div class="row">
 				<div class="col-md-12">
-					<h3>角色查询</h3>
+					<h4>角色查询</h4>
 				</div>
 			</div>
 			<form action="roleQuery" id="query-form" method="post">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="row form-group">
-					<div class="col-md-12" style="text-align: right;">
+					<div class="col-md-10" style="text-align: right;">
 						<button class="btn btn-primary" id="form-role-query-btn">查询</button>
 					</div>
 				</div>
@@ -45,6 +45,8 @@
 
 	<jsp:include page="../../../competition/common/pagefoot.jsp"></jsp:include>
 	<script type="text/javascript">
+		$("#nav-search-role").addClass("active");
+
 		$("#form-role-query-btn").bind("click", function() {
 			$("#query-form").submit();
 		});

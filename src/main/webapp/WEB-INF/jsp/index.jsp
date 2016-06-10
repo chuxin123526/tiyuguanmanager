@@ -3,7 +3,7 @@
 <!DOCTYPE HTML>
 <html lang="zh">
 <head>
-<title>尼玛的主页</title>
+<title>体育馆管理系统</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/common-word.css">
 </head>
@@ -37,7 +37,7 @@
 						<div class="function-box-body well">
 							<h2>赛事</h2>
 							<p>
-								<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
+								<img src="image/icon/instrument.png" /> <span> 赛事的查询，预约，申请等 </span>
 							</p>
 							<button class="btn btn-primary">
 								<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
@@ -49,7 +49,7 @@
 						<div class="function-box-body well">
 							<h2>场地</h2>
 							<p>
-								<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
+								<img src="image/icon/instrument.png" /> <span> 场地的查询，预约，租借等 </span>
 							</p>
 							<button class="btn btn-primary">
 								<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
@@ -57,30 +57,34 @@
 							<div class="clear"></div>
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 function-box">
-						<div class="function-box-body well">
-							<h2>公告管理</h2>
-							<p>
-								<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
-							</p>
-							<button class="btn btn-primary" id="btn-announcement-module">
-								<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
-							</button>
-							<div class="clear"></div>
+					<s:if test="#session.announcementAdminAccess">
+						<div class="col-md-6 col-sm-6 col-xs-12 function-box">
+							<div class="function-box-body well">
+								<h2>公告管理</h2>
+								<p>
+									<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
+								</p>
+								<button class="btn btn-primary" id="btn-announcement-module">
+									<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
+								</button>
+								<div class="clear"></div>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 function-box">
-						<div class="function-box-body well">
-							<h2>用户管理</h2>
-							<p>
-								<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
-							</p>
-							<button class="btn btn-primary" id="btn-user-module">
-								<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
-							</button>
-							<div class="clear"></div>
+					</s:if>
+					<s:if test="#session.userAdminAccess">
+						<div class="col-md-6 col-sm-6 col-xs-12 function-box">
+							<div class="function-box-body well">
+								<h2>用户管理</h2>
+								<p>
+									<img src="image/icon/instrument.png" /> <span> 这里是说明文字 </span>
+								</p>
+								<button class="btn btn-primary" id="btn-user-module">
+									<span>进入</span><span class="glyphicon glyphicon-triangle-right"></span>
+								</button>
+								<div class="clear"></div>
+							</div>
 						</div>
-					</div>
+					</s:if>
 				</div>
 			</div>
 			<!-- 公告区 -->
@@ -117,7 +121,7 @@
 			});
 
 			$("#btn-announcement-module").bind("click", function() {
-				location.href = "${pageContext.request.contextPath}/announcement/index";
+				location.href = "${pageContext.request.contextPath}/announcement/adminIndex";
 			});
 			// /announcement/index
 

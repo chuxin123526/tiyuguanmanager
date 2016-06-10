@@ -15,13 +15,13 @@
 			<jsp:include page="../common/navigation.jsp"></jsp:include>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-9" style="margin-top: 10px;">
 			<!-- 顶部标题部分 -->
 			<div class="row">
 				<div class="col-md-12">
-					<h3>
+					<h4>
 						<s:property value="#request.tipWord" />
-					</h3>
+					</h4>
 				</div>
 			</div>
 			<s:if test="#request.roleList.size > 0">
@@ -83,22 +83,36 @@
 	</div>
 
 	<jsp:include page="../../../competition/common/pagefoot.jsp"></jsp:include>
+	<%-- 直接访问角色列表 --%>
+	<s:if test="#request.from == 0">
+		<script type="text/javascript">
+			$("#nav-role-list").addClass("active");
+		</script>
+	</s:if>
 	<%-- 如果是从添加角色处跳转，则显示相应的提示信息 --%>
 	<s:if test="#request.from==1">
 		<script type="text/javascript">
 			showSuccessToast("角色添加成功");
+			$("#nav-role-list").addClass("active");
 		</script>
 	</s:if>
 	<%-- 如果是成功删除角色，则显示相应的提示信息 --%>
 	<s:if test="#request.from==2">
 		<script type="text/javascript">
 			showSuccessToast("角色删除成功");
+			$("#nav-role-list").addClass("active");
 		</script>
 	</s:if>
 	<%-- 如果是成功变更角色信息，则显示相应的提示信息 --%>
 	<s:if test="#request.from==3">
 		<script type="text/javascript">
 			showSuccessToast("角色信息变更成功");
+			$("#nav-role-list").addClass("active");
+		</script>
+	</s:if>
+	<s:if test="#request.from == 4">
+		<script type="text/javascript">
+			$("#nav-search-role").addClass("active");
 		</script>
 	</s:if>
 	<script type="text/javascript">

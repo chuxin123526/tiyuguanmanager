@@ -24,6 +24,7 @@ public class AnnouncementTrashAction {
 	private int function;
 	private int page;
 	private String msgWord;
+	private String tipWord;
 
 	private int minPage;
 	private int maxPage;
@@ -96,8 +97,17 @@ public class AnnouncementTrashAction {
 		this.allPages = allPages;
 	}
 
+	public String getTipWord() {
+		return tipWord;
+	}
+
+	public void setTipWord(String tipWord) {
+		this.tipWord = tipWord;
+	}
+
 	public String execute() {
 		this.function = 4;
+		this.tipWord = "ÒÑÉ¾³ý¹«¸æ";
 
 		AnnouncementQueryVO query = new AnnouncementQueryVO();
 		query.setCriteria(new int[] { 5 });

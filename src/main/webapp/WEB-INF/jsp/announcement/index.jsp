@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="charset" content="utf-8">
 <jsp:include page="../competition/common/common.jsp" />
+<jsp:include page="../user/admin/common/common.jsp" />
 </head>
 <body>
 	<jsp:include page="../competition/common/top.jsp"></jsp:include>
