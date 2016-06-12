@@ -205,7 +205,7 @@
 		<!-- 变更用户信息的页面 -->
 		<action name="updateUserPage" class="userAdminAction" method="updateUserPage">
 			<interceptor-ref name="authenticationInterceptor">
-				<param name="auth.permission">14</param>
+				<param name="auth.permission">14, 16</param>
 			</interceptor-ref>
 			<result name="success">/WEB-INF/jsp/user/admin/user/userDetail.jsp
 			</result>

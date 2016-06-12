@@ -43,33 +43,43 @@
 							<tr>
 								<th style="width: 3.5em">#</th>
 								<th>公告标题</th>
-								<th style="width: 3.5em; text-align: center;"></th>
-								<th style="width: 3.5em; text-align: center;"></th>
-								<th style="width: 3.5em; text-align: center;"></th>
-								<th style="width: 3.5em; text-align: center;"></th>
+								<th style="width: 20em; text-align: center;"></th>
 							</tr>
 							<s:iterator value="#request.announcementList" var="announcement">
 								<tr>
 									<td><span class="announcement-table-id"><s:property
 												value="#announcement.announcementId" /></span></td>
 									<td><span><s:property value="#announcement.announcementTitle" /></span></td>
+									<%-- 已经被删除的公告 --%>
 									<s:if test="#announcement.announcementStatus == 4">
-										<td class="td-with-button"></td>
-										<td class="td-with-button"></td>
-										<td class="td-with-button"></td>
-										<td class="td-with-button"><button class="btn btn-default list-form-recover">恢复</button></td>
+										<td class="td-with-button"><s:if
+												test="#session.user.role.permissions.{?#this.type==37}.size!=0">
+												<button class="btn btn-default list-form-recover">恢复</button>
+											</s:if></td>
 									</s:if>
+									<%-- 已经正式发布的公告 --%>
 									<s:if test="#announcement.announcementStatus == 3">
-										<td class="td-with-button"></td>
-										<td class="td-with-button"><button class="btn btn-default list-form-update">修改</button></td>
-										<td class="td-with-button"><button class="btn btn-default list-form-comment">公告评论</button></td>
-										<td class="td-with-button"><button class="btn btn-default list-form-delete">删除</button></td>
+										<td class="td-with-button"><s:if
+												test="#session.user.role.permissions.{?#this.type==31}.size>0&&#session.user.role.permissions.{?#this.type==35}.size>0">
+												<button class="btn btn-default list-form-update">修改</button>
+											</s:if> <s:if test="#session.user.role.permissions.{?#this.type==34}.size>0">
+												<button class="btn btn-default list-form-comment">公告评论</button>
+											</s:if> <s:if test="#session.user.role.permissions.{?#this.type==36}.size>0">
+												<button class="btn btn-default list-form-delete">删除</button>
+											</s:if></td>
 									</s:if>
+									<%-- 草稿 --%>
 									<s:if test="#announcement.announcementStatus == 2">
-										<td class="td-with-button"><button class="btn btn-default list-form-update">修改</button></td>
-										<td class="td-with-button"><button class="btn btn-default list-form-comment">公告评论</button></td>
-										<td class="td-with-button"><button class="btn btn-default list-form-publish">发布</button></td>
-										<td class="td-with-button"><button class="btn btn-default list-form-delete">删除</button></td>
+										<td class="td-with-button"><s:if
+												test="#session.user.role.permissions.{?#this.type==35}.size>0&&#session.user.role.permissions.{?#this.type==32}.size>0">
+												<button class="btn btn-default list-form-update">修改</button>
+											</s:if> <s:if test="#session.user.role.permissions.{?#this.type==34}.size>0">
+												<button class="btn btn-default list-form-comment">公告评论</button>
+											</s:if> <s:if test="#session.user.role.permissions.{?#this.type==31}.size>0">
+												<button class="btn btn-default list-form-publish">发布</button>
+											</s:if> <s:if test="#session.user.role.permissions.{?#this.type==36}.size>0">
+												<button class="btn btn-default list-form-delete">删除</button>
+											</s:if></td>
 									</s:if>
 								</tr>
 							</s:iterator>

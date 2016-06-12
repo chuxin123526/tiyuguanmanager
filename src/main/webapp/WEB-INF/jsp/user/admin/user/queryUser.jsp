@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <html lang="zh">
 <head>
+<title>用户查询</title>
 <meta http-equiv="charset" content="utf-8">
 <jsp:include page="../../../competition/common/common.jsp" />
 <jsp:include page="../common/common.jsp" />

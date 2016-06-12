@@ -40,10 +40,14 @@
 							<tr>
 								<td><span><s:property value="#role.roleId" /></span></td>
 								<td><span><s:property value="#role.name" /></span></td>
-								<td><button class="btn btn-default update-btn"
-										onclick="gotoUpdatePage(<s:property value="#role.roleId" />)">修改</button></td>
-								<td><button class="btn btn-default delete-btn"
-										onclick="deleteRole(<s:property value="#role.roleId" />, this);">删除</button></td>
+								<td><s:if test="#session.user.role.permissions.{?#this.type==3}.size>0">
+										<button class="btn btn-default update-btn"
+											onclick="gotoUpdatePage(<s:property value="#role.roleId" />)">修改</button>
+									</s:if></td>
+								<td><s:if test="#session.user.role.permissions.{?#this.type==2}.size>0">
+										<button class="btn btn-default delete-btn"
+											onclick="deleteRole(<s:property value="#role.roleId" />, this);">删除</button></td>
+								</s:if>
 							</tr>
 						</s:iterator>
 					</table>

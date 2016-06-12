@@ -182,7 +182,16 @@
 					</div>
 					<!-- 注册按钮 -->
 					<div class="row form-group" style="text-align: right;">
-						<button class="btn btn-primary" id="form-create-submit-button">添加</button>
+						<s:if test="#session.user.role.permissions.{?#this.type==10}.size>0">
+							<button class="btn btn-primary" id="form-create-submit-button">添加</button>
+						</s:if>
+						<s:else>
+							<div class="col-md-12">
+								<div class="alert alert-danger">
+									<p>您没有添加用户的权限！</p>
+								</div>
+							</div>
+						</s:else>
 					</div>
 				</form>
 			</div>

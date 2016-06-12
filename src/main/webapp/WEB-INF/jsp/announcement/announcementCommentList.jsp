@@ -21,7 +21,7 @@
 			<jsp:include page="common/navigation.jsp"></jsp:include>
 		</div>
 
-		<div class="col-md-9" style="padding: 9px;">
+		<div class="col-md-9" style="margin-top: 10px;">
 			<div>
 				<h4>
 					<s:property value="#request.titleWord" />
@@ -66,16 +66,22 @@
 									<p style="text-align: right;">
 										<%-- 根据评论不同的状态显示不同的操作 --%>
 										<s:if test="#comment.commentStatus == 1">
-											<%-- 这里是正常的评论 --%>
-											<button class="btn btn-default btn-comment-opr btn-hide-comment">隐藏该评论</button>
+											<s:if test="#session.user.role.permissions.{?#this.type==38}">
+												<%-- 这里是正常的评论 --%>
+												<button class="btn btn-default btn-comment-opr btn-hide-comment">隐藏该评论</button>
+											</s:if>
 										</s:if>
 										<s:if test="#comment.commentStatus == 2">
-											<%-- 被隐藏的评论 --%>
-											<button class="btn btn-default btn-comment-opr btn-recover-comment">恢复该评论</button>
+											<s:if test="#session.user.role.permissions.{?#this.type==39}">
+												<%-- 被隐藏的评论 --%>
+												<button class="btn btn-default btn-comment-opr btn-recover-comment">恢复该评论</button>
+											</s:if>
 										</s:if>
 										<s:if test="#comment.commentStatus == 3">
-											<%-- 已删除的评论 --%>
-											<button class="btn btn-default btn-comment-opr btn-recover-comment">恢复该评论</button>
+											<s:if test="#session.user.role.permissions.{?#this.type==39}">
+												<%-- 已删除的评论 --%>
+												<button class="btn btn-default btn-comment-opr btn-recover-comment">恢复该评论</button>
+											</s:if>
 										</s:if>
 									</p>
 								</div>
@@ -110,14 +116,14 @@
 			<s:else>
 				<s:if test="#request.function == 1">
 					<div class="row">
-						<div class="alert alert-danger">
+						<div class="alert alert-danger" style="margin-top: 10px;">
 							<p>没有找到满足条件的评论</p>
 						</div>
 					</div>
 				</s:if>
 				<s:if test="#request.function == 2">
 					<div class="row">
-						<div class="alert alert-warning">
+						<div class="alert alert-warning" style="margin-top: 10px;">
 							<p>该公告还没有评论</p>
 						</div>
 					</div>
@@ -186,6 +192,8 @@
 			$("#query-form-type-deleted").attr("checked", "checked");
 			</s:if>
 			</s:if>
+
+			$("#nav-comment-query").addClass("active");
 		</script>
 	</s:if>
 

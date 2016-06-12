@@ -219,18 +219,40 @@
 						<!-- 底部按钮 -->
 						<div class="row form-group" style="text-align: right;">
 							<s:if test="#request.function == 1">
-								<div id="verify-button-flow">
-									<s:if test="#request.user.role.name != '注册用户'">
-										<button id="btn-form-verify-cancel" class="btn btn-danger">撤销用户认证</button>
-									</s:if>
-									<button id="btn-form-update" class="btn btn-primary">保存变更</button>
-								</div>
+								<s:if test="#session.user.role.permissions.{?(#this.type==16||#this.type==14)}.size>0">
+									<div id="verify-button-flow">
+										<s:if test="#session.user.role.permissions.{?#this.type==16}.size>0">
+											<s:if test="#request.user.role.name == '认证用户'">
+												<button id="btn-form-verify-cancel" class="btn btn-danger">撤销用户认证</button>
+											</s:if>
+										</s:if>
+										<s:if test="#session.user.role.permissions.{?#this.type==14}.size>0">
+											<button id="btn-form-update" class="btn btn-primary">保存变更</button>
+										</s:if>
+									</div>
+								</s:if>
+								<s:else>
+									<div class="col-md-12">
+										<div class="alert alert-danger">
+											<p>您没有变更用户信息或者撤销用户认证的权限</p>
+										</div>
+									</div>
+								</s:else>
 							</s:if>
 							<s:if test="#request.function == 2">
-								<div id="verify-button-flow">
-									<button id="btn-form-back" class="btn btn-default">返回</button>
-									<button id="btn-form-pass-verify" class="btn btn-primary">认证通过</button>
-								</div>
+								<s:if test="#session.user.role.permissions.{?#this.type==15}.size>0">
+									<div id="verify-button-flow">
+										<button id="btn-form-back" class="btn btn-default">返回</button>
+										<button id="btn-form-pass-verify" class="btn btn-primary">认证通过</button>
+									</div>
+								</s:if>
+								<s:else>
+									<div class="col-md-12">
+										<div class="alert alert-danger">
+											<p>进行用户信息认证的权限！</p>
+										</div>
+									</div>
+								</s:else>
 							</s:if>
 							<div class="alert alert-success" id="verify-success-box" style="display: none;"></div>
 						</div>

@@ -74,10 +74,26 @@
 				<%-- 根据不同的操作显示不同的按钮 --%>
 				<div class="form-group" style="text-align: right;">
 					<s:if test="#request.updateRole">
-						<button class="btn btn-primary" id="form-btn-save">保存</button>
+						<%-- 判断是否具有变更角色数据的权限 --%>
+						<s:if test="#session.user.role.permissions.{?#this.type==14}.size>0">
+							<button class="btn btn-primary" id="form-btn-save">保存</button>
+						</s:if>
+						<s:else>
+							<div class="alert alert-danger">
+								<p>您没有变更角色的权限</p>
+							</div>
+						</s:else>
 					</s:if>
 					<s:else>
-						<button class="btn btn-primary" id="form-btn-create">创建</button>
+						<%-- 判断是否具有添加角色的权限 --%>
+						<s:if test="#session.user.role.permissions.{?#this.type==10}.size>0">
+							<button class="btn btn-primary" id="form-btn-create">创建</button>
+						</s:if>
+						<s:else>
+							<div class="alert alert-danger">
+								<p>您没有添加角色的权限</p>
+							</div>
+						</s:else>
 					</s:else>
 				</div>
 			</form>
@@ -147,6 +163,8 @@
 					} else {
 						showErrorToast("暂时无法与服务器通讯，请稍后再试");
 					}
+
+					$("#form-btn-create").removeAttr("disabled");
 				});
 			});
 		</script>

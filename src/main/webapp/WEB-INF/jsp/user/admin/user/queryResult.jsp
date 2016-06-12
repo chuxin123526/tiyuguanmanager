@@ -4,6 +4,13 @@
 <html lang="zh">
 <head>
 <meta http-equiv="charset" content="utf-8">
+<s:if test="#request.function == 3">
+	<title>用户查询</title>
+</s:if>
+<s:else>
+	<title>用户认证</title>
+</s:else>
+
 <jsp:include page="../../../competition/common/common.jsp" />
 <jsp:include page="../common/common.jsp" />
 </head>
@@ -44,13 +51,19 @@
 									</s:if></td>
 								<td><s:if test="#request.function != 3">
 										<s:if test="#user.status==0">
-											<button class="btn btn-default table-btn-status table-btn-forbid">禁用</button>
+											<s:if test="#session.user.role.permissions.{?#this.type==12}.size>0">
+												<button class="btn btn-default table-btn-status table-btn-forbid">禁用</button>
+											</s:if>
 										</s:if>
 										<s:else>
-											<button class="btn btn-default table-btn-status table-btn-enable">启用</button>
+											<s:if test="#session.user.role.permissions.{?#this.type==13}.size>0">
+												<button class="btn btn-default table-btn-status table-btn-enable">启用</button>
+											</s:if>
 										</s:else>
 									</s:if> <s:else>
-										<button class="btn btn-default table-btn-verify-info">详细信息</button>
+										<s:if test="#session.user.role.permissions.{?#this.type==15}.size>0">
+											<button class="btn btn-default table-btn-verify-info">进入认证</button>
+										</s:if>
 									</s:else></td>
 							</tr>
 						</s:iterator>

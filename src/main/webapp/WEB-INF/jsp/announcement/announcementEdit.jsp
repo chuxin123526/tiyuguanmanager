@@ -8,6 +8,12 @@
 <jsp:include page="../user/admin/common/common.jsp" />
 </head>
 <body>
+	<%--
+		#request.function 是用于判断当前页面的作用所使用的变量
+		1 -- 创建新公告
+		2 -- 修改现有公告
+	 --%>
+
 	<jsp:include page="../competition/common/top.jsp"></jsp:include>
 
 	<div class="container">
@@ -50,6 +56,8 @@
 			</form>
 			<div class="row form-group">
 				<div class="col-md-12 form-group" style="text-align: right;">
+					<!-- 
+					<%-- 发布新公告或者是修改草稿 --%>
 					<s:if
 						test="#request.function == 1 || (#request.function == 2 && #request.announcement.type == 2)">
 						<button class="btn btn-default" id="btn-save-draft"
@@ -76,6 +84,72 @@
 							</s:else>
 						</s:if>
 					</button>
+					 -->
+					<%-- 发布新公告 --%>
+					<s:if test="#request.function == 1">
+						<%-- 如果具有保存草稿的权限，则显示保存草稿的按钮 --%>
+						<s:if test="#session.user.role.permissions.{?#this.type==32}.size>0">
+							<button class="btn btn-default btn-save-draft btn-announcement-flow" id="btn-save-draft">
+								<span>保存草稿</span>
+							</button>
+						</s:if>
+
+						<%-- 如果具有发布公告的权限，则显示发布的按钮 --%>
+						<s:if test="#session.user.role.permissions.{?#this.type==31}.size>0">
+							<button class="btn btn-primary btn-save-published btn-announcement-flow"
+								id="btn-save-published">
+								<span>立即发布</span>
+							</button>
+						</s:if>
+
+						<%-- 如果两个权限都没有。虽然好像会被拦截器拦截掉，不过还是显示一下好一点。 --%>
+						<s:if test="#session.user.role.permissions.{?(#this.type==31 || #this.type==32)}.size == 0">
+							<div class="alert alert-danger">
+								<p>您没有发布草稿和公告的权限</p>
+							</div>
+						</s:if>
+					</s:if>
+					<%-- 如果是修改已经发布的公告 --%>
+					<s:if test="#request.function == 2 && #request.announcement.type == 3">
+						<%-- 需要同时具备发布公告和修改的权限才可以对正式发布的公告进行修改 --%>
+						<s:if
+							test="#session.user.role.permissions.{?#this.type == 31}.size>0 && #session.user.role.permissions.{?#this.type==35}.size>0">
+							<button class="btn btn-primary btn-save-published btn-announcement-flow"
+								id="btn-save-published">
+								<span>保存</span>
+							</button>
+						</s:if>
+						<s:else>
+							<div class="alert alert-danger">
+								<p>您没有变更已经发布公告的权限</p>
+							</div>
+						</s:else>
+					</s:if>
+					<%-- 如果修改的是草稿 --%>
+					<s:if test="#request.function == 2 && #request.announcement.type == 2">
+						<%-- 如果只具备修改公告的权限，就只能保存；如果同时具有发布公告权限的话，就显示保存以及发布两个按钮 --%>
+						<s:if test="#session.user.role.permissions.{?#this.type == 35}">
+							<button class="btn btn-default btn-save-draft btn-announcement-flow" id="btn-save-draft">
+								<span>保存草稿</span>
+							</button>
+						</s:if>
+
+						<%-- 如果还具备发布公告的权限 --%>
+						<s:if
+							test="#session.user.role.permissions.{?#this.type == 31}.size>0 && #session.user.role.permissions.{?#this.type==35}.size>0">
+							<button class="btn btn-primary btn-save-published btn-announcement-flow"
+								id="btn-save-published">
+								<span>保存并发布</span>
+							</button>
+						</s:if>
+
+						<%-- 如果都不具备这样的权限 --%>
+						<s:if test="#session.user.role.permissions.{?(#this.type == 35)}.size == 0">
+							<div class="alert alert-danger">
+								<p>您没有变更已经发布公告的权限</p>
+							</div>
+						</s:if>
+					</s:if>
 				</div>
 			</div>
 		</div>
